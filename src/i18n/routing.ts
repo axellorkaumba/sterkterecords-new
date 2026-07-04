@@ -6,9 +6,24 @@ import { defineRouting } from "next-intl/routing";
  * concurrent majeur (DistroKid, TuneCore, CD Baby) ne le propose.
  *
  * Le tableau privé (/app, /admin) n'utilise PAS ce routing par préfixe d'URL :
- * sa langue est résolue via `profiles.locale` (cookie de secours en attendant
- * l'authentification, livrée au Sprint 3) car il n'y a aucun enjeu SEO à
- * indexer un dashboard privé dans plusieurs langues.
+ * sa langue est résolue via `profiles.locale` une fois authentifié (Sprint 3),
+ * avec le cookie ci-dessous comme repli avant connexion. Voir
+ * docs/adr/0002-i18n-routing.md.
+ */
+export const LOCALE_COOKIE_NAME = "sterkte_locale";
+
+/**
+ * Chemins localisés (§19 SEO — hreflang par des URLs traduites, pas
+ * seulement préfixées) pour le site public ET l'authentification, décidé
+ * dans docs/adr/0002-i18n-routing.md : `/fr/connexion`, `/en/login`,
+ * `/ln/connexion` (traduction lingala en attente de relecture native,
+ * voir docs/adr/0004-i18n-content-policy.md).
+ *
+ * La clé est le nom de dossier interne (canonique, en français) sous
+ * `src/app/[locale]/...` ; les valeurs sont les segments affichés dans
+ * l'URL par locale. Toute nouvelle route publique/auth doit être ajoutée
+ * ici, sinon `Link`/`redirect` typés (src/i18n/navigation.ts) refuseront
+ * de compiler.
  */
 export const routing = defineRouting({
   locales: ["fr", "en", "ln"],
@@ -18,7 +33,31 @@ export const routing = defineRouting({
   // FR historique de Sterkte Records tout en gardant des URLs propres.
   localePrefix: "as-needed",
   localeCookie: {
-    name: "sterkte_locale",
+    name: LOCALE_COOKIE_NAME,
+  },
+  pathnames: {
+    "/": "/",
+    "/connexion": {
+      fr: "/connexion",
+      en: "/login",
+      // TODO(relecture native lingala, ADR 0004) : segment provisoire.
+      ln: "/connexion",
+    },
+    "/inscription": {
+      fr: "/inscription",
+      en: "/signup",
+      ln: "/inscription",
+    },
+    "/mot-de-passe-oublie": {
+      fr: "/mot-de-passe-oublie",
+      en: "/forgot-password",
+      ln: "/mot-de-passe-oublie",
+    },
+    "/verification-email": {
+      fr: "/verification-email",
+      en: "/verify-email",
+      ln: "/verification-email",
+    },
   },
 });
 

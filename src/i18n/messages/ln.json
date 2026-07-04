@@ -1,32 +1,55 @@
 {
-  "_status": "BROUILLON — placeholder non traduit, en attente de relecture par un locuteur natif lingala avant mise en production (voir §21 du cahier des charges et docs/adr/0002-i18n-routing.md).",
+  "_status": "BROUILLON — toutes les valeurs sont des TODO explicites, volontairement non traduites (aucune traduction approximative/générée). Relecture par un locuteur natif prévue avant le Sprint 2. Voir docs/adr/0004-i18n-content-policy.md.",
   "Metadata": {
     "siteName": "Sterkte Records",
-    "defaultTitle": "Sterkte Records — Kokabola miziki na Afrika ya Falansé",
-    "defaultDescription": "Nzembo na yo ekobanda awa mpe ekopanzana na mokili mobimba."
+    "defaultTitle": "TODO(ln): Sterkte Records — Distribution musicale en Afrique francophone",
+    "defaultDescription": "TODO(ln): Votre mélodie prend vie ici et fait échos aux quatre coins du monde."
   },
   "Nav": {
-    "home": "Ekomeli",
-    "distribution": "Kokabola",
-    "pricing": "Ntalo",
-    "studio": "Studio",
-    "booking": "Booking",
-    "featuring": "Featuring",
-    "consulting": "Consulting",
-    "artists": "Bayembi",
-    "about": "Biso nani",
-    "contact": "Kokutana",
-    "help": "Lisalisi",
-    "login": "Kokota",
-    "signup": "Kobanda"
+    "home": "TODO(ln): Accueil",
+    "distribution": "TODO(ln): Distribution",
+    "pricing": "TODO(ln): Tarifs",
+    "studio": "TODO(ln): Studio",
+    "booking": "TODO(ln): Booking",
+    "featuring": "TODO(ln): Featuring",
+    "consulting": "TODO(ln): Consulting",
+    "artists": "TODO(ln): Artistes",
+    "about": "TODO(ln): À propos",
+    "contact": "TODO(ln): Contact",
+    "help": "TODO(ln): Aide",
+    "login": "TODO(ln): Connexion",
+    "signup": "TODO(ln): Commencer"
   },
   "Footer": {
-    "rights": "Makoki nyonso ebombami.",
-    "legalNotice": "Sango ya mibeko",
-    "terms": "Mibeko ya lisalisi",
-    "privacy": "Bosembo ya bikuke"
+    "rights": "TODO(ln): Tous droits réservés.",
+    "legalNotice": "TODO(ln): Mentions légales",
+    "terms": "TODO(ln): CGU",
+    "privacy": "TODO(ln): Confidentialité"
   },
   "Home": {
-    "comingSoon": "Site ya bato nyonso ekoya na Sprint 2 — infrastructure esili kotelema."
+    "comingSoon": "TODO(ln): Le site public arrive au Sprint 2 — infrastructure en place."
+  },
+  "Auth": {
+    "login": {
+      "placeholder": "TODO(ln): Connexion — arrive au Sprint 3."
+    },
+    "signup": {
+      "placeholder": "TODO(ln): Inscription — arrive au Sprint 3."
+    },
+    "forgotPassword": {
+      "placeholder": "TODO(ln): Mot de passe oublié — arrive au Sprint 3."
+    },
+    "verifyEmail": {
+      "placeholder": "TODO(ln): Vérification email — arrive au Sprint 3."
+    }
+  },
+  "PrivateArea": {
+    "defaultTitle": "TODO(ln): Tableau de bord — Sterkte Records"
+  },
+  "Dashboard": {
+    "placeholder": "TODO(ln): Dashboard artiste — arrive au Sprint 4."
+  },
+  "Admin": {
+    "placeholder": "TODO(ln): Back-office — arrive avec les modules métier."
   }
 }

@@ -27,5 +27,28 @@
   },
   "Home": {
     "comingSoon": "Le site public arrive au Sprint 2 — infrastructure en place."
+  },
+  "Auth": {
+    "login": {
+      "placeholder": "Connexion — arrive au Sprint 3."
+    },
+    "signup": {
+      "placeholder": "Inscription — arrive au Sprint 3."
+    },
+    "forgotPassword": {
+      "placeholder": "Mot de passe oublié — arrive au Sprint 3."
+    },
+    "verifyEmail": {
+      "placeholder": "Vérification email — arrive au Sprint 3."
+    }
+  },
+  "PrivateArea": {
+    "defaultTitle": "Tableau de bord — Sterkte Records"
+  },
+  "Dashboard": {
+    "placeholder": "Dashboard artiste — arrive au Sprint 4."
+  },
+  "Admin": {
+    "placeholder": "Back-office — arrive avec les modules métier."
   }
 }

@@ -18,6 +18,13 @@ const eslintConfig = defineConfig([
       "no-console": ["warn", { allow: ["warn", "error"] }],
     },
   },
+  {
+    // Scripts CLI : la sortie console est le but du fichier, pas un oubli de debug.
+    files: ["scripts/**/*.mjs"],
+    rules: {
+      "no-console": "off",
+    },
+  },
   // Doit rester en dernier : desactive les regles ESLint qui entrent en conflit avec Prettier.
   prettierConfig,
   // Override default ignores of eslint-config-next.

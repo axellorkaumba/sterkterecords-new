@@ -52,14 +52,15 @@ pnpm supabase:stop
 
 ## Scripts
 
-| Commande                            | Effet                           |
-| ----------------------------------- | ------------------------------- |
-| `pnpm dev`                          | Serveur de développement        |
-| `pnpm build` / `pnpm start`         | Build de production / lancement |
-| `pnpm lint` / `pnpm lint:fix`       | ESLint                          |
-| `pnpm typecheck`                    | `tsc --noEmit`                  |
-| `pnpm format` / `pnpm format:check` | Prettier                        |
-| `pnpm supabase:*`                   | Voir ci-dessus                  |
+| Commande                            | Effet                                                   |
+| ----------------------------------- | ------------------------------------------------------- |
+| `pnpm dev`                          | Serveur de développement                                |
+| `pnpm build` / `pnpm start`         | Build de production / lancement                         |
+| `pnpm lint` / `pnpm lint:fix`       | ESLint                                                  |
+| `pnpm typecheck`                    | `tsc --noEmit`                                          |
+| `pnpm format` / `pnpm format:check` | Prettier                                                |
+| `pnpm i18n:check`                   | Vérifie que fr/en/ln.json ont exactement les mêmes clés |
+| `pnpm supabase:*`                   | Voir ci-dessus                                          |
 
 Un hook `pre-commit` (Husky + lint-staged) formate et lint automatiquement
 les fichiers stagés.
@@ -69,12 +70,12 @@ les fichiers stagés.
 ```
 src/
 ├── app/
-│   ├── [locale]/            Site public + auth, préfixé par la locale (fr par défaut sans préfixe)
+│   ├── [locale]/            Site public + auth, chemins localisés (voir ADR 0002)
 │   │   ├── layout.tsx       Root layout n°1 (html/body, NextIntlClientProvider, PostHog)
 │   │   ├── (marketing)/     Accueil, Distribution, Tarifs... (Sprint 2)
-│   │   └── (auth)/          Connexion, Inscription... (Sprint 3)
+│   │   └── (auth)/          /connexion·/login, /inscription·/signup... (Sprint 3)
 │   ├── (private)/           Dashboard + back-office, PAS de préfixe de locale
-│   │   ├── layout.tsx       Root layout n°2 (html/body, PostHog)
+│   │   ├── layout.tsx       Root layout n°2 (html/body, NextIntlClientProvider, PostHog)
 │   │   ├── app/             Dashboard artiste (Sprint 4)
 │   │   └── admin/           Back-office (Sprint 4+)
 │   ├── api/health/          Endpoint de santé (uptime monitoring, §25)
@@ -119,15 +120,20 @@ réel n'est committé ; `.env.local` est ignoré par git.
 ## Décisions d'architecture
 
 - `docs/adr/0001-stack-and-tooling.md` — repo unique + pnpm
-- `docs/adr/0002-i18n-routing.md` — routage i18n public vs privé (à confirmer avant Sprint 2/3)
+- `docs/adr/0002-i18n-routing.md` — chemins localisés public/auth, cookie puis `profiles.locale` en privé (validé)
 - `docs/adr/0003-labelgrid-mock-adapter.md` — adaptateur LabelGrid mocké
+- `docs/adr/0004-i18n-content-policy.md` — fr/en référence complète, ln en brouillon assumé, parité de clés vérifiée automatiquement, zéro texte en dur (validé)
 
 ## Notes importantes
 
-- **Lingala (`src/i18n/messages/ln.json`) :** traductions de brouillon,
-  non relues par un locuteur natif. Le cahier des charges (§21) recommande
-  explicitement une relecture native avant mise en production — à faire
-  avant le Sprint 2.
+- **Lingala (`src/i18n/messages/ln.json`) :** toutes les valeurs sont des
+  `TODO(ln): ...` explicites — volontairement pas de traduction
+  approximative ou générée (voir ADR 0004). Relecture par un locuteur
+  natif prévue avant le Sprint 2, conformément au §21 du CDC.
+- **Aucun texte codé en dur :** toute chaîne visible passe par
+  `useTranslations`/`getTranslations` (next-intl), y compris dans `/app`
+  et `/admin`. `pnpm i18n:check` (pre-commit + CI) fait échouer le build
+  si `fr.json`/`en.json`/`ln.json` divergent en clés.
 - **Design system :** le thème shadcn actuel (neutre, OKLCH par défaut) est
   un placeholder technique. La charte réelle (rouge cerise / noir profond /
   jaune d'or, §9) arrive au Sprint 1.

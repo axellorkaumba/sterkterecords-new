@@ -27,5 +27,28 @@
   },
   "Home": {
     "comingSoon": "The public site ships in Sprint 2 — infrastructure is in place."
+  },
+  "Auth": {
+    "login": {
+      "placeholder": "Log in — ships in Sprint 3."
+    },
+    "signup": {
+      "placeholder": "Sign up — ships in Sprint 3."
+    },
+    "forgotPassword": {
+      "placeholder": "Forgot password — ships in Sprint 3."
+    },
+    "verifyEmail": {
+      "placeholder": "Verify email — ships in Sprint 3."
+    }
+  },
+  "PrivateArea": {
+    "defaultTitle": "Dashboard — Sterkte Records"
+  },
+  "Dashboard": {
+    "placeholder": "Artist dashboard — ships in Sprint 4."
+  },
+  "Admin": {
+    "placeholder": "Back office — ships with the business modules."
   }
 }

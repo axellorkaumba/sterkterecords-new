@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { fontSans, fontMono } from "@/lib/fonts";
@@ -17,11 +17,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
   return {
     title: {
-      default: "Sterkte Records",
-      template: "%s — Sterkte Records",
+      default: t("defaultTitle"),
+      template: `%s — ${t("siteName")}`,
     },
+    description: t("defaultDescription"),
     metadataBase: new URL("https://www.sterkterecords.com"),
     alternates: {
       languages: Object.fromEntries(routing.locales.map((l) => [l, `/${l}`])),
