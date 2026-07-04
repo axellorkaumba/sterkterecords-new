@@ -1,0 +1,32 @@
+{
+  "_status": "BROUILLON — placeholder non traduit, en attente de relecture par un locuteur natif lingala avant mise en production (voir §21 du cahier des charges et docs/adr/0002-i18n-routing.md).",
+  "Metadata": {
+    "siteName": "Sterkte Records",
+    "defaultTitle": "Sterkte Records — Kokabola miziki na Afrika ya Falansé",
+    "defaultDescription": "Nzembo na yo ekobanda awa mpe ekopanzana na mokili mobimba."
+  },
+  "Nav": {
+    "home": "Ekomeli",
+    "distribution": "Kokabola",
+    "pricing": "Ntalo",
+    "studio": "Studio",
+    "booking": "Booking",
+    "featuring": "Featuring",
+    "consulting": "Consulting",
+    "artists": "Bayembi",
+    "about": "Biso nani",
+    "contact": "Kokutana",
+    "help": "Lisalisi",
+    "login": "Kokota",
+    "signup": "Kobanda"
+  },
+  "Footer": {
+    "rights": "Makoki nyonso ebombami.",
+    "legalNotice": "Sango ya mibeko",
+    "terms": "Mibeko ya lisalisi",
+    "privacy": "Bosembo ya bikuke"
+  },
+  "Home": {
+    "comingSoon": "Site ya bato nyonso ekoya na Sprint 2 — infrastructure esili kotelema."
+  }
+}

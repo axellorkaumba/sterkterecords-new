@@ -1,0 +1,31 @@
+{
+  "Metadata": {
+    "siteName": "Sterkte Records",
+    "defaultTitle": "Sterkte Records — Music distribution from Francophone Africa",
+    "defaultDescription": "Your melody comes to life here and echoes across the world."
+  },
+  "Nav": {
+    "home": "Home",
+    "distribution": "Distribution",
+    "pricing": "Pricing",
+    "studio": "Studio",
+    "booking": "Booking",
+    "featuring": "Featuring",
+    "consulting": "Consulting",
+    "artists": "Artists",
+    "about": "About",
+    "contact": "Contact",
+    "help": "Help",
+    "login": "Log in",
+    "signup": "Get started"
+  },
+  "Footer": {
+    "rights": "All rights reserved.",
+    "legalNotice": "Legal notice",
+    "terms": "Terms of use",
+    "privacy": "Privacy"
+  },
+  "Home": {
+    "comingSoon": "The public site ships in Sprint 2 — infrastructure is in place."
+  }
+}

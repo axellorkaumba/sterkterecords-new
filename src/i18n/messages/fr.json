@@ -1,0 +1,31 @@
+{
+  "Metadata": {
+    "siteName": "Sterkte Records",
+    "defaultTitle": "Sterkte Records — Distribution musicale en Afrique francophone",
+    "defaultDescription": "Votre mélodie prend vie ici et fait échos aux quatre coins du monde."
+  },
+  "Nav": {
+    "home": "Accueil",
+    "distribution": "Distribution",
+    "pricing": "Tarifs",
+    "studio": "Studio",
+    "booking": "Booking",
+    "featuring": "Featuring",
+    "consulting": "Consulting",
+    "artists": "Artistes",
+    "about": "À propos",
+    "contact": "Contact",
+    "help": "Aide",
+    "login": "Connexion",
+    "signup": "Commencer"
+  },
+  "Footer": {
+    "rights": "Tous droits réservés.",
+    "legalNotice": "Mentions légales",
+    "terms": "CGU",
+    "privacy": "Confidentialité"
+  },
+  "Home": {
+    "comingSoon": "Le site public arrive au Sprint 2 — infrastructure en place."
+  }
+}

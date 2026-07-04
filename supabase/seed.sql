@@ -1,0 +1,5 @@
+-- Données de seed pour l'environnement local (`supabase start` puis
+-- `supabase db reset` rejoue automatiquement ce fichier après les migrations).
+-- Vide au Sprint 0 : aucune table métier n'existe encore. Chaque sprint qui
+-- introduit des tables (profiles, artists, releases...) ajoute ici ses
+-- données de démo correspondantes.

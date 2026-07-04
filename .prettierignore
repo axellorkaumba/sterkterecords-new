@@ -1,0 +1,11 @@
+.next
+node_modules
+pnpm-lock.yaml
+coverage
+build
+out
+.vercel
+src/types/database.types.ts
+supabase/.branches
+supabase/.temp
+CHANGELOG.md
