@@ -1,5 +1,6 @@
 {
   "*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"],
   "*.{json,md,css,mjs,cjs}": ["prettier --write"],
-  "src/i18n/messages/*.json": ["node scripts/check-i18n-parity.mjs"]
+  "src/i18n/messages/*.json": ["node scripts/check-i18n-parity.mjs"],
+  "src/app/globals.css": ["node scripts/check-css-vars.mjs"]
 }

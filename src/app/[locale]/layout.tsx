@@ -3,8 +3,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { fontSans, fontMono } from "@/lib/fonts";
-import { PostHogProvider } from "@/lib/analytics/posthog-client-provider";
+import { fontVariables } from "@/lib/fonts";
+import { Providers } from "@/components/providers";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -59,13 +59,13 @@ export default async function LocaleRootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${fontSans.variable} ${fontMono.variable} h-full antialiased`}>
+    <html lang={locale} className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
-        <PostHogProvider>
+        <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}
           </NextIntlClientProvider>
-        </PostHogProvider>
+        </Providers>
       </body>
     </html>
   );

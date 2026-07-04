@@ -39,6 +39,9 @@ jobs:
       - name: i18n key parity (fr/en/ln)
         run: pnpm i18n:check
 
+      - name: CSS custom properties (no self-references)
+        run: pnpm css:check
+
       - name: Typecheck
         run: pnpm typecheck
 

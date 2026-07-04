@@ -4,127 +4,273 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-geist-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
+/* ==========================================================================
+   STERKTE RECORDS — Design tokens (§9 du cahier des charges)
+   ========================================================================== */
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* --- Marque : Rouge Cerise (§9.1) --- */
+  --cerise-50: #fdecee;
+  --cerise-100: #f9ced3;
+  --cerise-300: #e86a78;
+  --cerise-500: #c8102e;
+  --cerise-600: #a80c26;
+  --cerise-700: #84091e;
+  --cerise-900: #4d0512;
+
+  /* --- Marque : Noir Profond --- */
+  --noir-950: #0a0a0b;
+  --noir-900: #111113;
+  --noir-800: #1a1a1d;
+  --noir-700: #26262a;
+
+  /* --- Marque : Jaune d'Or --- */
+  --or-300: #ffdb70;
+  --or-400: #ffc93c;
+  --or-500: #f5b700;
+  --or-600: #c98a00;
+
+  /* --- Neutres / Blanc --- */
+  --blanc: #ffffff;
+  --blanc-soft: #fafaf9;
+  --gris-100: #f2f2f3;
+  --gris-400: #9a9aa0;
+  --gris-600: #5b5b60;
+
+  /* --- Sémantiques (statuts) --- */
+  --succes: #1fa971;
+  --erreur: #e5484d;
+  --avertissement: #f5b700;
+  /* Nommée différemment du token sémantique --info ci-dessous : un nom
+     identique dans les deux blocs créerait une auto-référence CSS (valeur
+     "invalide", cf. le même bug déjà rencontré sur les polices/rayons). */
+  --bleu-info: #4c82f7;
 }
 
+/* --- Thème sombre : identité forte, thème PAR DÉFAUT (§9) --- */
+:root,
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--noir-950);
+  --foreground: var(--blanc);
+  --card: var(--noir-900);
+  --card-foreground: var(--blanc);
+  --popover: var(--noir-900);
+  --popover-foreground: var(--blanc);
+  --primary: var(--cerise-500);
+  --primary-foreground: var(--blanc);
+  --secondary: var(--noir-800);
+  --secondary-foreground: var(--blanc);
+  --muted: var(--noir-800);
+  --muted-foreground: var(--gris-400);
+  --accent: var(--noir-700);
+  --accent-foreground: var(--blanc);
+  --destructive: var(--erreur);
+  --destructive-foreground: var(--blanc);
+  --border: var(--noir-700);
+  --input: var(--noir-700);
+  --ring: var(--cerise-500);
+  --success: var(--succes);
+  --success-foreground: var(--blanc);
+  --warning: var(--avertissement);
+  --warning-foreground: var(--noir-950);
+  --info: var(--bleu-info);
+  --info-foreground: var(--blanc);
+  --gold: var(--or-400);
+  --gold-foreground: var(--noir-950);
+  --chart-1: var(--cerise-500);
+  --chart-2: var(--or-400);
+  --chart-3: var(--info);
+  --chart-4: var(--succes);
+  --chart-5: var(--gris-400);
+  --sidebar: var(--noir-900);
+  --sidebar-foreground: var(--blanc);
+  --sidebar-primary: var(--cerise-500);
+  --sidebar-primary-foreground: var(--blanc);
+  --sidebar-accent: var(--noir-800);
+  --sidebar-accent-foreground: var(--blanc);
+  --sidebar-border: var(--noir-700);
+  --sidebar-ring: var(--cerise-500);
+}
+
+/* --- Thème clair : activé via <html class="light"> (next-themes) --- */
+.light {
+  --background: var(--blanc);
+  --foreground: var(--noir-950);
+  --card: var(--blanc);
+  --card-foreground: var(--noir-950);
+  --popover: var(--blanc);
+  --popover-foreground: var(--noir-950);
+  --primary: var(--cerise-500);
+  --primary-foreground: var(--blanc);
+  --secondary: var(--gris-100);
+  --secondary-foreground: var(--noir-950);
+  --muted: var(--gris-100);
+  --muted-foreground: var(--gris-600);
+  --accent: var(--gris-100);
+  --accent-foreground: var(--noir-950);
+  --destructive: var(--erreur);
+  --destructive-foreground: var(--blanc);
+  --border: var(--gris-100);
+  --input: var(--gris-100);
+  --ring: var(--cerise-500);
+  --success: var(--succes);
+  --success-foreground: var(--blanc);
+  --warning: var(--avertissement);
+  --warning-foreground: var(--noir-950);
+  --info: var(--bleu-info);
+  --info-foreground: var(--blanc);
+  --gold: var(--or-600); /* plus foncé sur fond clair : contraste AA (§9.1) */
+  --gold-foreground: var(--blanc);
+  --chart-1: var(--cerise-500);
+  --chart-2: var(--or-600);
+  --chart-3: var(--info);
+  --chart-4: var(--succes);
+  --chart-5: var(--gris-600);
+  --sidebar: var(--blanc-soft);
+  --sidebar-foreground: var(--noir-950);
+  --sidebar-primary: var(--cerise-500);
+  --sidebar-primary-foreground: var(--blanc);
+  --sidebar-accent: var(--gris-100);
+  --sidebar-accent-foreground: var(--noir-950);
+  --sidebar-border: var(--gris-100);
+  --sidebar-ring: var(--cerise-500);
+}
+
+@theme inline {
+  /* Couleurs de marque exposées comme utilitaires (bg-cerise-500, text-or-400...) */
+  --color-cerise-50: var(--cerise-50);
+  --color-cerise-100: var(--cerise-100);
+  --color-cerise-300: var(--cerise-300);
+  --color-cerise-500: var(--cerise-500);
+  --color-cerise-600: var(--cerise-600);
+  --color-cerise-700: var(--cerise-700);
+  --color-cerise-900: var(--cerise-900);
+  --color-noir-950: var(--noir-950);
+  --color-noir-900: var(--noir-900);
+  --color-noir-800: var(--noir-800);
+  --color-noir-700: var(--noir-700);
+  --color-or-300: var(--or-300);
+  --color-or-400: var(--or-400);
+  --color-or-500: var(--or-500);
+  --color-or-600: var(--or-600);
+  --color-blanc: var(--blanc);
+  --color-blanc-soft: var(--blanc-soft);
+  --color-gris-100: var(--gris-100);
+  --color-gris-400: var(--gris-400);
+  --color-gris-600: var(--gris-600);
+
+  /* Sémantiques shadcn */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Sémantiques métier (statuts §9.1 / §9.9) */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Polices (§9.2) */
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-raw);
+  --font-mono: var(--font-mono-raw);
+
+  /* Échelle typographique mobile-first (§9.2) */
+  --text-display: 3.5rem;
+  --text-display--line-height: 1.05;
+  --text-h1: 2.5rem;
+  --text-h1--line-height: 1.1;
+  --text-h2: 1.875rem;
+  --text-h2--line-height: 1.2;
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.3;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+}
+
+/* Rayons et ombres (§9.3) : valeurs fixes, pas de variation par thème —
+   pas besoin de l'indirection `@theme inline`, on les déclare directement. */
+@theme {
+  --radius-sm: 0.5rem; /* 8px */
+  --radius-md: 0.75rem; /* 12px — boutons */
+  --radius-lg: 1rem; /* 16px — cartes */
+  --radius-xl: 1.5rem; /* 24px */
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow-cerise: 0 0 0 3px rgba(200, 16, 46, 0.25);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+/* Respect de prefers-reduced-motion (§9.7) : toutes les animations ≤300ms
+   sont désactivées pour les utilisateurs sensibles au mouvement. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

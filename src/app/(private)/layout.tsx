@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
-import { fontSans, fontMono } from "@/lib/fonts";
-import { PostHogProvider } from "@/lib/analytics/posthog-client-provider";
+import { fontVariables } from "@/lib/fonts";
+import { Providers } from "@/components/providers";
 import "../globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -33,13 +33,13 @@ export default async function PrivateRootLayout({ children }: { children: React.
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${fontSans.variable} ${fontMono.variable} h-full antialiased`}>
+    <html lang={locale} className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
-        <PostHogProvider>
+        <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}
           </NextIntlClientProvider>
-        </PostHogProvider>
+        </Providers>
       </body>
     </html>
   );
