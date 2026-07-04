@@ -608,7 +608,54 @@
     "defaultTitle": "Tableau de bord — Sterkte Records"
   },
   "Dashboard": {
-    "placeholder": "Dashboard artiste — arrive au Sprint 4."
+    "placeholder": "Dashboard artiste — arrive au Sprint 4.",
+    "greeting": "Bonjour, {name}",
+    "reportingNote": "Données à jour au {date}",
+    "noReportYet": "Aucun rapport LabelGrid pour l'instant — les statistiques apparaîtront après ta première remontée mensuelle.",
+    "streams": {
+      "title": "Streams",
+      "period": "Dernier mois rapporté",
+      "emptyTitle": "Aucun stream pour l'instant",
+      "emptyDescription": "Distribue ta première sortie pour voir tes streams ici."
+    },
+    "revenue": {
+      "title": "Revenus",
+      "availableLabel": "Solde retirable",
+      "pendingLabel": "En attente",
+      "emptyTitle": "Aucun revenu pour l'instant",
+      "emptyDescription": "Tes revenus estimés apparaîtront après ta première remontée mensuelle."
+    },
+    "releases": {
+      "title": "Sorties",
+      "delivered": "Livrées",
+      "inProgress": "En cours",
+      "drafts": "Brouillons",
+      "emptyTitle": "Aucune sortie pour l'instant",
+      "emptyDescription": "Distribue ta première œuvre pour la voir apparaître ici."
+    },
+    "topTracks": {
+      "title": "Top titres",
+      "streamsColumn": "Streams",
+      "emptyTitle": "Aucun titre pour l'instant",
+      "emptyDescription": "Tes titres les plus streamés apparaîtront ici."
+    },
+    "chart": {
+      "title": "Streams par mois",
+      "emptyTitle": "Pas encore de données",
+      "emptyDescription": "Le graphique se remplira après ta première remontée mensuelle LabelGrid."
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "newRelease": "Nouvelle sortie",
+      "viewStats": "Voir les statistiques",
+      "requestWithdrawal": "Demander un retrait",
+      "comingSoon": "Bientôt disponible"
+    },
+    "notifications": {
+      "title": "Notifications récentes",
+      "emptyTitle": "Aucune notification",
+      "emptyDescription": "Tu seras notifié ici des mises à jour importantes."
+    }
   },
   "Admin": {
     "placeholder": "Back-office — arrive avec les modules métier."
@@ -716,5 +763,37 @@
     "settingsLink": "Paramètres",
     "logoutButton": "Se déconnecter",
     "loggingOut": "Déconnexion…"
+  },
+  "AppNav": {
+    "overview": "Vue d'ensemble",
+    "distribution": "Distribution",
+    "stats": "Statistiques",
+    "revenue": "Revenus",
+    "studio": "Studio",
+    "booking": "Booking",
+    "featuring": "Featuring",
+    "consulting": "Consulting",
+    "contracts": "Contrats",
+    "team": "Équipe",
+    "notifications": "Notifications",
+    "settings": "Paramètres",
+    "comingSoon": "Bientôt disponible",
+    "openMenu": "Ouvrir le menu"
+  },
+  "Onboarding": {
+    "tag": "Bienvenue",
+    "title": "Crée ton profil artiste",
+    "subtitle": "Quelques informations pour démarrer — tu pourras tout modifier plus tard.",
+    "nameLabel": "Nom d'artiste",
+    "namePlaceholder": "Ton nom de scène",
+    "bioLabel": "Bio",
+    "bioPlaceholder": "Quelques mots sur toi et ta musique…",
+    "avatarUrlLabel": "Photo de profil (URL)",
+    "websiteLabel": "Site web",
+    "instagramLabel": "Instagram",
+    "spotifyLabel": "Spotify",
+    "submit": "Créer mon profil",
+    "submitting": "Création…",
+    "error": "Une erreur est survenue. Réessaie."
   }
 }

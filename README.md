@@ -4,13 +4,16 @@ Plateforme SaaS de distribution musicale — Sterkte Records SARL
 (Lubumbashi/RDC · Agadir/Maroc). Source de vérité produit : le cahier des
 charges (`CDC_Sterkte_Records_Distributor.md`, fourni hors repo).
 
-**Statut : Sprint 3 — Authentification.** Email/mot de passe, Google, 2FA
-TOTP, réinitialisation de mot de passe, Paramètres complets et garde
-d'authentification `/app`/`/admin` sont en place. **Aucun projet Supabase
-réel n'est encore branché** (ni local via Docker, ni cloud) : tout est vérifié
-par `typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel
-Supabase — voir `docs/adr/0007-auth-architecture.md`. La distribution, les
-paiements et le dashboard artiste (contenu) restent à construire.
+**Statut : Sprint 4 — Dashboard artiste.** Authentification complète
+(Sprint 3) + vue d'ensemble artiste (§11.3) : onboarding profil artiste, nav
+`/app` complète (badges "Bientôt disponible" pour les modules pas encore
+construits), cartes streams/revenus/sorties, top titres, graphique, actions
+rapides, notifications. **Aucun projet Supabase réel n'est encore branché**
+(ni local via Docker, ni cloud) : tout est vérifié par
+`typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel Supabase
+— voir `docs/adr/0007-auth-architecture.md` et
+`docs/adr/0008-dashboard-artiste.md`. Le tunnel de distribution (§11.4) et
+les paiements/royalties restent à construire.
 
 ## Stack
 
@@ -125,6 +128,30 @@ le détail des décisions) :
 ⚠️ **Aucun projet Supabase réel n'est connecté** (`.env.local` a les clés
 vides) — voir "Notes importantes" ci-dessous.
 
+## Dashboard artiste (Sprint 4)
+
+Implémente le §11.3 du CDC (voir `docs/adr/0008-dashboard-artiste.md`) :
+
+- **Onboarding profil artiste** (`src/app/(private)/app/onboarding-form.tsx`) :
+  affiché à la place du dashboard tant qu'aucun artiste n'existe pour
+  l'utilisateur (nom, bio, avatar, liens — §10.1, table `artists`).
+- **Nav `/app` complète** (`src/components/private/app-sidebar-nav.tsx`) :
+  les 12 entrées du §8 sont visibles dès maintenant ; seuls Vue d'ensemble et
+  Paramètres sont actifs, le reste affiche un badge "Bientôt disponible"
+  (décision validée par Axel — voir ADR 0008).
+- **Cartes du dashboard** : Streams (dernier mois rapporté + variation),
+  Revenus (solde retirable/en attente), Sorties (livrées/en cours/
+  brouillons), Top titres, graphique streams/mois (recharts), actions
+  rapides (désactivées, pages pas encore construites), notifications
+  récentes — chacune avec un état vide soigné (§9.8) puisqu'aucune donnée
+  LabelGrid n'existe encore.
+- **Base de données** : migration
+  `supabase/migrations/20260704160000_dashboard_core.sql` — `artists`,
+  `releases`/`tracks` (colonnes déjà conformes au §12, le tunnel Distribution
+  du sprint suivant les complètera), `stats_monthly`, `wallet` (créé
+  automatiquement à l'inscription), `notifications`. RLS scopée
+  propriétaire (pas encore de comptes équipe multi-artistes, §7.2, V1).
+
 ## Démarrage
 
 Prérequis : Node ≥ 20.9, pnpm (`corepack enable` ou `npm i -g pnpm`).
@@ -182,7 +209,10 @@ src/
 │   │   ├── layout.tsx       Root layout n°2 (+ <PrivateHeader>, Sprint 3)
 │   │   ├── actions.ts        signOut() (déconnexion appareil courant)
 │   │   ├── app/             Dashboard artiste (Sprint 4)
-│   │   │   └── parametres/   Profil, sécurité (2FA, comptes liés), langue, notifications, RGPD (Sprint 3)
+│   │   │   ├── layout.tsx     Sidebar nav complète (§8) + trigger mobile
+│   │   │   ├── page.tsx       Vue d'ensemble (cartes stats) ou onboarding si pas d'artiste
+│   │   │   ├── actions.ts     createArtistProfile() (onboarding, §10.1)
+│   │   │   └── parametres/    Profil, sécurité (2FA, comptes liés), langue, notifications, RGPD (Sprint 3)
 │   │   └── admin/           Back-office (Sprint 4+)
 │   ├── api/
 │   │   ├── auth/callback/    Échange PKCE unique (tout provider OAuth, confirmation, reset — Sprint 3)
@@ -206,7 +236,9 @@ src/
 ├── components/
 │   ├── ui/                  Composants shadcn personnalisés + sur-mesure (Sprint 1, §9)
 │   │   └── form.tsx           React Hook Form + Zod, adapté à Base UI (Sprint 3)
-│   ├── private/private-header.tsx   Barre minimale /app·/admin (Sprint 3, nav complète Sprint 4)
+│   ├── private/private-header.tsx   Barre minimale /app·/admin (Sprint 3)
+│   ├── private/app-sidebar-nav.tsx   Nav complète /app, badges "Bientôt disponible" (Sprint 4)
+│   ├── private/app-mobile-nav.tsx    Sheet mobile réutilisant app-sidebar-nav
 │   ├── theme-provider.tsx / theme-toggle.tsx   Dark/light mode (next-themes)
 │   └── providers.tsx        Composition unique des providers client
 ├── hooks/, server/actions/, types/   Squelettes, remplis au fil des sprints
@@ -215,7 +247,7 @@ src/
 
 supabase/
 ├── config.toml
-├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3)
+├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3) + artists/releases/tracks/stats/wallet/notifications (Sprint 4)
 └── seed.sql                  Note de bootstrap du premier super_admin
 
 docs/adr/                     Décisions d'architecture documentées
@@ -234,7 +266,8 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - **Sprint 0 :** infrastructure (repo, tooling, adaptateurs, i18n).
 - **Sprint 1 :** Design System — voir ci-dessus.
 - **Sprint 2 :** Site public — voir ci-dessus.
-- **Sprint 3 (ce commit) :** Authentification — voir ci-dessus.
+- **Sprint 3 :** Authentification — voir ci-dessus.
+- **Sprint 4 (ce commit) :** Dashboard artiste — voir ci-dessus.
 
 ## Décisions d'architecture
 
@@ -245,6 +278,7 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - `docs/adr/0005-typography-fallback.md` — Inter/Bricolage Grotesque en attendant Satoshi/Clash Display (à valider)
 - `docs/adr/0006-content-sourcing.md` — sources du contenu réel (CGU fournies par Axel, PDF de contenu, prototype zip), roster artistes non repris (données factices), deux incohérences CDC/contenu réel à trancher (voir Notes importantes)
 - `docs/adr/0007-auth-architecture.md` — flux PKCE unique, attribution des rôles, Apple différé mais architecture OAuth complète prête (providers/callback/DB/comptes liés), 2FA construite malgré son tag `[V1]`, sessions limitées à la déconnexion globale, `profiles.locale` prioritaire sur le cookie, pays/devises en table de configuration (liste métier validée par Axel), Paramètres > Abonnement en placeholder, contrainte d'environnement (pas de test de bout en bout)
+- `docs/adr/0008-dashboard-artiste.md` — nav `/app` complète avec badges "Bientôt disponible" (validé par Axel), onboarding artiste avant paiement/forfait (pas encore construits), schéma releases/tracks minimal complété par le futur tunnel Distribution, "Streams (30j)" interprété comme dernier mois rapporté (données mensuelles par construction), wallet en lecture seule côté client
 
 ## Notes importantes
 
@@ -320,3 +354,21 @@ réel n'est committé ; `.env.local` est ignoré par git.
   (`supabase/migrations/20260704150000_countries_and_currencies.sql`) —
   pas un tableau TypeScript. Étendre la liste = une ligne insérée en base,
   jamais une modification de `ProfileTab`/`LanguageTab` — voir ADR 0007.
+- **Nav `/app` complète dès le Sprint 4 (validé par Axel)** : les 12 entrées
+  du §8 apparaissent immédiatement dans `AppSidebarNav`, celles sans page
+  réelle (Distribution, Statistiques, Revenus, Studio, Booking, Featuring,
+  Consulting, Contrats, Équipe, Notifications) sont grisées avec un badge
+  "Bientôt disponible" plutôt que d'attendre chaque sprint pour les
+  ajouter — voir ADR 0008.
+- **Onboarding artiste avant le module Paiements** : le §10.1 place la
+  création du profil artiste après le choix de forfait/paiement, qui
+  n'existe pas encore. Elle se déclenche donc dès la première visite de
+  `/app` sans artiste existant — le choix de forfait viendra s'insérer
+  avant cette étape une fois le module construit, sans changer le schéma
+  `artists` — voir ADR 0008.
+- **`stats_monthly`/`wallet` vides par construction (Sprint 4)** : ces
+  tables ne sont peuplées que par le job de reporting mensuel LabelGrid et
+  les webhooks paiement (§13.1, §11.5), tous deux du module Royalties
+  (V1) — pas encore construit. Toutes les cartes du dashboard affichent
+  donc un état vide tant que ce module n'existe pas ; c'est le
+  comportement attendu, pas un bug.

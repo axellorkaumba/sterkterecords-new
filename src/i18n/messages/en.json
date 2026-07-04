@@ -608,7 +608,54 @@
     "defaultTitle": "Dashboard — Sterkte Records"
   },
   "Dashboard": {
-    "placeholder": "Artist dashboard — ships in Sprint 4."
+    "placeholder": "Artist dashboard — ships in Sprint 4.",
+    "greeting": "Hello, {name}",
+    "reportingNote": "Data up to date as of {date}",
+    "noReportYet": "No LabelGrid report yet — statistics will appear after your first monthly report.",
+    "streams": {
+      "title": "Streams",
+      "period": "Latest reported month",
+      "emptyTitle": "No streams yet",
+      "emptyDescription": "Distribute your first release to see your streams here."
+    },
+    "revenue": {
+      "title": "Revenue",
+      "availableLabel": "Available balance",
+      "pendingLabel": "Pending",
+      "emptyTitle": "No revenue yet",
+      "emptyDescription": "Your estimated revenue will appear after your first monthly report."
+    },
+    "releases": {
+      "title": "Releases",
+      "delivered": "Delivered",
+      "inProgress": "In progress",
+      "drafts": "Drafts",
+      "emptyTitle": "No releases yet",
+      "emptyDescription": "Distribute your first release to see it here."
+    },
+    "topTracks": {
+      "title": "Top tracks",
+      "streamsColumn": "Streams",
+      "emptyTitle": "No tracks yet",
+      "emptyDescription": "Your most streamed tracks will appear here."
+    },
+    "chart": {
+      "title": "Streams by month",
+      "emptyTitle": "No data yet",
+      "emptyDescription": "The chart will fill in after your first monthly LabelGrid report."
+    },
+    "quickActions": {
+      "title": "Quick actions",
+      "newRelease": "New release",
+      "viewStats": "View statistics",
+      "requestWithdrawal": "Request a payout",
+      "comingSoon": "Coming soon"
+    },
+    "notifications": {
+      "title": "Recent notifications",
+      "emptyTitle": "No notifications",
+      "emptyDescription": "You'll be notified here of important updates."
+    }
   },
   "Admin": {
     "placeholder": "Back office — ships with the business modules."
@@ -716,5 +763,37 @@
     "settingsLink": "Settings",
     "logoutButton": "Sign out",
     "loggingOut": "Signing out…"
+  },
+  "AppNav": {
+    "overview": "Overview",
+    "distribution": "Distribution",
+    "stats": "Statistics",
+    "revenue": "Revenue",
+    "studio": "Studio",
+    "booking": "Booking",
+    "featuring": "Featuring",
+    "consulting": "Consulting",
+    "contracts": "Contracts",
+    "team": "Team",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "comingSoon": "Coming soon",
+    "openMenu": "Open menu"
+  },
+  "Onboarding": {
+    "tag": "Welcome",
+    "title": "Create your artist profile",
+    "subtitle": "A few details to get started — you can change everything later.",
+    "nameLabel": "Artist name",
+    "namePlaceholder": "Your stage name",
+    "bioLabel": "Bio",
+    "bioPlaceholder": "A few words about you and your music…",
+    "avatarUrlLabel": "Profile picture (URL)",
+    "websiteLabel": "Website",
+    "instagramLabel": "Instagram",
+    "spotifyLabel": "Spotify",
+    "submit": "Create my profile",
+    "submitting": "Creating…",
+    "error": "Something went wrong. Please try again."
   }
 }

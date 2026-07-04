@@ -625,7 +625,54 @@
     "defaultTitle": "TODO(ln): Tableau de bord — Sterkte Records"
   },
   "Dashboard": {
-    "placeholder": "TODO(ln): Dashboard artiste — arrive au Sprint 4."
+    "placeholder": "TODO(ln): Dashboard artiste — arrive au Sprint 4.",
+    "greeting": "TODO(ln): Bonjour, {name}",
+    "reportingNote": "TODO(ln): Données à jour au {date}",
+    "noReportYet": "TODO(ln): Aucun rapport LabelGrid pour l'instant — les statistiques apparaîtront après ta première remontée mensuelle.",
+    "streams": {
+      "title": "TODO(ln): Streams",
+      "period": "TODO(ln): Dernier mois rapporté",
+      "emptyTitle": "TODO(ln): Aucun stream pour l'instant",
+      "emptyDescription": "TODO(ln): Distribue ta première sortie pour voir tes streams ici."
+    },
+    "revenue": {
+      "title": "TODO(ln): Revenus",
+      "availableLabel": "TODO(ln): Solde retirable",
+      "pendingLabel": "TODO(ln): En attente",
+      "emptyTitle": "TODO(ln): Aucun revenu pour l'instant",
+      "emptyDescription": "TODO(ln): Tes revenus estimés apparaîtront après ta première remontée mensuelle."
+    },
+    "releases": {
+      "title": "TODO(ln): Sorties",
+      "delivered": "TODO(ln): Livrées",
+      "inProgress": "TODO(ln): En cours",
+      "drafts": "TODO(ln): Brouillons",
+      "emptyTitle": "TODO(ln): Aucune sortie pour l'instant",
+      "emptyDescription": "TODO(ln): Distribue ta première œuvre pour la voir apparaître ici."
+    },
+    "topTracks": {
+      "title": "TODO(ln): Top titres",
+      "streamsColumn": "TODO(ln): Streams",
+      "emptyTitle": "TODO(ln): Aucun titre pour l'instant",
+      "emptyDescription": "TODO(ln): Tes titres les plus streamés apparaîtront ici."
+    },
+    "chart": {
+      "title": "TODO(ln): Streams par mois",
+      "emptyTitle": "TODO(ln): Pas encore de données",
+      "emptyDescription": "TODO(ln): Le graphique se remplira après ta première remontée mensuelle LabelGrid."
+    },
+    "quickActions": {
+      "title": "TODO(ln): Actions rapides",
+      "newRelease": "TODO(ln): Nouvelle sortie",
+      "viewStats": "TODO(ln): Voir les statistiques",
+      "requestWithdrawal": "TODO(ln): Demander un retrait",
+      "comingSoon": "TODO(ln): Bientôt disponible"
+    },
+    "notifications": {
+      "title": "TODO(ln): Notifications récentes",
+      "emptyTitle": "TODO(ln): Aucune notification",
+      "emptyDescription": "TODO(ln): Tu seras notifié ici des mises à jour importantes."
+    }
   },
   "Admin": {
     "placeholder": "TODO(ln): Back-office — arrive avec les modules métier."
@@ -733,5 +780,37 @@
     "settingsLink": "TODO(ln): Paramètres",
     "logoutButton": "TODO(ln): Se déconnecter",
     "loggingOut": "TODO(ln): Déconnexion…"
+  },
+  "AppNav": {
+    "overview": "TODO(ln): Vue d'ensemble",
+    "distribution": "TODO(ln): Distribution",
+    "stats": "TODO(ln): Statistiques",
+    "revenue": "TODO(ln): Revenus",
+    "studio": "TODO(ln): Studio",
+    "booking": "TODO(ln): Booking",
+    "featuring": "TODO(ln): Featuring",
+    "consulting": "TODO(ln): Consulting",
+    "contracts": "TODO(ln): Contrats",
+    "team": "TODO(ln): Équipe",
+    "notifications": "TODO(ln): Notifications",
+    "settings": "TODO(ln): Paramètres",
+    "comingSoon": "TODO(ln): Bientôt disponible",
+    "openMenu": "TODO(ln): Ouvrir le menu"
+  },
+  "Onboarding": {
+    "tag": "TODO(ln): Bienvenue",
+    "title": "TODO(ln): Crée ton profil artiste",
+    "subtitle": "TODO(ln): Quelques informations pour démarrer — tu pourras tout modifier plus tard.",
+    "nameLabel": "TODO(ln): Nom d'artiste",
+    "namePlaceholder": "TODO(ln): Ton nom de scène",
+    "bioLabel": "TODO(ln): Bio",
+    "bioPlaceholder": "TODO(ln): Quelques mots sur toi et ta musique…",
+    "avatarUrlLabel": "TODO(ln): Photo de profil (URL)",
+    "websiteLabel": "TODO(ln): Site web",
+    "instagramLabel": "TODO(ln): Instagram",
+    "spotifyLabel": "TODO(ln): Spotify",
+    "submit": "TODO(ln): Créer mon profil",
+    "submitting": "TODO(ln): Création…",
+    "error": "TODO(ln): Une erreur est survenue. Réessaie."
   }
 }
