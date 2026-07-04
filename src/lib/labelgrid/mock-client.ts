@@ -62,6 +62,11 @@ export class MockLabelGridClient implements LabelGridClient {
     };
   }
 
+  async requestTakedown(externalId: string, reason: string): Promise<void> {
+    void externalId;
+    void reason;
+  }
+
   async fetchMonthlyReport(period: string): Promise<MonthlyReportEntry[]> {
     return [
       {

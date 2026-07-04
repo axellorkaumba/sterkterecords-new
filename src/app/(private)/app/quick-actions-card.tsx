@@ -1,13 +1,14 @@
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 import { PlusIcon, BarChart3Icon, BanknoteIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 /**
- * Actions rapides (§11.3) — les trois cibles (tunnel de distribution,
- * statistiques détaillées, retraits) ne sont pas encore construites
- * (sprints suivants) : boutons désactivés plutôt que des liens morts, même
- * traitement que la nav (`AppSidebarNav`).
+ * Actions rapides (§11.3). "Nouvelle sortie" est active depuis le module
+ * Distribution (Sprint 5, §11.4) ; "Voir les statistiques" et "Demander un
+ * retrait" restent désactivées (pages pas encore construites) — même
+ * traitement que la nav (`AppSidebarNav`), pas de lien mort.
  */
 export async function QuickActionsCard() {
   const t = await getTranslations("Dashboard.quickActions");
@@ -18,7 +19,12 @@ export async function QuickActionsCard() {
         <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <Button variant="outline" disabled className="justify-start">
+        <Button
+          variant="outline"
+          className="justify-start"
+          render={<Link href="/app/distribution/nouvelle" />}
+          nativeButton={false}
+        >
           <PlusIcon aria-hidden="true" />
           {t("newRelease")}
         </Button>

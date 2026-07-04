@@ -397,6 +397,10 @@ export default function DesignSystemPage() {
             ]);
           }}
           onRemoveFile={(id) => setUploaderFiles((current) => current.filter((f) => f.id !== id))}
+          dropzoneLabel="Glissez-déposez vos fichiers ici, ou cliquez pour parcourir"
+          dropzoneHint="WAV recommandé — FLAC, MP3 également acceptés"
+          removeFileLabel={(fileName) => `Retirer ${fileName}`}
+          defaultErrorMessage="Échec de l'envoi."
         />
       </section>
 

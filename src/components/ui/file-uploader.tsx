@@ -29,6 +29,11 @@ interface FileUploaderProps {
   files?: UploaderFile[];
   onRemoveFile?: (id: string) => void;
   className?: string;
+  /** Zéro texte en dur (§21) : tous les libellés sont fournis par l'appelant. */
+  dropzoneLabel: string;
+  dropzoneHint: string;
+  removeFileLabel: (fileName: string) => string;
+  defaultErrorMessage: string;
 }
 
 function formatBytes(bytes: number) {
@@ -52,6 +57,10 @@ export function FileUploader({
   files = [],
   onRemoveFile,
   className,
+  dropzoneLabel,
+  dropzoneHint,
+  removeFileLabel,
+  defaultErrorMessage,
 }: FileUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -90,12 +99,8 @@ export function FileUploader({
         )}
       >
         <UploadCloudIcon className="text-muted-foreground size-8" aria-hidden="true" />
-        <p className="text-small text-foreground font-medium">
-          Glissez-déposez vos fichiers ici, ou cliquez pour parcourir
-        </p>
-        <p className="text-caption text-muted-foreground">
-          WAV recommandé — FLAC, MP3 également acceptés
-        </p>
+        <p className="text-small text-foreground font-medium">{dropzoneLabel}</p>
+        <p className="text-caption text-muted-foreground">{dropzoneHint}</p>
         <input
           ref={inputRef}
           type="file"
@@ -133,7 +138,7 @@ export function FileUploader({
                 ) : file.status === "error" ? (
                   <p className="text-caption text-destructive flex items-center gap-1">
                     <AlertCircleIcon className="size-3" aria-hidden="true" />
-                    {file.errorMessage ?? "Échec de l'envoi."}
+                    {file.errorMessage ?? defaultErrorMessage}
                   </p>
                 ) : null}
               </div>
@@ -145,7 +150,7 @@ export function FileUploader({
                   type="button"
                   variant="ghost"
                   size="icon-sm"
-                  aria-label={`Retirer ${file.name}`}
+                  aria-label={removeFileLabel(file.name)}
                   onClick={() => onRemoveFile(file.id)}
                 >
                   <XIcon className="size-3.5" aria-hidden="true" />

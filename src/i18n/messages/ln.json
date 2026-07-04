@@ -812,5 +812,432 @@
     "submit": "TODO(ln): Créer mon profil",
     "submitting": "TODO(ln): Création…",
     "error": "TODO(ln): Une erreur est survenue. Réessaie."
+  },
+  "Validation": {
+    "status": {
+      "ok": "TODO(ln): OK",
+      "warning": "TODO(ln): Avertissement",
+      "error": "TODO(ln): Erreur"
+    },
+    "audio": {
+      "format": {
+        "message": "TODO(ln): Ce format de fichier n'est pas accepté.",
+        "explanation": "TODO(ln): Les plateformes acceptent uniquement le WAV, le FLAC ou le MP3.",
+        "suggestion": "TODO(ln): Exporte ta piste dans l'un de ces formats et réessaie."
+      },
+      "codec": {
+        "message": "TODO(ln): Ce fichier WAV semble compressé, pas en PCM non compressé.",
+        "explanation": "TODO(ln): Les plateformes attendent un WAV en PCM classique, sans compression.",
+        "suggestion": "TODO(ln): Réexporte ton fichier en \"WAV PCM\" (parfois appelé \"WAV standard\") depuis ton logiciel audio."
+      },
+      "sampleRate": {
+        "message": "TODO(ln): Fréquence d'échantillonnage basse : {value} Hz.",
+        "explanation": "TODO(ln): 44 100 Hz (qualité CD) est le minimum recommandé par les plateformes.",
+        "suggestion": "TODO(ln): Réexporte ta piste à 44 100 Hz ou plus si ton logiciel le permet."
+      },
+      "bitDepth": {
+        "message": "TODO(ln): Profondeur de bits basse : {value} bits.",
+        "explanation": "TODO(ln): 16 bits est le minimum recommandé pour une bonne qualité audio.",
+        "suggestion": "TODO(ln): Réexporte ta piste en 16 bits ou plus (24 bits recommandé pour un master)."
+      },
+      "duration": {
+        "tooShort": {
+          "message": "TODO(ln): Cette piste semble trop courte.",
+          "explanation": "TODO(ln): Une durée de moins d'une seconde indique souvent un fichier incomplet ou corrompu.",
+          "suggestion": "TODO(ln): Vérifie que le bon fichier a été sélectionné et réessaie."
+        }
+      },
+      "silenceStart": {
+        "message": "TODO(ln): Il y a {seconds} secondes de silence au tout début de la piste.",
+        "explanation": "TODO(ln): Un long silence en début de piste peut gêner l'écoute en playlist ou en lecture aléatoire.",
+        "suggestion": "TODO(ln): Coupe le silence en trop au début de ton fichier avant de le réenvoyer."
+      },
+      "silenceEnd": {
+        "message": "TODO(ln): Il y a {seconds} secondes de silence à la toute fin de la piste.",
+        "explanation": "TODO(ln): Un long silence en fin de piste peut gêner l'enchaînement avec le titre suivant.",
+        "suggestion": "TODO(ln): Coupe le silence en trop à la fin de ton fichier avant de le réenvoyer."
+      },
+      "clipping": {
+        "message": "TODO(ln): Écrêtage détecté sur {percent} % du signal.",
+        "explanation": "TODO(ln): L'écrêtage (clipping) se produit quand le volume dépasse le maximum possible, ce qui abîme le son.",
+        "suggestion": "TODO(ln): Baisse légèrement le volume général au mastering et réexporte ta piste."
+      },
+      "abnormalPeaks": {
+        "message": "TODO(ln): {count} pic(s) sonore(s) anormal(aux) détecté(s).",
+        "explanation": "TODO(ln): Un pic isolé bien plus fort que le reste du signal peut être un clic, un craquement ou un problème d'enregistrement.",
+        "suggestion": "TODO(ln): Réécoute ta piste aux moments concernés pour vérifier qu'il n'y a pas de défaut à corriger."
+      },
+      "loudness": {
+        "tooQuiet": {
+          "message": "TODO(ln): Cette piste semble très faible en volume ({value} dBFS en moyenne).",
+          "explanation": "TODO(ln): Une piste trop discrète peut paraître plus faible que les autres titres en écoute.",
+          "suggestion": "TODO(ln): Augmente le niveau général au mastering avant de réenvoyer ta piste."
+        },
+        "tooLoud": {
+          "message": "TODO(ln): Cette piste semble très forte en volume ({value} dBFS en moyenne).",
+          "explanation": "TODO(ln): Un niveau très élevé laisse peu de marge et augmente le risque de saturation.",
+          "suggestion": "TODO(ln): Vérifie ton mastering : un peu plus de marge (\"headroom\") évite les mauvaises surprises."
+        }
+      },
+      "duplicateInBatch": {
+        "message": "TODO(ln): Ce fichier a déjà été ajouté à cette sortie.",
+        "explanation": "TODO(ln): Deux pistes identiques ont été détectées dans le même envoi.",
+        "suggestion": "TODO(ln): Retire l'un des deux fichiers en double."
+      },
+      "duplicateInCatalog": {
+        "message": "TODO(ln): Ce fichier ressemble à une piste déjà présente dans ton catalogue.",
+        "explanation": "TODO(ln): Le même fichier audio existe déjà sur une autre de tes sorties.",
+        "suggestion": "TODO(ln): Vérifie qu'il ne s'agit pas d'un envoi en double par erreur."
+      },
+      "integrity": {
+        "message": "TODO(ln): Ce fichier n'a pas pu être lu correctement.",
+        "explanation": "TODO(ln): Le fichier semble corrompu ou dans un format non pris en charge par le navigateur.",
+        "suggestion": "TODO(ln): Réexporte ta piste depuis ton logiciel audio et réessaie."
+      },
+      "durationConsistency": {
+        "message": "TODO(ln): La durée déclarée dans le fichier ne correspond pas à la durée réelle détectée.",
+        "explanation": "TODO(ln): Cette incohérence peut indiquer un fichier tronqué ou un en-tête incorrect.",
+        "suggestion": "TODO(ln): Réexporte ta piste depuis ton logiciel audio et réessaie."
+      }
+    },
+    "artwork": {
+      "integrity": {
+        "message": "TODO(ln): Cette image n'a pas pu être lue correctement.",
+        "explanation": "TODO(ln): Le fichier semble corrompu ou dans un format non pris en charge.",
+        "suggestion": "TODO(ln): Réexporte ta pochette et réessaie."
+      },
+      "format": {
+        "message": "TODO(ln): Ce format d'image n'est pas accepté.",
+        "explanation": "TODO(ln): Les plateformes acceptent les fichiers JPEG ou PNG.",
+        "suggestion": "TODO(ln): Exporte ta pochette en JPEG ou PNG et réessaie."
+      },
+      "dimensions": {
+        "message": "TODO(ln): Image trop petite : {width}×{height} px (minimum {min}×{min} px).",
+        "explanation": "TODO(ln): Les plateformes exigent une pochette carrée d'au moins 3000×3000 pixels.",
+        "suggestion": "TODO(ln): Utilise une image plus grande ou redimensionne ta pochette à au moins 3000×3000 px."
+      },
+      "ratio": {
+        "message": "TODO(ln): Cette image n'est pas carrée.",
+        "explanation": "TODO(ln): La pochette doit avoir un ratio exactement carré (largeur = hauteur).",
+        "suggestion": "TODO(ln): Recadre ton image pour obtenir un carré parfait."
+      },
+      "fileSize": {
+        "message": "TODO(ln): Ce fichier est volumineux ({megabytes} Mo).",
+        "explanation": "TODO(ln): Un fichier très lourd peut ralentir l'envoi et le traitement chez le distributeur.",
+        "suggestion": "TODO(ln): Compresse légèrement ton image sans perte de qualité visible avant de l'envoyer."
+      },
+      "colorProfile": {
+        "message": "TODO(ln): Cette image semble être en CMJN plutôt qu'en RVB.",
+        "explanation": "TODO(ln): Les plateformes exigent un profil colorimétrique sRGB (RVB), pas du CMJN (utilisé pour l'impression).",
+        "suggestion": "TODO(ln): Convertis ton image en RVB/sRGB dans ton logiciel de retouche avant de l'exporter."
+      },
+      "overCompressed": {
+        "message": "TODO(ln): Cette image semble fortement compressée.",
+        "explanation": "TODO(ln): Une compression trop forte peut créer des artefacts visibles (blocs, flou) sur la pochette.",
+        "suggestion": "TODO(ln): Réexporte ton image avec une qualité JPEG plus élevée (ou en PNG)."
+      },
+      "blur": {
+        "message": "TODO(ln): Cette image semble manquer de netteté.",
+        "explanation": "TODO(ln): Une pochette floue est moins engageante et peut sembler peu professionnelle.",
+        "suggestion": "TODO(ln): Vérifie la netteté de ton visuel original avant de l'exporter à nouveau."
+      },
+      "empty": {
+        "message": "TODO(ln): Cette image semble vide ou uniforme.",
+        "explanation": "TODO(ln): L'image ne semble contenir presque aucun détail visuel (couleur unie).",
+        "suggestion": "TODO(ln): Vérifie que le bon fichier a été sélectionné."
+      },
+      "margins": {
+        "message": "TODO(ln): Cette image semble avoir des marges blanches ou transparentes.",
+        "explanation": "TODO(ln): Les plateformes attendent un visuel qui remplit tout le cadre carré, sans bordure.",
+        "suggestion": "TODO(ln): Recadre ton visuel pour qu'il occupe toute la surface de l'image."
+      }
+    },
+    "metadata": {
+      "requiredFields": {
+        "releaseTitle": {
+          "message": "TODO(ln): Le titre de la sortie est obligatoire.",
+          "suggestion": "TODO(ln): Indique un titre pour ta sortie."
+        },
+        "genre": {
+          "message": "TODO(ln): Le genre musical est obligatoire.",
+          "suggestion": "TODO(ln): Choisis un genre pour ta sortie."
+        },
+        "language": {
+          "message": "TODO(ln): La langue est obligatoire.",
+          "suggestion": "TODO(ln): Indique la langue principale de ta sortie."
+        },
+        "trackTitle": {
+          "message": "TODO(ln): Le titre de la piste {position} est obligatoire.",
+          "suggestion": "TODO(ln): Indique un titre pour cette piste."
+        }
+      },
+      "mainArtistConsistency": {
+        "message": "TODO(ln): Aucun artiste principal n'est renseigné pour la piste {position}.",
+        "explanation": "TODO(ln): Chaque piste doit avoir au moins un contributeur avec le rôle \"Artiste principal\".",
+        "suggestion": "TODO(ln): Ajoute un contributeur avec le rôle \"Artiste principal\" pour cette piste."
+      },
+      "featuringConsistency": {
+        "message": "TODO(ln): Le titre de la piste {position} mentionne un featuring non déclaré.",
+        "explanation": "TODO(ln): Le titre contient \"feat.\" ou \"ft.\" mais aucun contributeur \"Featuring\" n'a été ajouté.",
+        "suggestion": "TODO(ln): Ajoute l'artiste en featuring dans les contributeurs de cette piste."
+      },
+      "explicitConsistency": {
+        "message": "TODO(ln): Au moins une piste est marquée \"contenu explicite\" mais pas la sortie.",
+        "explanation": "TODO(ln): Si une piste contient un langage explicite, la sortie entière doit aussi être marquée comme telle.",
+        "suggestion": "TODO(ln): Coche \"Contenu explicite\" au niveau de la sortie."
+      },
+      "dateConsistency": {
+        "message": "TODO(ln): La date d'enregistrement est postérieure à la date de sortie.",
+        "explanation": "TODO(ln): Un enregistrement ne peut pas avoir eu lieu après la sortie du titre.",
+        "suggestion": "TODO(ln): Vérifie et corrige l'une des deux dates."
+      },
+      "isrcFormat": {
+        "message": "TODO(ln): L'ISRC \"{value}\" de la piste {position} n'a pas le bon format.",
+        "explanation": "TODO(ln): Un ISRC valide comporte 12 caractères : 2 lettres de pays, 3 caractères, puis 7 chiffres (ex. FRXXX2400001).",
+        "suggestion": "TODO(ln): Corrige l'ISRC ou laisse le champ vide pour qu'il soit généré automatiquement."
+      },
+      "upcFormat": {
+        "message": "TODO(ln): Le code UPC \"{value}\" n'est pas valide.",
+        "explanation": "TODO(ln): Un UPC valide comporte 12 chiffres avec une clé de contrôle correcte.",
+        "suggestion": "TODO(ln): Corrige le code UPC ou laisse le champ vide pour qu'il soit généré automatiquement."
+      },
+      "splitsSum": {
+        "message": "TODO(ln): La répartition des droits de la piste {position} totalise {sum} % au lieu de 100 %.",
+        "explanation": "TODO(ln): La somme des pourcentages de tous les contributeurs doit être exactement 100 %.",
+        "suggestion": "TODO(ln): Ajuste les pourcentages pour qu'ils totalisent 100 %."
+      },
+      "duplicateIsrc": {
+        "message": "TODO(ln): L'ISRC de la piste {position} est déjà utilisé dans ton catalogue.",
+        "explanation": "TODO(ln): Chaque piste doit avoir un ISRC unique.",
+        "suggestion": "TODO(ln): Laisse le champ ISRC vide pour qu'un nouveau code soit généré automatiquement."
+      },
+      "duplicateUpc": {
+        "message": "TODO(ln): Ce code UPC est déjà utilisé par une autre de tes sorties.",
+        "explanation": "TODO(ln): Chaque sortie doit avoir un UPC unique.",
+        "suggestion": "TODO(ln): Laisse le champ UPC vide pour qu'un nouveau code soit généré automatiquement."
+      },
+      "duplicateTitle": {
+        "message": "TODO(ln): Une sortie avec ce titre existe déjà dans ton catalogue.",
+        "explanation": "TODO(ln): Deux sorties avec le même titre peuvent prêter à confusion pour tes auditeurs.",
+        "suggestion": "TODO(ln): Vérifie qu'il ne s'agit pas d'un envoi en double, ou précise le titre (ex. \"Titre (Remix)\")."
+      }
+    },
+    "ruleLinkLabel": "TODO(ln): Voir la règle concernée"
+  },
+  "DistributionApp": {
+    "nav": {
+      "title": "TODO(ln): Distribution",
+      "newRelease": "TODO(ln): Nouvelle sortie",
+      "backToList": "TODO(ln): Retour aux sorties"
+    },
+    "steps": {
+      "type": "TODO(ln): Type",
+      "audio": "TODO(ln): Audio",
+      "metadata": "TODO(ln): Métadonnées",
+      "contributors": "TODO(ln): Contributeurs",
+      "artwork": "TODO(ln): Pochette",
+      "platforms": "TODO(ln): Plateformes",
+      "schedule": "TODO(ln): Calendrier",
+      "summary": "TODO(ln): Récapitulatif",
+      "submit": "TODO(ln): Envoi"
+    },
+    "typeStep": {
+      "tag": "TODO(ln): Nouvelle sortie",
+      "title": "TODO(ln): Que veux-tu distribuer ?",
+      "subtitle": "TODO(ln): Le type de sortie détermine le nombre de pistes attendues.",
+      "single": {
+        "title": "TODO(ln): Single",
+        "description": "TODO(ln): 1 à 3 titres"
+      },
+      "ep": {
+        "title": "TODO(ln): EP",
+        "description": "TODO(ln): 4 à 6 titres"
+      },
+      "album": {
+        "title": "TODO(ln): Album",
+        "description": "TODO(ln): 7 titres ou plus"
+      },
+      "continue": "TODO(ln): Continuer"
+    },
+    "audioStep": {
+      "title": "TODO(ln): Ajoute tes fichiers audio",
+      "subtitle": "TODO(ln): Formats acceptés : WAV (recommandé), FLAC, MP3.",
+      "dropzoneLabel": "TODO(ln): Glisse-dépose tes fichiers ici, ou clique pour parcourir",
+      "dropzoneHint": "TODO(ln): WAV recommandé — FLAC, MP3 également acceptés",
+      "removeFile": "TODO(ln): Retirer {fileName}",
+      "defaultErrorMessage": "TODO(ln): Échec de l'envoi.",
+      "trackCountHint": "TODO(ln): {count} piste(s) ajoutée(s) — entre {min} et {max} attendues pour ce type de sortie.",
+      "moveUp": "TODO(ln): Déplacer vers le haut",
+      "moveDown": "TODO(ln): Déplacer vers le bas",
+      "remove": "TODO(ln): Retirer",
+      "analyzing": "TODO(ln): Analyse en cours…",
+      "uploading": "TODO(ln): Envoi en cours…",
+      "resuming": "TODO(ln): Reprise de l'envoi…",
+      "back": "TODO(ln): Retour",
+      "next": "TODO(ln): Continuer",
+      "minTracksWarning": "TODO(ln): Ajoute au moins {min} piste(s) pour continuer."
+    },
+    "metadataStep": {
+      "title": "TODO(ln): Métadonnées",
+      "subtitle": "TODO(ln): Informations sur la sortie et sur chaque piste.",
+      "releaseTitleLabel": "TODO(ln): Titre de la sortie",
+      "genreLabel": "TODO(ln): Genre",
+      "subGenreLabel": "TODO(ln): Sous-genre",
+      "languageLabel": "TODO(ln): Langue",
+      "explicitLabel": "TODO(ln): Contenu explicite",
+      "recordingDateLabel": "TODO(ln): Date d'enregistrement",
+      "copyrightPLabel": "TODO(ln): (P) — Copyright phonographique",
+      "copyrightCLabel": "TODO(ln): (C) — Copyright de l'œuvre",
+      "labelLabel": "TODO(ln): Label",
+      "trackTitle": "TODO(ln): Piste {position}",
+      "trackTitleLabel": "TODO(ln): Titre",
+      "trackVersionLabel": "TODO(ln): Version (remix, live…)",
+      "trackIsrcLabel": "TODO(ln): ISRC",
+      "trackIsrcHint": "TODO(ln): Laisse vide pour une génération automatique.",
+      "trackExplicitLabel": "TODO(ln): Contenu explicite",
+      "back": "TODO(ln): Retour",
+      "next": "TODO(ln): Continuer",
+      "saving": "TODO(ln): Enregistrement…"
+    },
+    "contributorsStep": {
+      "title": "TODO(ln): Contributeurs & répartition",
+      "subtitle": "TODO(ln): Ajoute les contributeurs de chaque piste et leur part des royalties.",
+      "trackTitle": "TODO(ln): Piste {position} — {title}",
+      "roleLabel": "TODO(ln): Rôle",
+      "nameLabel": "TODO(ln): Nom",
+      "splitLabel": "TODO(ln): Part (%)",
+      "addContributor": "TODO(ln): Ajouter un contributeur",
+      "removeContributor": "TODO(ln): Retirer",
+      "sumLabel": "TODO(ln): Total",
+      "sumOk": "TODO(ln): 100 % — parfait",
+      "sumError": "TODO(ln): {sum} % au lieu de 100 %",
+      "roles": {
+        "main_artist": "TODO(ln): Artiste principal",
+        "featuring": "TODO(ln): Featuring",
+        "composer": "TODO(ln): Compositeur",
+        "author": "TODO(ln): Auteur",
+        "producer": "TODO(ln): Producteur",
+        "mixing": "TODO(ln): Mixage",
+        "mastering": "TODO(ln): Mastering"
+      },
+      "back": "TODO(ln): Retour",
+      "next": "TODO(ln): Continuer"
+    },
+    "artworkStep": {
+      "title": "TODO(ln): Pochette",
+      "subtitle": "TODO(ln): Format carré, 3000×3000 px minimum, sans texte promotionnel.",
+      "dropzoneLabel": "TODO(ln): Glisse-dépose ta pochette ici, ou clique pour parcourir",
+      "dropzoneHint": "TODO(ln): JPEG ou PNG, carré, 3000×3000 px minimum",
+      "previewLabel": "TODO(ln): Aperçu",
+      "appleAddonLabel": "TODO(ln): Option Artwork Apple Music (+10 $)",
+      "appleAddonDescription": "TODO(ln): Format additionnel optimisé pour l'affichage sur Apple Music — facturé en supplément lors de l'envoi.",
+      "selfDeclarationTitle": "TODO(ln): Je confirme que ma pochette respecte les règles suivantes",
+      "selfDeclaration": {
+        "noText": "TODO(ln): Aucun texte promotionnel ou slogan superposé à l'image",
+        "noLogo": "TODO(ln): Aucun logo de plateforme (Spotify, Apple Music…) sur l'image",
+        "noUrl": "TODO(ln): Aucune URL ou adresse de réseau social visible",
+        "noQrCode": "TODO(ln): Aucun QR code sur l'image"
+      },
+      "back": "TODO(ln): Retour",
+      "next": "TODO(ln): Continuer"
+    },
+    "platformsStep": {
+      "title": "TODO(ln): Plateformes de distribution",
+      "subtitle": "TODO(ln): Choisis les plateformes sur lesquelles ta sortie doit être livrée.",
+      "searchPlaceholder": "TODO(ln): Rechercher une plateforme…",
+      "selectAll": "TODO(ln): Tout sélectionner",
+      "deselectAll": "TODO(ln): Tout désélectionner",
+      "categories": {
+        "streaming": "TODO(ln): Streaming",
+        "social": "TODO(ln): Réseaux sociaux",
+        "video": "TODO(ln): Vidéo",
+        "afrique": "TODO(ln): Afrique"
+      },
+      "selectedCount": "TODO(ln): {count} plateforme(s) sélectionnée(s)",
+      "back": "TODO(ln): Retour",
+      "next": "TODO(ln): Continuer"
+    },
+    "scheduleStep": {
+      "title": "TODO(ln): Calendrier de sortie",
+      "subtitle": "TODO(ln): Choisis la date (et l'heure, en option) de mise en ligne.",
+      "dateLabel": "TODO(ln): Date de sortie",
+      "timeLabel": "TODO(ln): Heure de sortie (optionnel)",
+      "timezoneLabel": "TODO(ln): Fuseau horaire",
+      "shortLeadWarning": "TODO(ln): Une date à J+{days} maximise tes chances d'être repéré par les playlists éditoriales.",
+      "back": "TODO(ln): Retour",
+      "next": "TODO(ln): Continuer"
+    },
+    "summaryStep": {
+      "title": "TODO(ln): Récapitulatif",
+      "subtitle": "TODO(ln): Vérifie toutes les informations avant l'envoi.",
+      "releaseSection": "TODO(ln): Sortie",
+      "tracksSection": "TODO(ln): Pistes",
+      "artworkSection": "TODO(ln): Pochette",
+      "platformsSection": "TODO(ln): Plateformes",
+      "scheduleSection": "TODO(ln): Calendrier",
+      "validationTitle": "TODO(ln): Rapport de validation",
+      "validationOk": "TODO(ln): Tout est en ordre — prêt à envoyer.",
+      "priceTitle": "TODO(ln): Total des frais",
+      "basePlan": "TODO(ln): Distribution (inclus dans ton forfait)",
+      "appleAddon": "TODO(ln): Option Artwork Apple Music",
+      "total": "TODO(ln): Total",
+      "back": "TODO(ln): Retour",
+      "next": "TODO(ln): Continuer"
+    },
+    "submitStep": {
+      "title": "TODO(ln): Confirmation & envoi",
+      "subtitle": "TODO(ln): Dernière étape avant l'envoi à nos plateformes partenaires.",
+      "submitButton": "TODO(ln): Envoyer ma sortie",
+      "submitting": "TODO(ln): Envoi en cours…",
+      "successTitle": "TODO(ln): Sortie envoyée !",
+      "successDescription": "TODO(ln): Ta sortie est en cours de livraison. Tu recevras une notification à chaque étape.",
+      "viewRelease": "TODO(ln): Voir ma sortie",
+      "errorIncomplete": "TODO(ln): Il manque des informations — vérifie les étapes précédentes.",
+      "error": "TODO(ln): L'envoi a échoué. Réessaie dans un instant.",
+      "back": "TODO(ln): Retour"
+    },
+    "statusLabels": {
+      "draft": "TODO(ln): Brouillon",
+      "in_review": "TODO(ln): En validation",
+      "delivering": "TODO(ln): En cours de livraison",
+      "delivered": "TODO(ln): Livrée",
+      "error": "TODO(ln): En erreur",
+      "takedown_requested": "TODO(ln): Retrait en cours",
+      "removed": "TODO(ln): Retirée"
+    },
+    "list": {
+      "title": "TODO(ln): Mes sorties",
+      "empty": {
+        "title": "TODO(ln): Aucune sortie pour l'instant",
+        "description": "TODO(ln): Distribue ta première œuvre pour la voir apparaître ici."
+      },
+      "newRelease": "TODO(ln): Nouvelle sortie",
+      "resumeDraft": "TODO(ln): Reprendre",
+      "columns": {
+        "title": "TODO(ln): Titre",
+        "type": "TODO(ln): Type",
+        "status": "TODO(ln): Statut",
+        "date": "TODO(ln): Date de sortie"
+      },
+      "view": "TODO(ln): Voir"
+    },
+    "detail": {
+      "lockedFieldNote": "TODO(ln): Verrouillé après livraison",
+      "requestModificationButton": "TODO(ln): Demander une modification",
+      "requestModificationDialogTitle": "TODO(ln): Demander une modification",
+      "requestModificationDialogDescription": "TODO(ln): Décris ce que tu souhaites modifier — notre équipe validera ta demande avant de la transmettre à nos plateformes partenaires.",
+      "detailsLabel": "TODO(ln): Détails de la demande",
+      "submitRequest": "TODO(ln): Envoyer la demande",
+      "requestSent": "TODO(ln): Ta demande a été envoyée à notre équipe.",
+      "cancel": "TODO(ln): Annuler",
+      "takedownButton": "TODO(ln): Retirer de la distribution",
+      "takedownDialogTitle": "TODO(ln): Retirer cette sortie",
+      "takedownDialogDescription": "TODO(ln): Cette action retire ta sortie de toutes les plateformes. La continuité de tes statistiques sera affectée et la propagation peut prendre quelques jours. Ton ISRC reste conservé et ta sortie est archivée, jamais supprimée définitivement.",
+      "reasonLabel": "TODO(ln): Motif du retrait",
+      "confirmTakedown": "TODO(ln): Confirmer le retrait",
+      "takedownRequested": "TODO(ln): Le retrait de ta sortie est en cours.",
+      "archivedNote": "TODO(ln): Cette sortie est archivée.",
+      "tracksTitle": "TODO(ln): Pistes"
+    }
   }
 }

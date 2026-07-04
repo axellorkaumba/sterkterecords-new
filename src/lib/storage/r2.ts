@@ -1,6 +1,14 @@
 import "server-only";
 
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  CreateMultipartUploadCommand,
+  UploadPartCommand,
+  CompleteMultipartUploadCommand,
+  AbortMultipartUploadCommand,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { requireEnv } from "@/lib/env";
 
@@ -60,4 +68,90 @@ export async function createPresignedDownloadUrl(key: string) {
 export function getPublicUrl(key: string) {
   const publicUrl = requireEnv("R2_PUBLIC_URL", "getPublicUrl (fichiers publics R2)");
   return `${publicUrl.replace(/\/$/, "")}/${key}`;
+}
+
+/**
+ * Taille de part multipart — 8 MiB. R2/S3 exige un minimum de 5 MiB pour
+ * toute part sauf la dernière ; 8 MiB équilibre le nombre de parts (donc la
+ * granularité de la reprise après coupure, §11.4 étape 2) et le nombre total
+ * de requêtes (limite S3 : 10 000 parts, soit ~80 Go de marge).
+ */
+export const MULTIPART_PART_SIZE_BYTES = 8 * 1024 * 1024;
+
+/**
+ * Démarre un upload multipart réel (§11.4 étape 2 — "multipart/resumable").
+ * Le `UploadId` retourné est persisté (table `upload_sessions`) pour
+ * permettre de reprendre l'upload après une coupure réseau ou une fermeture
+ * d'onglet : toute part déjà confirmée (table `upload_parts`) est resservie
+ * telle quelle, seules les parts manquantes sont renvoyées.
+ */
+export async function createMultipartUpload(key: string, contentType: string) {
+  const client = getR2Client();
+  const bucket = requireEnv("R2_BUCKET_NAME", "le client Cloudflare R2");
+
+  const command = new CreateMultipartUploadCommand({
+    Bucket: bucket,
+    Key: key,
+    ContentType: contentType,
+  });
+  const response = await client.send(command);
+
+  if (!response.UploadId) {
+    throw new Error("[r2] CreateMultipartUpload n'a pas renvoyé d'UploadId.");
+  }
+
+  return { uploadId: response.UploadId };
+}
+
+/** URL présignée pour l'upload direct (PUT) d'une seule part d'un upload multipart. */
+export async function createPresignedPartUploadUrl(
+  key: string,
+  uploadId: string,
+  partNumber: number,
+) {
+  const client = getR2Client();
+  const bucket = requireEnv("R2_BUCKET_NAME", "le client Cloudflare R2");
+
+  const command = new UploadPartCommand({
+    Bucket: bucket,
+    Key: key,
+    UploadId: uploadId,
+    PartNumber: partNumber,
+  });
+  const url = await getSignedUrl(client, command, { expiresIn: PRESIGNED_URL_TTL_SECONDS });
+
+  return { url };
+}
+
+/** Assemble les parts confirmées en un objet final. */
+export async function completeMultipartUpload(
+  key: string,
+  uploadId: string,
+  parts: Array<{ partNumber: number; etag: string }>,
+) {
+  const client = getR2Client();
+  const bucket = requireEnv("R2_BUCKET_NAME", "le client Cloudflare R2");
+
+  await client.send(
+    new CompleteMultipartUploadCommand({
+      Bucket: bucket,
+      Key: key,
+      UploadId: uploadId,
+      MultipartUpload: {
+        Parts: parts
+          .sort((a, b) => a.partNumber - b.partNumber)
+          .map((part) => ({ PartNumber: part.partNumber, ETag: part.etag })),
+      },
+    }),
+  );
+}
+
+/** Annule un upload multipart abandonné (libère le stockage des parts déjà envoyées). */
+export async function abortMultipartUpload(key: string, uploadId: string) {
+  const client = getR2Client();
+  const bucket = requireEnv("R2_BUCKET_NAME", "le client Cloudflare R2");
+
+  await client.send(
+    new AbortMultipartUploadCommand({ Bucket: bucket, Key: key, UploadId: uploadId }),
+  );
 }

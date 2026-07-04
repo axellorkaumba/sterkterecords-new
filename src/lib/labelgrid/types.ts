@@ -72,4 +72,6 @@ export interface LabelGridClient {
   submitRelease(input: SubmitReleaseInput): Promise<{ externalId: string }>;
   getReleaseStatus(externalId: string): Promise<ReleaseStatusInfo>;
   fetchMonthlyReport(period: string): Promise<MonthlyReportEntry[]>;
+  /** Retrait d'une sortie déjà livrée (§11.4 — "Retirer de la distribution"). */
+  requestTakedown(externalId: string, reason: string): Promise<void>;
 }

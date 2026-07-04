@@ -795,5 +795,432 @@
     "submit": "Create my profile",
     "submitting": "Creating…",
     "error": "Something went wrong. Please try again."
+  },
+  "Validation": {
+    "status": {
+      "ok": "OK",
+      "warning": "Warning",
+      "error": "Error"
+    },
+    "audio": {
+      "format": {
+        "message": "This file format isn't accepted.",
+        "explanation": "Platforms only accept WAV, FLAC, or MP3.",
+        "suggestion": "Export your track in one of these formats and try again."
+      },
+      "codec": {
+        "message": "This WAV file appears to be compressed, not uncompressed PCM.",
+        "explanation": "Platforms expect a standard PCM WAV file, without compression.",
+        "suggestion": "Re-export your file as \"WAV PCM\" (sometimes called \"standard WAV\") from your audio software."
+      },
+      "sampleRate": {
+        "message": "Low sample rate: {value} Hz.",
+        "explanation": "44,100 Hz (CD quality) is the minimum recommended by platforms.",
+        "suggestion": "Re-export your track at 44,100 Hz or higher if your software allows it."
+      },
+      "bitDepth": {
+        "message": "Low bit depth: {value} bits.",
+        "explanation": "16 bits is the minimum recommended for good audio quality.",
+        "suggestion": "Re-export your track at 16 bits or higher (24 bits recommended for a master)."
+      },
+      "duration": {
+        "tooShort": {
+          "message": "This track seems too short.",
+          "explanation": "A duration under one second usually means an incomplete or corrupted file.",
+          "suggestion": "Check that the right file was selected and try again."
+        }
+      },
+      "silenceStart": {
+        "message": "There are {seconds} seconds of silence at the very start of the track.",
+        "explanation": "A long silence at the start can disrupt playlist or shuffle listening.",
+        "suggestion": "Trim the extra silence at the start of your file before re-uploading."
+      },
+      "silenceEnd": {
+        "message": "There are {seconds} seconds of silence at the very end of the track.",
+        "explanation": "A long silence at the end can disrupt the transition to the next track.",
+        "suggestion": "Trim the extra silence at the end of your file before re-uploading."
+      },
+      "clipping": {
+        "message": "Clipping detected on {percent}% of the signal.",
+        "explanation": "Clipping happens when the volume exceeds the maximum possible level, damaging the sound.",
+        "suggestion": "Lower the overall level slightly during mastering and re-export your track."
+      },
+      "abnormalPeaks": {
+        "message": "{count} abnormal sound peak(s) detected.",
+        "explanation": "An isolated peak much louder than the rest of the signal can be a click, a crackle, or a recording issue.",
+        "suggestion": "Listen back to your track at the affected moments to check for anything to fix."
+      },
+      "loudness": {
+        "tooQuiet": {
+          "message": "This track seems very quiet ({value} dBFS on average).",
+          "explanation": "A track that's too quiet can sound weaker than other tracks during playback.",
+          "suggestion": "Increase the overall level during mastering before re-uploading your track."
+        },
+        "tooLoud": {
+          "message": "This track seems very loud ({value} dBFS on average).",
+          "explanation": "A very high level leaves little headroom and increases the risk of distortion.",
+          "suggestion": "Check your mastering: a bit more headroom avoids unpleasant surprises."
+        }
+      },
+      "duplicateInBatch": {
+        "message": "This file has already been added to this release.",
+        "explanation": "Two identical tracks were detected in the same upload.",
+        "suggestion": "Remove one of the two duplicate files."
+      },
+      "duplicateInCatalog": {
+        "message": "This file looks like a track already in your catalog.",
+        "explanation": "The same audio file already exists on another one of your releases.",
+        "suggestion": "Check that this isn't an accidental duplicate upload."
+      },
+      "integrity": {
+        "message": "This file couldn't be read correctly.",
+        "explanation": "The file appears to be corrupted or in a format not supported by the browser.",
+        "suggestion": "Re-export your track from your audio software and try again."
+      },
+      "durationConsistency": {
+        "message": "The duration declared in the file doesn't match the actual detected duration.",
+        "explanation": "This mismatch can indicate a truncated file or an incorrect header.",
+        "suggestion": "Re-export your track from your audio software and try again."
+      }
+    },
+    "artwork": {
+      "integrity": {
+        "message": "This image couldn't be read correctly.",
+        "explanation": "The file appears to be corrupted or in an unsupported format.",
+        "suggestion": "Re-export your cover art and try again."
+      },
+      "format": {
+        "message": "This image format isn't accepted.",
+        "explanation": "Platforms accept JPEG or PNG files.",
+        "suggestion": "Export your cover art as JPEG or PNG and try again."
+      },
+      "dimensions": {
+        "message": "Image too small: {width}×{height} px (minimum {min}×{min} px).",
+        "explanation": "Platforms require a square cover of at least 3000×3000 pixels.",
+        "suggestion": "Use a larger image or resize your cover to at least 3000×3000 px."
+      },
+      "ratio": {
+        "message": "This image isn't square.",
+        "explanation": "The cover must have an exactly square ratio (width = height).",
+        "suggestion": "Crop your image into a perfect square."
+      },
+      "fileSize": {
+        "message": "This file is quite large ({megabytes} MB).",
+        "explanation": "A very heavy file can slow down upload and processing at the distributor.",
+        "suggestion": "Slightly compress your image with no visible quality loss before uploading."
+      },
+      "colorProfile": {
+        "message": "This image appears to be in CMYK rather than RGB.",
+        "explanation": "Platforms require an sRGB (RGB) color profile, not CMYK (used for printing).",
+        "suggestion": "Convert your image to RGB/sRGB in your editing software before exporting."
+      },
+      "overCompressed": {
+        "message": "This image appears to be heavily compressed.",
+        "explanation": "Too much compression can create visible artifacts (blocks, blur) on the cover.",
+        "suggestion": "Re-export your image at a higher JPEG quality (or as PNG)."
+      },
+      "blur": {
+        "message": "This image seems to lack sharpness.",
+        "explanation": "A blurry cover is less engaging and can look unprofessional.",
+        "suggestion": "Check the sharpness of your original artwork before exporting again."
+      },
+      "empty": {
+        "message": "This image appears to be empty or flat.",
+        "explanation": "The image seems to contain almost no visual detail (solid color).",
+        "suggestion": "Check that the right file was selected."
+      },
+      "margins": {
+        "message": "This image appears to have white or transparent margins.",
+        "explanation": "Platforms expect artwork that fills the entire square frame, without a border.",
+        "suggestion": "Crop your artwork so it fills the whole image area."
+      }
+    },
+    "metadata": {
+      "requiredFields": {
+        "releaseTitle": {
+          "message": "The release title is required.",
+          "suggestion": "Enter a title for your release."
+        },
+        "genre": {
+          "message": "The genre is required.",
+          "suggestion": "Choose a genre for your release."
+        },
+        "language": {
+          "message": "The language is required.",
+          "suggestion": "Enter the main language of your release."
+        },
+        "trackTitle": {
+          "message": "The title of track {position} is required.",
+          "suggestion": "Enter a title for this track."
+        }
+      },
+      "mainArtistConsistency": {
+        "message": "No main artist is set for track {position}.",
+        "explanation": "Each track must have at least one contributor with the \"Main artist\" role.",
+        "suggestion": "Add a contributor with the \"Main artist\" role for this track."
+      },
+      "featuringConsistency": {
+        "message": "The title of track {position} mentions a featuring that isn't declared.",
+        "explanation": "The title contains \"feat.\" or \"ft.\" but no \"Featuring\" contributor has been added.",
+        "suggestion": "Add the featured artist to this track's contributors."
+      },
+      "explicitConsistency": {
+        "message": "At least one track is marked \"explicit content\" but the release isn't.",
+        "explanation": "If a track contains explicit language, the whole release must also be marked as such.",
+        "suggestion": "Check \"Explicit content\" at the release level."
+      },
+      "dateConsistency": {
+        "message": "The recording date is after the release date.",
+        "explanation": "A recording can't have happened after the track was released.",
+        "suggestion": "Check and correct one of the two dates."
+      },
+      "isrcFormat": {
+        "message": "The ISRC \"{value}\" for track {position} isn't in the right format.",
+        "explanation": "A valid ISRC has 12 characters: 2 country letters, 3 characters, then 7 digits (e.g. FRXXX2400001).",
+        "suggestion": "Fix the ISRC, or leave the field empty so one is generated automatically."
+      },
+      "upcFormat": {
+        "message": "The UPC code \"{value}\" isn't valid.",
+        "explanation": "A valid UPC has 12 digits with a correct check digit.",
+        "suggestion": "Fix the UPC code, or leave the field empty so one is generated automatically."
+      },
+      "splitsSum": {
+        "message": "The rights split for track {position} totals {sum}% instead of 100%.",
+        "explanation": "The sum of all contributors' percentages must be exactly 100%.",
+        "suggestion": "Adjust the percentages so they total 100%."
+      },
+      "duplicateIsrc": {
+        "message": "The ISRC for track {position} is already used in your catalog.",
+        "explanation": "Each track must have a unique ISRC.",
+        "suggestion": "Leave the ISRC field empty so a new code is generated automatically."
+      },
+      "duplicateUpc": {
+        "message": "This UPC code is already used by another one of your releases.",
+        "explanation": "Each release must have a unique UPC.",
+        "suggestion": "Leave the UPC field empty so a new code is generated automatically."
+      },
+      "duplicateTitle": {
+        "message": "A release with this title already exists in your catalog.",
+        "explanation": "Two releases with the same title can be confusing for your listeners.",
+        "suggestion": "Check this isn't an accidental duplicate, or make the title more specific (e.g. \"Title (Remix)\")."
+      }
+    },
+    "ruleLinkLabel": "View the relevant rule"
+  },
+  "DistributionApp": {
+    "nav": {
+      "title": "Distribution",
+      "newRelease": "New release",
+      "backToList": "Back to releases"
+    },
+    "steps": {
+      "type": "Type",
+      "audio": "Audio",
+      "metadata": "Metadata",
+      "contributors": "Contributors",
+      "artwork": "Artwork",
+      "platforms": "Platforms",
+      "schedule": "Schedule",
+      "summary": "Summary",
+      "submit": "Submit"
+    },
+    "typeStep": {
+      "tag": "New release",
+      "title": "What do you want to distribute?",
+      "subtitle": "The release type determines the expected number of tracks.",
+      "single": {
+        "title": "Single",
+        "description": "1 to 3 tracks"
+      },
+      "ep": {
+        "title": "EP",
+        "description": "4 to 6 tracks"
+      },
+      "album": {
+        "title": "Album",
+        "description": "7 or more tracks"
+      },
+      "continue": "Continue"
+    },
+    "audioStep": {
+      "title": "Add your audio files",
+      "subtitle": "Accepted formats: WAV (recommended), FLAC, MP3.",
+      "dropzoneLabel": "Drag and drop your files here, or click to browse",
+      "dropzoneHint": "WAV recommended — FLAC, MP3 also accepted",
+      "removeFile": "Remove {fileName}",
+      "defaultErrorMessage": "Upload failed.",
+      "trackCountHint": "{count} track(s) added — between {min} and {max} expected for this release type.",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "remove": "Remove",
+      "analyzing": "Analyzing…",
+      "uploading": "Uploading…",
+      "resuming": "Resuming upload…",
+      "back": "Back",
+      "next": "Continue",
+      "minTracksWarning": "Add at least {min} track(s) to continue."
+    },
+    "metadataStep": {
+      "title": "Metadata",
+      "subtitle": "Information about the release and each track.",
+      "releaseTitleLabel": "Release title",
+      "genreLabel": "Genre",
+      "subGenreLabel": "Sub-genre",
+      "languageLabel": "Language",
+      "explicitLabel": "Explicit content",
+      "recordingDateLabel": "Recording date",
+      "copyrightPLabel": "(P) — Phonographic copyright",
+      "copyrightCLabel": "(C) — Composition copyright",
+      "labelLabel": "Label",
+      "trackTitle": "Track {position}",
+      "trackTitleLabel": "Title",
+      "trackVersionLabel": "Version (remix, live…)",
+      "trackIsrcLabel": "ISRC",
+      "trackIsrcHint": "Leave empty for automatic generation.",
+      "trackExplicitLabel": "Explicit content",
+      "back": "Back",
+      "next": "Continue",
+      "saving": "Saving…"
+    },
+    "contributorsStep": {
+      "title": "Contributors & splits",
+      "subtitle": "Add each track's contributors and their share of royalties.",
+      "trackTitle": "Track {position} — {title}",
+      "roleLabel": "Role",
+      "nameLabel": "Name",
+      "splitLabel": "Split (%)",
+      "addContributor": "Add a contributor",
+      "removeContributor": "Remove",
+      "sumLabel": "Total",
+      "sumOk": "100% — perfect",
+      "sumError": "{sum}% instead of 100%",
+      "roles": {
+        "main_artist": "Main artist",
+        "featuring": "Featuring",
+        "composer": "Composer",
+        "author": "Author",
+        "producer": "Producer",
+        "mixing": "Mixing",
+        "mastering": "Mastering"
+      },
+      "back": "Back",
+      "next": "Continue"
+    },
+    "artworkStep": {
+      "title": "Cover art",
+      "subtitle": "Square format, minimum 3000×3000 px, no promotional text.",
+      "dropzoneLabel": "Drag and drop your cover here, or click to browse",
+      "dropzoneHint": "JPEG or PNG, square, minimum 3000×3000 px",
+      "previewLabel": "Preview",
+      "appleAddonLabel": "Apple Music Artwork option (+$10)",
+      "appleAddonDescription": "Additional format optimized for display on Apple Music — billed as an add-on at submission.",
+      "selfDeclarationTitle": "I confirm my cover art follows these rules",
+      "selfDeclaration": {
+        "noText": "No promotional text or slogan overlaid on the image",
+        "noLogo": "No platform logos (Spotify, Apple Music…) on the image",
+        "noUrl": "No URL or social media handle visible",
+        "noQrCode": "No QR code on the image"
+      },
+      "back": "Back",
+      "next": "Continue"
+    },
+    "platformsStep": {
+      "title": "Distribution platforms",
+      "subtitle": "Choose the platforms your release should be delivered to.",
+      "searchPlaceholder": "Search a platform…",
+      "selectAll": "Select all",
+      "deselectAll": "Deselect all",
+      "categories": {
+        "streaming": "Streaming",
+        "social": "Social",
+        "video": "Video",
+        "afrique": "Africa"
+      },
+      "selectedCount": "{count} platform(s) selected",
+      "back": "Back",
+      "next": "Continue"
+    },
+    "scheduleStep": {
+      "title": "Release schedule",
+      "subtitle": "Choose the release date (and time, optional).",
+      "dateLabel": "Release date",
+      "timeLabel": "Release time (optional)",
+      "timezoneLabel": "Timezone",
+      "shortLeadWarning": "A date {days} days out maximizes your chances of editorial playlisting.",
+      "back": "Back",
+      "next": "Continue"
+    },
+    "summaryStep": {
+      "title": "Summary",
+      "subtitle": "Review everything before submitting.",
+      "releaseSection": "Release",
+      "tracksSection": "Tracks",
+      "artworkSection": "Cover art",
+      "platformsSection": "Platforms",
+      "scheduleSection": "Schedule",
+      "validationTitle": "Validation report",
+      "validationOk": "Everything looks good — ready to submit.",
+      "priceTitle": "Total fees",
+      "basePlan": "Distribution (included in your plan)",
+      "appleAddon": "Apple Music Artwork option",
+      "total": "Total",
+      "back": "Back",
+      "next": "Continue"
+    },
+    "submitStep": {
+      "title": "Confirmation & submission",
+      "subtitle": "Last step before sending to our partner platforms.",
+      "submitButton": "Submit my release",
+      "submitting": "Submitting…",
+      "successTitle": "Release submitted!",
+      "successDescription": "Your release is being delivered. You'll get a notification at every step.",
+      "viewRelease": "View my release",
+      "errorIncomplete": "Some information is missing — check the previous steps.",
+      "error": "Submission failed. Please try again in a moment.",
+      "back": "Back"
+    },
+    "statusLabels": {
+      "draft": "Draft",
+      "in_review": "In review",
+      "delivering": "Delivering",
+      "delivered": "Delivered",
+      "error": "Error",
+      "takedown_requested": "Takedown in progress",
+      "removed": "Removed"
+    },
+    "list": {
+      "title": "My releases",
+      "empty": {
+        "title": "No releases yet",
+        "description": "Distribute your first release to see it here."
+      },
+      "newRelease": "New release",
+      "resumeDraft": "Resume",
+      "columns": {
+        "title": "Title",
+        "type": "Type",
+        "status": "Status",
+        "date": "Release date"
+      },
+      "view": "View"
+    },
+    "detail": {
+      "lockedFieldNote": "Locked after delivery",
+      "requestModificationButton": "Request a modification",
+      "requestModificationDialogTitle": "Request a modification",
+      "requestModificationDialogDescription": "Describe what you want to change — our team will review your request before passing it on to our partner platforms.",
+      "detailsLabel": "Request details",
+      "submitRequest": "Send request",
+      "requestSent": "Your request has been sent to our team.",
+      "cancel": "Cancel",
+      "takedownButton": "Remove from distribution",
+      "takedownDialogTitle": "Remove this release",
+      "takedownDialogDescription": "This removes your release from all platforms. Your stats continuity will be affected and propagation can take a few days. Your ISRC stays reserved and your release is archived, never permanently deleted.",
+      "reasonLabel": "Reason for removal",
+      "confirmTakedown": "Confirm removal",
+      "takedownRequested": "Your release removal is in progress.",
+      "archivedNote": "This release is archived.",
+      "tracksTitle": "Tracks"
+    }
   }
 }

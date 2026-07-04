@@ -795,5 +795,432 @@
     "submit": "Créer mon profil",
     "submitting": "Création…",
     "error": "Une erreur est survenue. Réessaie."
+  },
+  "Validation": {
+    "status": {
+      "ok": "OK",
+      "warning": "Avertissement",
+      "error": "Erreur"
+    },
+    "audio": {
+      "format": {
+        "message": "Ce format de fichier n'est pas accepté.",
+        "explanation": "Les plateformes acceptent uniquement le WAV, le FLAC ou le MP3.",
+        "suggestion": "Exporte ta piste dans l'un de ces formats et réessaie."
+      },
+      "codec": {
+        "message": "Ce fichier WAV semble compressé, pas en PCM non compressé.",
+        "explanation": "Les plateformes attendent un WAV en PCM classique, sans compression.",
+        "suggestion": "Réexporte ton fichier en \"WAV PCM\" (parfois appelé \"WAV standard\") depuis ton logiciel audio."
+      },
+      "sampleRate": {
+        "message": "Fréquence d'échantillonnage basse : {value} Hz.",
+        "explanation": "44 100 Hz (qualité CD) est le minimum recommandé par les plateformes.",
+        "suggestion": "Réexporte ta piste à 44 100 Hz ou plus si ton logiciel le permet."
+      },
+      "bitDepth": {
+        "message": "Profondeur de bits basse : {value} bits.",
+        "explanation": "16 bits est le minimum recommandé pour une bonne qualité audio.",
+        "suggestion": "Réexporte ta piste en 16 bits ou plus (24 bits recommandé pour un master)."
+      },
+      "duration": {
+        "tooShort": {
+          "message": "Cette piste semble trop courte.",
+          "explanation": "Une durée de moins d'une seconde indique souvent un fichier incomplet ou corrompu.",
+          "suggestion": "Vérifie que le bon fichier a été sélectionné et réessaie."
+        }
+      },
+      "silenceStart": {
+        "message": "Il y a {seconds} secondes de silence au tout début de la piste.",
+        "explanation": "Un long silence en début de piste peut gêner l'écoute en playlist ou en lecture aléatoire.",
+        "suggestion": "Coupe le silence en trop au début de ton fichier avant de le réenvoyer."
+      },
+      "silenceEnd": {
+        "message": "Il y a {seconds} secondes de silence à la toute fin de la piste.",
+        "explanation": "Un long silence en fin de piste peut gêner l'enchaînement avec le titre suivant.",
+        "suggestion": "Coupe le silence en trop à la fin de ton fichier avant de le réenvoyer."
+      },
+      "clipping": {
+        "message": "Écrêtage détecté sur {percent} % du signal.",
+        "explanation": "L'écrêtage (clipping) se produit quand le volume dépasse le maximum possible, ce qui abîme le son.",
+        "suggestion": "Baisse légèrement le volume général au mastering et réexporte ta piste."
+      },
+      "abnormalPeaks": {
+        "message": "{count} pic(s) sonore(s) anormal(aux) détecté(s).",
+        "explanation": "Un pic isolé bien plus fort que le reste du signal peut être un clic, un craquement ou un problème d'enregistrement.",
+        "suggestion": "Réécoute ta piste aux moments concernés pour vérifier qu'il n'y a pas de défaut à corriger."
+      },
+      "loudness": {
+        "tooQuiet": {
+          "message": "Cette piste semble très faible en volume ({value} dBFS en moyenne).",
+          "explanation": "Une piste trop discrète peut paraître plus faible que les autres titres en écoute.",
+          "suggestion": "Augmente le niveau général au mastering avant de réenvoyer ta piste."
+        },
+        "tooLoud": {
+          "message": "Cette piste semble très forte en volume ({value} dBFS en moyenne).",
+          "explanation": "Un niveau très élevé laisse peu de marge et augmente le risque de saturation.",
+          "suggestion": "Vérifie ton mastering : un peu plus de marge (\"headroom\") évite les mauvaises surprises."
+        }
+      },
+      "duplicateInBatch": {
+        "message": "Ce fichier a déjà été ajouté à cette sortie.",
+        "explanation": "Deux pistes identiques ont été détectées dans le même envoi.",
+        "suggestion": "Retire l'un des deux fichiers en double."
+      },
+      "duplicateInCatalog": {
+        "message": "Ce fichier ressemble à une piste déjà présente dans ton catalogue.",
+        "explanation": "Le même fichier audio existe déjà sur une autre de tes sorties.",
+        "suggestion": "Vérifie qu'il ne s'agit pas d'un envoi en double par erreur."
+      },
+      "integrity": {
+        "message": "Ce fichier n'a pas pu être lu correctement.",
+        "explanation": "Le fichier semble corrompu ou dans un format non pris en charge par le navigateur.",
+        "suggestion": "Réexporte ta piste depuis ton logiciel audio et réessaie."
+      },
+      "durationConsistency": {
+        "message": "La durée déclarée dans le fichier ne correspond pas à la durée réelle détectée.",
+        "explanation": "Cette incohérence peut indiquer un fichier tronqué ou un en-tête incorrect.",
+        "suggestion": "Réexporte ta piste depuis ton logiciel audio et réessaie."
+      }
+    },
+    "artwork": {
+      "integrity": {
+        "message": "Cette image n'a pas pu être lue correctement.",
+        "explanation": "Le fichier semble corrompu ou dans un format non pris en charge.",
+        "suggestion": "Réexporte ta pochette et réessaie."
+      },
+      "format": {
+        "message": "Ce format d'image n'est pas accepté.",
+        "explanation": "Les plateformes acceptent les fichiers JPEG ou PNG.",
+        "suggestion": "Exporte ta pochette en JPEG ou PNG et réessaie."
+      },
+      "dimensions": {
+        "message": "Image trop petite : {width}×{height} px (minimum {min}×{min} px).",
+        "explanation": "Les plateformes exigent une pochette carrée d'au moins 3000×3000 pixels.",
+        "suggestion": "Utilise une image plus grande ou redimensionne ta pochette à au moins 3000×3000 px."
+      },
+      "ratio": {
+        "message": "Cette image n'est pas carrée.",
+        "explanation": "La pochette doit avoir un ratio exactement carré (largeur = hauteur).",
+        "suggestion": "Recadre ton image pour obtenir un carré parfait."
+      },
+      "fileSize": {
+        "message": "Ce fichier est volumineux ({megabytes} Mo).",
+        "explanation": "Un fichier très lourd peut ralentir l'envoi et le traitement chez le distributeur.",
+        "suggestion": "Compresse légèrement ton image sans perte de qualité visible avant de l'envoyer."
+      },
+      "colorProfile": {
+        "message": "Cette image semble être en CMJN plutôt qu'en RVB.",
+        "explanation": "Les plateformes exigent un profil colorimétrique sRGB (RVB), pas du CMJN (utilisé pour l'impression).",
+        "suggestion": "Convertis ton image en RVB/sRGB dans ton logiciel de retouche avant de l'exporter."
+      },
+      "overCompressed": {
+        "message": "Cette image semble fortement compressée.",
+        "explanation": "Une compression trop forte peut créer des artefacts visibles (blocs, flou) sur la pochette.",
+        "suggestion": "Réexporte ton image avec une qualité JPEG plus élevée (ou en PNG)."
+      },
+      "blur": {
+        "message": "Cette image semble manquer de netteté.",
+        "explanation": "Une pochette floue est moins engageante et peut sembler peu professionnelle.",
+        "suggestion": "Vérifie la netteté de ton visuel original avant de l'exporter à nouveau."
+      },
+      "empty": {
+        "message": "Cette image semble vide ou uniforme.",
+        "explanation": "L'image ne semble contenir presque aucun détail visuel (couleur unie).",
+        "suggestion": "Vérifie que le bon fichier a été sélectionné."
+      },
+      "margins": {
+        "message": "Cette image semble avoir des marges blanches ou transparentes.",
+        "explanation": "Les plateformes attendent un visuel qui remplit tout le cadre carré, sans bordure.",
+        "suggestion": "Recadre ton visuel pour qu'il occupe toute la surface de l'image."
+      }
+    },
+    "metadata": {
+      "requiredFields": {
+        "releaseTitle": {
+          "message": "Le titre de la sortie est obligatoire.",
+          "suggestion": "Indique un titre pour ta sortie."
+        },
+        "genre": {
+          "message": "Le genre musical est obligatoire.",
+          "suggestion": "Choisis un genre pour ta sortie."
+        },
+        "language": {
+          "message": "La langue est obligatoire.",
+          "suggestion": "Indique la langue principale de ta sortie."
+        },
+        "trackTitle": {
+          "message": "Le titre de la piste {position} est obligatoire.",
+          "suggestion": "Indique un titre pour cette piste."
+        }
+      },
+      "mainArtistConsistency": {
+        "message": "Aucun artiste principal n'est renseigné pour la piste {position}.",
+        "explanation": "Chaque piste doit avoir au moins un contributeur avec le rôle \"Artiste principal\".",
+        "suggestion": "Ajoute un contributeur avec le rôle \"Artiste principal\" pour cette piste."
+      },
+      "featuringConsistency": {
+        "message": "Le titre de la piste {position} mentionne un featuring non déclaré.",
+        "explanation": "Le titre contient \"feat.\" ou \"ft.\" mais aucun contributeur \"Featuring\" n'a été ajouté.",
+        "suggestion": "Ajoute l'artiste en featuring dans les contributeurs de cette piste."
+      },
+      "explicitConsistency": {
+        "message": "Au moins une piste est marquée \"contenu explicite\" mais pas la sortie.",
+        "explanation": "Si une piste contient un langage explicite, la sortie entière doit aussi être marquée comme telle.",
+        "suggestion": "Coche \"Contenu explicite\" au niveau de la sortie."
+      },
+      "dateConsistency": {
+        "message": "La date d'enregistrement est postérieure à la date de sortie.",
+        "explanation": "Un enregistrement ne peut pas avoir eu lieu après la sortie du titre.",
+        "suggestion": "Vérifie et corrige l'une des deux dates."
+      },
+      "isrcFormat": {
+        "message": "L'ISRC \"{value}\" de la piste {position} n'a pas le bon format.",
+        "explanation": "Un ISRC valide comporte 12 caractères : 2 lettres de pays, 3 caractères, puis 7 chiffres (ex. FRXXX2400001).",
+        "suggestion": "Corrige l'ISRC ou laisse le champ vide pour qu'il soit généré automatiquement."
+      },
+      "upcFormat": {
+        "message": "Le code UPC \"{value}\" n'est pas valide.",
+        "explanation": "Un UPC valide comporte 12 chiffres avec une clé de contrôle correcte.",
+        "suggestion": "Corrige le code UPC ou laisse le champ vide pour qu'il soit généré automatiquement."
+      },
+      "splitsSum": {
+        "message": "La répartition des droits de la piste {position} totalise {sum} % au lieu de 100 %.",
+        "explanation": "La somme des pourcentages de tous les contributeurs doit être exactement 100 %.",
+        "suggestion": "Ajuste les pourcentages pour qu'ils totalisent 100 %."
+      },
+      "duplicateIsrc": {
+        "message": "L'ISRC de la piste {position} est déjà utilisé dans ton catalogue.",
+        "explanation": "Chaque piste doit avoir un ISRC unique.",
+        "suggestion": "Laisse le champ ISRC vide pour qu'un nouveau code soit généré automatiquement."
+      },
+      "duplicateUpc": {
+        "message": "Ce code UPC est déjà utilisé par une autre de tes sorties.",
+        "explanation": "Chaque sortie doit avoir un UPC unique.",
+        "suggestion": "Laisse le champ UPC vide pour qu'un nouveau code soit généré automatiquement."
+      },
+      "duplicateTitle": {
+        "message": "Une sortie avec ce titre existe déjà dans ton catalogue.",
+        "explanation": "Deux sorties avec le même titre peuvent prêter à confusion pour tes auditeurs.",
+        "suggestion": "Vérifie qu'il ne s'agit pas d'un envoi en double, ou précise le titre (ex. \"Titre (Remix)\")."
+      }
+    },
+    "ruleLinkLabel": "Voir la règle concernée"
+  },
+  "DistributionApp": {
+    "nav": {
+      "title": "Distribution",
+      "newRelease": "Nouvelle sortie",
+      "backToList": "Retour aux sorties"
+    },
+    "steps": {
+      "type": "Type",
+      "audio": "Audio",
+      "metadata": "Métadonnées",
+      "contributors": "Contributeurs",
+      "artwork": "Pochette",
+      "platforms": "Plateformes",
+      "schedule": "Calendrier",
+      "summary": "Récapitulatif",
+      "submit": "Envoi"
+    },
+    "typeStep": {
+      "tag": "Nouvelle sortie",
+      "title": "Que veux-tu distribuer ?",
+      "subtitle": "Le type de sortie détermine le nombre de pistes attendues.",
+      "single": {
+        "title": "Single",
+        "description": "1 à 3 titres"
+      },
+      "ep": {
+        "title": "EP",
+        "description": "4 à 6 titres"
+      },
+      "album": {
+        "title": "Album",
+        "description": "7 titres ou plus"
+      },
+      "continue": "Continuer"
+    },
+    "audioStep": {
+      "title": "Ajoute tes fichiers audio",
+      "subtitle": "Formats acceptés : WAV (recommandé), FLAC, MP3.",
+      "dropzoneLabel": "Glisse-dépose tes fichiers ici, ou clique pour parcourir",
+      "dropzoneHint": "WAV recommandé — FLAC, MP3 également acceptés",
+      "removeFile": "Retirer {fileName}",
+      "defaultErrorMessage": "Échec de l'envoi.",
+      "trackCountHint": "{count} piste(s) ajoutée(s) — entre {min} et {max} attendues pour ce type de sortie.",
+      "moveUp": "Déplacer vers le haut",
+      "moveDown": "Déplacer vers le bas",
+      "remove": "Retirer",
+      "analyzing": "Analyse en cours…",
+      "uploading": "Envoi en cours…",
+      "resuming": "Reprise de l'envoi…",
+      "back": "Retour",
+      "next": "Continuer",
+      "minTracksWarning": "Ajoute au moins {min} piste(s) pour continuer."
+    },
+    "metadataStep": {
+      "title": "Métadonnées",
+      "subtitle": "Informations sur la sortie et sur chaque piste.",
+      "releaseTitleLabel": "Titre de la sortie",
+      "genreLabel": "Genre",
+      "subGenreLabel": "Sous-genre",
+      "languageLabel": "Langue",
+      "explicitLabel": "Contenu explicite",
+      "recordingDateLabel": "Date d'enregistrement",
+      "copyrightPLabel": "(P) — Copyright phonographique",
+      "copyrightCLabel": "(C) — Copyright de l'œuvre",
+      "labelLabel": "Label",
+      "trackTitle": "Piste {position}",
+      "trackTitleLabel": "Titre",
+      "trackVersionLabel": "Version (remix, live…)",
+      "trackIsrcLabel": "ISRC",
+      "trackIsrcHint": "Laisse vide pour une génération automatique.",
+      "trackExplicitLabel": "Contenu explicite",
+      "back": "Retour",
+      "next": "Continuer",
+      "saving": "Enregistrement…"
+    },
+    "contributorsStep": {
+      "title": "Contributeurs & répartition",
+      "subtitle": "Ajoute les contributeurs de chaque piste et leur part des royalties.",
+      "trackTitle": "Piste {position} — {title}",
+      "roleLabel": "Rôle",
+      "nameLabel": "Nom",
+      "splitLabel": "Part (%)",
+      "addContributor": "Ajouter un contributeur",
+      "removeContributor": "Retirer",
+      "sumLabel": "Total",
+      "sumOk": "100 % — parfait",
+      "sumError": "{sum} % au lieu de 100 %",
+      "roles": {
+        "main_artist": "Artiste principal",
+        "featuring": "Featuring",
+        "composer": "Compositeur",
+        "author": "Auteur",
+        "producer": "Producteur",
+        "mixing": "Mixage",
+        "mastering": "Mastering"
+      },
+      "back": "Retour",
+      "next": "Continuer"
+    },
+    "artworkStep": {
+      "title": "Pochette",
+      "subtitle": "Format carré, 3000×3000 px minimum, sans texte promotionnel.",
+      "dropzoneLabel": "Glisse-dépose ta pochette ici, ou clique pour parcourir",
+      "dropzoneHint": "JPEG ou PNG, carré, 3000×3000 px minimum",
+      "previewLabel": "Aperçu",
+      "appleAddonLabel": "Option Artwork Apple Music (+10 $)",
+      "appleAddonDescription": "Format additionnel optimisé pour l'affichage sur Apple Music — facturé en supplément lors de l'envoi.",
+      "selfDeclarationTitle": "Je confirme que ma pochette respecte les règles suivantes",
+      "selfDeclaration": {
+        "noText": "Aucun texte promotionnel ou slogan superposé à l'image",
+        "noLogo": "Aucun logo de plateforme (Spotify, Apple Music…) sur l'image",
+        "noUrl": "Aucune URL ou adresse de réseau social visible",
+        "noQrCode": "Aucun QR code sur l'image"
+      },
+      "back": "Retour",
+      "next": "Continuer"
+    },
+    "platformsStep": {
+      "title": "Plateformes de distribution",
+      "subtitle": "Choisis les plateformes sur lesquelles ta sortie doit être livrée.",
+      "searchPlaceholder": "Rechercher une plateforme…",
+      "selectAll": "Tout sélectionner",
+      "deselectAll": "Tout désélectionner",
+      "categories": {
+        "streaming": "Streaming",
+        "social": "Réseaux sociaux",
+        "video": "Vidéo",
+        "afrique": "Afrique"
+      },
+      "selectedCount": "{count} plateforme(s) sélectionnée(s)",
+      "back": "Retour",
+      "next": "Continuer"
+    },
+    "scheduleStep": {
+      "title": "Calendrier de sortie",
+      "subtitle": "Choisis la date (et l'heure, en option) de mise en ligne.",
+      "dateLabel": "Date de sortie",
+      "timeLabel": "Heure de sortie (optionnel)",
+      "timezoneLabel": "Fuseau horaire",
+      "shortLeadWarning": "Une date à J+{days} maximise tes chances d'être repéré par les playlists éditoriales.",
+      "back": "Retour",
+      "next": "Continuer"
+    },
+    "summaryStep": {
+      "title": "Récapitulatif",
+      "subtitle": "Vérifie toutes les informations avant l'envoi.",
+      "releaseSection": "Sortie",
+      "tracksSection": "Pistes",
+      "artworkSection": "Pochette",
+      "platformsSection": "Plateformes",
+      "scheduleSection": "Calendrier",
+      "validationTitle": "Rapport de validation",
+      "validationOk": "Tout est en ordre — prêt à envoyer.",
+      "priceTitle": "Total des frais",
+      "basePlan": "Distribution (inclus dans ton forfait)",
+      "appleAddon": "Option Artwork Apple Music",
+      "total": "Total",
+      "back": "Retour",
+      "next": "Continuer"
+    },
+    "submitStep": {
+      "title": "Confirmation & envoi",
+      "subtitle": "Dernière étape avant l'envoi à nos plateformes partenaires.",
+      "submitButton": "Envoyer ma sortie",
+      "submitting": "Envoi en cours…",
+      "successTitle": "Sortie envoyée !",
+      "successDescription": "Ta sortie est en cours de livraison. Tu recevras une notification à chaque étape.",
+      "viewRelease": "Voir ma sortie",
+      "errorIncomplete": "Il manque des informations — vérifie les étapes précédentes.",
+      "error": "L'envoi a échoué. Réessaie dans un instant.",
+      "back": "Retour"
+    },
+    "statusLabels": {
+      "draft": "Brouillon",
+      "in_review": "En validation",
+      "delivering": "En cours de livraison",
+      "delivered": "Livrée",
+      "error": "En erreur",
+      "takedown_requested": "Retrait en cours",
+      "removed": "Retirée"
+    },
+    "list": {
+      "title": "Mes sorties",
+      "empty": {
+        "title": "Aucune sortie pour l'instant",
+        "description": "Distribue ta première œuvre pour la voir apparaître ici."
+      },
+      "newRelease": "Nouvelle sortie",
+      "resumeDraft": "Reprendre",
+      "columns": {
+        "title": "Titre",
+        "type": "Type",
+        "status": "Statut",
+        "date": "Date de sortie"
+      },
+      "view": "Voir"
+    },
+    "detail": {
+      "lockedFieldNote": "Verrouillé après livraison",
+      "requestModificationButton": "Demander une modification",
+      "requestModificationDialogTitle": "Demander une modification",
+      "requestModificationDialogDescription": "Décris ce que tu souhaites modifier — notre équipe validera ta demande avant de la transmettre à nos plateformes partenaires.",
+      "detailsLabel": "Détails de la demande",
+      "submitRequest": "Envoyer la demande",
+      "requestSent": "Ta demande a été envoyée à notre équipe.",
+      "cancel": "Annuler",
+      "takedownButton": "Retirer de la distribution",
+      "takedownDialogTitle": "Retirer cette sortie",
+      "takedownDialogDescription": "Cette action retire ta sortie de toutes les plateformes. La continuité de tes statistiques sera affectée et la propagation peut prendre quelques jours. Ton ISRC reste conservé et ta sortie est archivée, jamais supprimée définitivement.",
+      "reasonLabel": "Motif du retrait",
+      "confirmTakedown": "Confirmer le retrait",
+      "takedownRequested": "Le retrait de ta sortie est en cours.",
+      "archivedNote": "Cette sortie est archivée.",
+      "tracksTitle": "Pistes"
+    }
   }
 }

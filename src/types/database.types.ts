@@ -1,8 +1,9 @@
 /**
  * Type `Database` écrit à la main, reflétant
  * `supabase/migrations/20260704140000_auth_profiles_and_roles.sql`,
- * `supabase/migrations/20260704150000_countries_and_currencies.sql` et
- * `supabase/migrations/20260704160000_dashboard_core.sql`.
+ * `supabase/migrations/20260704150000_countries_and_currencies.sql`,
+ * `supabase/migrations/20260704160000_dashboard_core.sql` et
+ * `supabase/migrations/20260704170000_distribution_module.sql`.
  *
  * Normalement généré par `pnpm supabase:gen:types` contre un vrai projet
  * Supabase (local Docker ou cloud) — indisponible dans cet environnement
@@ -184,11 +185,20 @@ export type Database = {
           title: string;
           upc: string | null;
           genre: string | null;
+          sub_genre: string | null;
           language: string | null;
           explicit: boolean;
           apple_artwork: boolean;
           artwork_url: string | null;
           release_date: string | null;
+          release_time: string | null;
+          release_timezone: string | null;
+          recording_date: string | null;
+          copyright_p: string | null;
+          copyright_c: string | null;
+          label_name: string;
+          current_step: number;
+          submitted_at: string | null;
           status: Database["public"]["Enums"]["release_status"];
           archived: boolean;
           created_at: string;
@@ -201,11 +211,20 @@ export type Database = {
           title: string;
           upc?: string | null;
           genre?: string | null;
+          sub_genre?: string | null;
           language?: string | null;
           explicit?: boolean;
           apple_artwork?: boolean;
           artwork_url?: string | null;
           release_date?: string | null;
+          release_time?: string | null;
+          release_timezone?: string | null;
+          recording_date?: string | null;
+          copyright_p?: string | null;
+          copyright_c?: string | null;
+          label_name?: string;
+          current_step?: number;
+          submitted_at?: string | null;
           status?: Database["public"]["Enums"]["release_status"];
           archived?: boolean;
           created_at?: string;
@@ -218,11 +237,20 @@ export type Database = {
           title?: string;
           upc?: string | null;
           genre?: string | null;
+          sub_genre?: string | null;
           language?: string | null;
           explicit?: boolean;
           apple_artwork?: boolean;
           artwork_url?: string | null;
           release_date?: string | null;
+          release_time?: string | null;
+          release_timezone?: string | null;
+          recording_date?: string | null;
+          copyright_p?: string | null;
+          copyright_c?: string | null;
+          label_name?: string;
+          current_step?: number;
+          submitted_at?: string | null;
           status?: Database["public"]["Enums"]["release_status"];
           archived?: boolean;
           created_at?: string;
@@ -249,6 +277,12 @@ export type Database = {
           duration: number | null;
           explicit: boolean;
           version: string | null;
+          audio_hash: string | null;
+          sample_rate: number | null;
+          bit_depth: number | null;
+          codec: string | null;
+          loudness_lufs: number | null;
+          file_size: number | null;
           created_at: string;
         };
         Insert: {
@@ -261,6 +295,12 @@ export type Database = {
           duration?: number | null;
           explicit?: boolean;
           version?: string | null;
+          audio_hash?: string | null;
+          sample_rate?: number | null;
+          bit_depth?: number | null;
+          codec?: string | null;
+          loudness_lufs?: number | null;
+          file_size?: number | null;
           created_at?: string;
         };
         Update: {
@@ -273,6 +313,12 @@ export type Database = {
           duration?: number | null;
           explicit?: boolean;
           version?: string | null;
+          audio_hash?: string | null;
+          sample_rate?: number | null;
+          bit_depth?: number | null;
+          codec?: string | null;
+          loudness_lufs?: number | null;
+          file_size?: number | null;
           created_at?: string;
         };
         Relationships: [
@@ -284,6 +330,239 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      contributors: {
+        Row: {
+          id: string;
+          track_id: string;
+          role: Database["public"]["Enums"]["contributor_role"];
+          name: string;
+          split_pct: number;
+          linked_user_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          track_id: string;
+          role: Database["public"]["Enums"]["contributor_role"];
+          name: string;
+          split_pct: number;
+          linked_user_id?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          track_id?: string;
+          role?: Database["public"]["Enums"]["contributor_role"];
+          name?: string;
+          split_pct?: number;
+          linked_user_id?: string | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "contributors_track_id_fkey";
+            columns: ["track_id"];
+            isOneToOne: false;
+            referencedRelation: "tracks";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "contributors_linked_user_id_fkey";
+            columns: ["linked_user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      release_platforms: {
+        Row: {
+          id: string;
+          release_id: string;
+          dsp: string;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          release_id: string;
+          dsp: string;
+          status?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          release_id?: string;
+          dsp?: string;
+          status?: string;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "release_platforms_release_id_fkey";
+            columns: ["release_id"];
+            isOneToOne: false;
+            referencedRelation: "releases";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      labelgrid_sync: {
+        Row: {
+          id: string;
+          release_id: string;
+          external_id: string;
+          status: string;
+          last_synced_at: string;
+          payload: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          release_id: string;
+          external_id: string;
+          status: string;
+          last_synced_at?: string;
+          payload?: Json | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          release_id?: string;
+          external_id?: string;
+          status?: string;
+          last_synced_at?: string;
+          payload?: Json | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "labelgrid_sync_release_id_fkey";
+            columns: ["release_id"];
+            isOneToOne: false;
+            referencedRelation: "releases";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      upload_sessions: {
+        Row: {
+          id: string;
+          uploader_id: string;
+          kind: Database["public"]["Enums"]["upload_kind"];
+          file_name: string;
+          file_size: number;
+          mime_type: string;
+          r2_key: string;
+          r2_upload_id: string;
+          part_size: number;
+          total_parts: number;
+          status: Database["public"]["Enums"]["upload_status"];
+          sha256_hash: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          uploader_id: string;
+          kind: Database["public"]["Enums"]["upload_kind"];
+          file_name: string;
+          file_size: number;
+          mime_type: string;
+          r2_key: string;
+          r2_upload_id: string;
+          part_size: number;
+          total_parts: number;
+          status?: Database["public"]["Enums"]["upload_status"];
+          sha256_hash?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          uploader_id?: string;
+          kind?: Database["public"]["Enums"]["upload_kind"];
+          file_name?: string;
+          file_size?: number;
+          mime_type?: string;
+          r2_key?: string;
+          r2_upload_id?: string;
+          part_size?: number;
+          total_parts?: number;
+          status?: Database["public"]["Enums"]["upload_status"];
+          sha256_hash?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "upload_sessions_uploader_id_fkey";
+            columns: ["uploader_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      upload_parts: {
+        Row: {
+          id: string;
+          session_id: string;
+          part_number: number;
+          etag: string;
+          size: number;
+          uploaded_at: string;
+        };
+        Insert: {
+          id?: string;
+          session_id: string;
+          part_number: number;
+          etag: string;
+          size: number;
+          uploaded_at?: string;
+        };
+        Update: {
+          id?: string;
+          session_id?: string;
+          part_number?: number;
+          etag?: string;
+          size?: number;
+          uploaded_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "upload_parts_session_id_fkey";
+            columns: ["session_id"];
+            isOneToOne: false;
+            referencedRelation: "upload_sessions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      validation_reports: {
+        Row: {
+          id: string;
+          entity_type: string;
+          entity_id: string;
+          report: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          entity_type: string;
+          entity_id: string;
+          report: Json;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          entity_type?: string;
+          entity_id?: string;
+          report?: Json;
+          created_at?: string;
+        };
+        Relationships: [];
       };
       stats_monthly: {
         Row: {
@@ -473,6 +752,14 @@ export type Database = {
         Args: { target_release_id: string };
         Returns: boolean;
       };
+      owns_track: {
+        Args: { target_track_id: string };
+        Returns: boolean;
+      };
+      owns_validation_entity: {
+        Args: { target_entity_type: string; target_entity_id: string };
+        Returns: boolean;
+      };
     };
     Enums: {
       user_role:
@@ -496,6 +783,16 @@ export type Database = {
         | "takedown_requested"
         | "removed";
       notification_channel: "inapp" | "email" | "whatsapp";
+      contributor_role:
+        | "main_artist"
+        | "featuring"
+        | "composer"
+        | "author"
+        | "producer"
+        | "mixing"
+        | "mastering";
+      upload_kind: "audio" | "artwork";
+      upload_status: "in_progress" | "completed" | "aborted";
     };
     CompositeTypes: Record<string, never>;
   };

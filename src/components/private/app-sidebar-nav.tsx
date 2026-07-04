@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
  */
 const NAV_ITEMS = [
   { href: "/app", icon: LayoutDashboardIcon, key: "overview", available: true },
-  { href: "/app/distribution", icon: UploadIcon, key: "distribution", available: false },
+  { href: "/app/distribution", icon: UploadIcon, key: "distribution", available: true },
   { href: "/app/statistiques", icon: BarChart3Icon, key: "stats", available: false },
   { href: "/app/revenus", icon: WalletIcon, key: "revenue", available: false },
   { href: "/app/studio", icon: MicIcon, key: "studio", available: false },
@@ -49,7 +49,8 @@ export function AppSidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <nav className="flex flex-col gap-1">
       {NAV_ITEMS.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive =
+          item.href === "/app" ? pathname === item.href : pathname.startsWith(item.href);
 
         if (!item.available) {
           return (

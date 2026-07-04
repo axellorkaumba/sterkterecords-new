@@ -4,16 +4,18 @@ Plateforme SaaS de distribution musicale — Sterkte Records SARL
 (Lubumbashi/RDC · Agadir/Maroc). Source de vérité produit : le cahier des
 charges (`CDC_Sterkte_Records_Distributor.md`, fourni hors repo).
 
-**Statut : Sprint 4 — Dashboard artiste.** Authentification complète
-(Sprint 3) + vue d'ensemble artiste (§11.3) : onboarding profil artiste, nav
-`/app` complète (badges "Bientôt disponible" pour les modules pas encore
-construits), cartes streams/revenus/sorties, top titres, graphique, actions
-rapides, notifications. **Aucun projet Supabase réel n'est encore branché**
-(ni local via Docker, ni cloud) : tout est vérifié par
-`typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel Supabase
-— voir `docs/adr/0007-auth-architecture.md` et
-`docs/adr/0008-dashboard-artiste.md`. Le tunnel de distribution (§11.4) et
-les paiements/royalties restent à construire.
+**Statut : Sprint 5 — Module Distribution.** Authentification (Sprint 3) +
+dashboard artiste (Sprint 4) + tunnel de distribution complet à 9 étapes
+(§11.4, cœur du MVP) : upload audio/pochette multipart résumable, moteur de
+validation modulaire (audio/pochette/métadonnées), contributeurs & splits,
+plateformes DSP, calendrier, récapitulatif, soumission LabelGrid, gestion
+post-sortie (verrouillage, demande de modification, retrait). **Aucun
+projet Supabase ni bucket R2 réels ne sont encore branchés** : tout est
+vérifié par `typecheck`/`lint`/tests navigateur jusqu'à la frontière de
+l'appel Supabase/R2 — voir `docs/adr/0007-auth-architecture.md`,
+`docs/adr/0008-dashboard-artiste.md` et
+`docs/adr/0009-distribution-module.md`. Les paiements/royalties (§11.5,
+V1) restent à construire.
 
 ## Stack
 
@@ -136,21 +138,66 @@ Implémente le §11.3 du CDC (voir `docs/adr/0008-dashboard-artiste.md`) :
   affiché à la place du dashboard tant qu'aucun artiste n'existe pour
   l'utilisateur (nom, bio, avatar, liens — §10.1, table `artists`).
 - **Nav `/app` complète** (`src/components/private/app-sidebar-nav.tsx`) :
-  les 12 entrées du §8 sont visibles dès maintenant ; seuls Vue d'ensemble et
-  Paramètres sont actifs, le reste affiche un badge "Bientôt disponible"
-  (décision validée par Axel — voir ADR 0008).
+  les 12 entrées du §8 sont visibles dès maintenant ; Vue d'ensemble,
+  Distribution et Paramètres sont actifs (Distribution depuis le Sprint 5),
+  le reste affiche un badge "Bientôt disponible" (décision validée par Axel
+  — voir ADR 0008).
 - **Cartes du dashboard** : Streams (dernier mois rapporté + variation),
   Revenus (solde retirable/en attente), Sorties (livrées/en cours/
   brouillons), Top titres, graphique streams/mois (recharts), actions
-  rapides (désactivées, pages pas encore construites), notifications
-  récentes — chacune avec un état vide soigné (§9.8) puisqu'aucune donnée
-  LabelGrid n'existe encore.
+  rapides ("Nouvelle sortie" active depuis le Sprint 5, les deux autres
+  désactivées), notifications récentes — chacune avec un état vide soigné
+  (§9.8) puisqu'aucune donnée LabelGrid n'existe encore.
 - **Base de données** : migration
   `supabase/migrations/20260704160000_dashboard_core.sql` — `artists`,
   `releases`/`tracks` (colonnes déjà conformes au §12, le tunnel Distribution
   du sprint suivant les complètera), `stats_monthly`, `wallet` (créé
   automatiquement à l'inscription), `notifications`. RLS scopée
   propriétaire (pas encore de comptes équipe multi-artistes, §7.2, V1).
+
+## Module Distribution (Sprint 5)
+
+Tunnel à 9 étapes (§11.4, cœur du MVP) — voir
+`docs/adr/0009-distribution-module.md` pour le détail des décisions
+(upload multipart résumable complet et moteur de validation modulaire,
+tous deux validés explicitement par Axel) :
+
+- **Étapes 1-9** (`src/app/(private)/app/distribution/`) : type de sortie
+  (Single/EP/Album) → upload audio (multipart résumable, réordonnancement) →
+  métadonnées (sortie + par piste) → contributeurs & splits (somme = 100 %
+  bloquante) → pochette (upload + validation + option Apple Music +10 $) →
+  plateformes DSP → calendrier (alerte délai court) → récapitulatif (rapport
+  de validation complet) → soumission LabelGrid.
+- **Upload multipart résumable réel** (`src/lib/storage/r2.ts`,
+  `src/lib/uploads/actions.ts`, `src/hooks/use-resumable-upload.ts`) : vrai
+  cycle S3/R2 (`CreateMultipartUpload`/`UploadPart`/`CompleteMultipartUpload`),
+  parts confirmées persistées (`upload_sessions`/`upload_parts`) — une
+  session interrompue (fermeture d'onglet, coupure réseau) reprend sans
+  renvoyer les parts déjà envoyées.
+- **Moteur de validation modulaire** (`src/lib/validation/`) : chaque règle
+  est un objet indépendant activable/désactivable
+  (`ValidationRule`/`runValidation`), messages toujours via clés i18n
+  (jamais de texte en dur, jamais de jargon technique — statut, explication,
+  correction). Règles **réelles**, pas simulées : parsing d'en-tête
+  WAV/FLAC/MP3, analyse du signal (silence, écrêtage, pics, niveau sonore
+  approximatif) via Web Audio API, hash SHA-256 (doublons), parsing du
+  marqueur JPEG SOF (détection CMJN), analyse de pixels (flou, image vide,
+  marges) via Canvas, checksum UPC-A réel (norme GS1), format ISRC. Les
+  règles nécessitant de l'OCR/vision par ordinateur (texte/logos/nudité/
+  violence/filigrane sur la pochette) ne sont **pas construites** ce
+  sprint — l'architecture les accueillera plus tard sans refonte (voir ADR 0009) ; en attendant, l'artiste auto-déclare ces points à l'étape pochette.
+- **Gestion post-sortie** (`[releaseId]/release-detail.tsx`) : champs
+  verrouillés après livraison, demande de modification (journalisée pour
+  traitement manuel), retrait de distribution (confirmation + motif,
+  jamais de suppression définitive — la sortie est archivée).
+- **Base de données** : migration
+  `supabase/migrations/20260704170000_distribution_module.sql` —
+  `contributors`, `release_platforms`, `labelgrid_sync`, `upload_sessions`/
+  `upload_parts`, `validation_reports`, colonnes complémentaires sur
+  `releases`/`tracks` (§11.4 étape 3).
+- **DSP sans logos officiels reproduits** : icône générique (initiale +
+  couleur) plutôt que les logos Spotify/Apple Music/etc., qui sont des
+  marques déposées.
 
 ## Démarrage
 
@@ -212,7 +259,11 @@ src/
 │   │   │   ├── layout.tsx     Sidebar nav complète (§8) + trigger mobile
 │   │   │   ├── page.tsx       Vue d'ensemble (cartes stats) ou onboarding si pas d'artiste
 │   │   │   ├── actions.ts     createArtistProfile() (onboarding, §10.1)
-│   │   │   └── parametres/    Profil, sécurité (2FA, comptes liés), langue, notifications, RGPD (Sprint 3)
+│   │   │   ├── parametres/    Profil, sécurité (2FA, comptes liés), langue, notifications, RGPD (Sprint 3)
+│   │   │   └── distribution/  Tunnel à 9 étapes (Sprint 5, §11.4)
+│   │   │       ├── nouvelle/       Étape 1 (type de sortie) — crée la sortie brouillon
+│   │   │       ├── [releaseId]/    Étapes 2-9 (tunnel) ou fiche détail si non-brouillon
+│   │   │       └── actions.ts      CRUD release/track/contributor/platform + soumission LabelGrid
 │   │   └── admin/           Back-office (Sprint 4+)
 │   ├── api/
 │   │   ├── auth/callback/    Échange PKCE unique (tout provider OAuth, confirmation, reset — Sprint 3)
@@ -226,28 +277,37 @@ src/
 │   │   ├── profile.ts         fetchUserRole/homeForRole partagés proxy.ts ↔ Server Actions
 │   │   ├── auth-errors.ts     Mapping codes d'erreur Supabase Auth → clés i18n
 │   │   └── callback-url.ts    authCallbackUrl() partagé (auth)/actions.ts ↔ parametres/actions.ts
-│   ├── storage/r2.ts         Cloudflare R2 — URLs présignées upload/download
+│   ├── storage/r2.ts         Cloudflare R2 — présignées simples + multipart résumable (Sprint 5)
+│   ├── uploads/actions.ts    Cycle de vie des sessions d'upload multipart (Sprint 5)
+│   ├── validation/           Moteur de validation modulaire (Sprint 5, voir ADR 0009)
+│   │   ├── types.ts            ValidationRule/ValidationReport/runValidation
+│   │   ├── audio/              Parsers WAV/FLAC/MP3, analyse du signal, règles
+│   │   ├── artwork/             Parser JPEG SOF, analyse de pixels, règles
+│   │   └── metadata/            Checksums ISRC/UPC, règles de cohérence
 │   ├── payments/             Stripe, Flutterwave, Paystack — clients bruts
 │   ├── email/resend.ts       Client Resend
-│   ├── labelgrid/            Contrat + mock (voir ADR 0003)
+│   ├── labelgrid/            Contrat + mock (voir ADR 0003 ; +requestTakedown au Sprint 5)
 │   ├── whatsapp/             Client WhatsApp Cloud API
 │   ├── documenso/            Client Documenso
 │   └── analytics/            Providers PostHog (client + serveur)
 ├── components/
 │   ├── ui/                  Composants shadcn personnalisés + sur-mesure (Sprint 1, §9)
 │   │   └── form.tsx           React Hook Form + Zod, adapté à Base UI (Sprint 3)
+│   ├── validation/validation-report-view.tsx   Affichage statut/explication/correction (Sprint 5)
 │   ├── private/private-header.tsx   Barre minimale /app·/admin (Sprint 3)
 │   ├── private/app-sidebar-nav.tsx   Nav complète /app, badges "Bientôt disponible" (Sprint 4)
 │   ├── private/app-mobile-nav.tsx    Sheet mobile réutilisant app-sidebar-nav
 │   ├── theme-provider.tsx / theme-toggle.tsx   Dark/light mode (next-themes)
 │   └── providers.tsx        Composition unique des providers client
-├── hooks/, server/actions/, types/   Squelettes, remplis au fil des sprints
+├── hooks/
+│   ├── use-has-mounted.ts
+│   └── use-resumable-upload.ts   Upload multipart résumable direct-to-R2 (Sprint 5)
 ├── instrumentation.ts / instrumentation-client.ts   Bootstrap Sentry
 └── proxy.ts                 Routing i18n + garde d'authentification (Sprint 3)
 
 supabase/
 ├── config.toml
-├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3) + artists/releases/tracks/stats/wallet/notifications (Sprint 4)
+├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3) + artists/releases/tracks/stats/wallet/notifications (Sprint 4) + contributors/platforms/uploads/validation (Sprint 5)
 └── seed.sql                  Note de bootstrap du premier super_admin
 
 docs/adr/                     Décisions d'architecture documentées
@@ -267,7 +327,8 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - **Sprint 1 :** Design System — voir ci-dessus.
 - **Sprint 2 :** Site public — voir ci-dessus.
 - **Sprint 3 :** Authentification — voir ci-dessus.
-- **Sprint 4 (ce commit) :** Dashboard artiste — voir ci-dessus.
+- **Sprint 4 :** Dashboard artiste — voir ci-dessus.
+- **Sprint 5 (ce commit) :** Module Distribution — voir ci-dessus.
 
 ## Décisions d'architecture
 
@@ -279,6 +340,7 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - `docs/adr/0006-content-sourcing.md` — sources du contenu réel (CGU fournies par Axel, PDF de contenu, prototype zip), roster artistes non repris (données factices), deux incohérences CDC/contenu réel à trancher (voir Notes importantes)
 - `docs/adr/0007-auth-architecture.md` — flux PKCE unique, attribution des rôles, Apple différé mais architecture OAuth complète prête (providers/callback/DB/comptes liés), 2FA construite malgré son tag `[V1]`, sessions limitées à la déconnexion globale, `profiles.locale` prioritaire sur le cookie, pays/devises en table de configuration (liste métier validée par Axel), Paramètres > Abonnement en placeholder, contrainte d'environnement (pas de test de bout en bout)
 - `docs/adr/0008-dashboard-artiste.md` — nav `/app` complète avec badges "Bientôt disponible" (validé par Axel), onboarding artiste avant paiement/forfait (pas encore construits), schéma releases/tracks minimal complété par le futur tunnel Distribution, "Streams (30j)" interprété comme dernier mois rapporté (données mensuelles par construction), wallet en lecture seule côté client
+- `docs/adr/0009-distribution-module.md` — upload multipart résumable complet et moteur de validation modulaire "premium évolutif" (validés explicitement par Axel), règles réelles (parsing WAV/FLAC/MP3, Web Audio API, JPEG SOF, checksum UPC-A) documentées avec leurs approximations assumées (niveau sonore, VBR MP3), règles IA/OCR non construites mais architecture prête, DSP sans logos officiels reproduits, gestion post-sortie sans workflow d'approbation automatisé
 
 ## Notes importantes
 
@@ -372,3 +434,32 @@ réel n'est committé ; `.env.local` est ignoré par git.
   (V1) — pas encore construit. Toutes les cartes du dashboard affichent
   donc un état vide tant que ce module n'existe pas ; c'est le
   comportement attendu, pas un bug.
+- **Upload multipart résumable complet et moteur de validation "premium
+  évolutif" (validés explicitement par Axel, Sprint 5)** : contrairement
+  aux autres sprints où j'ai proposé une portée réduite par défaut, Axel a
+  demandé la version complète pour ces deux chantiers. Le multipart
+  résumable persiste chaque part confirmée (`upload_sessions`/
+  `upload_parts`) pour permettre une vraie reprise après coupure ; le
+  moteur de validation implémente des règles réelles (parsing binaire
+  WAV/FLAC/MP3/JPEG, analyse Web Audio API, checksum UPC-A) plutôt que des
+  vérifications de surface. Voir `docs/adr/0009-distribution-module.md`.
+- **Bucket R2 : configuration CORS requise, pas automatisable depuis ce
+  repo.** `useResumableUpload` a besoin que le bucket R2 autorise `PUT` en
+  CORS pour l'origine du site et expose l'en-tête `ETag`
+  (`Access-Control-Expose-Headers: ETag`), sans quoi le navigateur masque
+  l'ETag nécessaire à `CompleteMultipartUpload`. À configurer une fois dans
+  le dashboard Cloudflare (ou Wrangler/API) quand un bucket réel existe —
+  voir ADR 0009.
+- **Validation métadonnées complète différée au récapitulatif (étape 8)** :
+  les règles qui dépendent des contributeurs (artiste principal présent,
+  somme des splits = 100 %) ne peuvent pas s'exécuter utilement à l'étape 3
+  (Métadonnées), les contributeurs n'étant saisis qu'à l'étape 4. Le
+  rapport complet du moteur de validation ne s'exécute qu'à l'étape 8,
+  conformément au §11.4 qui y place le "rapport de validation" — voir ADR 0009.
+- **Règles de validation IA/OCR non construites, architecture prête** :
+  détection de texte interdit/logos/URLs/QR codes/contenu explicite/
+  nudité/violence/filigrane sur la pochette — nécessitent un service de
+  vision par ordinateur externe, aucune fausse détection simulée. Ajouter
+  une de ces règles plus tard = ajouter un objet à `ARTWORK_RULES`, sans
+  toucher au moteur. En attendant, l'artiste auto-déclare ces points à
+  l'étape pochette (case à cocher par règle).
