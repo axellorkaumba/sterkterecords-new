@@ -24,8 +24,13 @@ import {
   verifyMfaEnrollment,
   disableMfa,
   signOutEverywhere,
+  linkOAuthIdentity,
+  unlinkOAuthIdentity,
 } from "./actions";
 import { changePasswordSchema, type ChangePasswordValues } from "./schemas";
+import type { OAuthProviderId } from "@/app/[locale]/(auth)/oauth-providers";
+import type { AppLocale } from "@/i18n/routing";
+import type { UserIdentity } from "@supabase/supabase-js";
 
 function ChangePasswordForm() {
   const t = useTranslations("Account.security");
@@ -234,7 +239,100 @@ function SessionsSection() {
   );
 }
 
-export function SecurityTab({ mfaEnabled }: { mfaEnabled: boolean }) {
+/**
+ * Comptes liés (§11.2) — Google est le seul provider actif aujourd'hui ;
+ * Apple apparaît automatiquement dans `enabledProviders` dès que ses
+ * identifiants sont configurés (voir docs/adr/0007-auth-architecture.md),
+ * sans changement dans ce composant.
+ */
+function LinkedAccountsSection({
+  identities,
+  enabledProviders,
+  locale,
+}: {
+  identities: UserIdentity[];
+  enabledProviders: OAuthProviderId[];
+  locale: AppLocale;
+}) {
+  const t = useTranslations("Account.security");
+  const tAuth = useTranslations("Auth");
+  const [pendingProvider, setPendingProvider] = useState<OAuthProviderId | null>(null);
+  const [linkedIdentities, setLinkedIdentities] = useState(identities);
+
+  async function handleLink(provider: OAuthProviderId) {
+    setPendingProvider(provider);
+    await linkOAuthIdentity(provider, locale);
+    setPendingProvider(null);
+  }
+
+  async function handleUnlink(identity: UserIdentity) {
+    setPendingProvider(identity.provider as OAuthProviderId);
+    const result = await unlinkOAuthIdentity(identity);
+    setPendingProvider(null);
+    if (result?.error) {
+      toast.error(tAuth(`errors.${result.error}`));
+      return;
+    }
+    toast.success(t("unlinkedSuccess"));
+    setLinkedIdentities((current) => current.filter((entry) => entry.id !== identity.id));
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-body font-medium">{t("linkedAccountsTitle")}</p>
+      <p className="text-small text-muted-foreground">{t("linkedAccountsDescription")}</p>
+
+      {enabledProviders.map((provider) => {
+        const identity = linkedIdentities.find((entry) => entry.provider === provider);
+        const isPending = pendingProvider === provider;
+
+        return (
+          <div key={provider} className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-small font-medium">{t(`providers.${provider}`)}</span>
+              <Badge variant={identity ? "success" : "outline"}>
+                {identity ? t("linkedBadge") : t("notLinkedBadge")}
+              </Badge>
+            </div>
+            {identity ? (
+              <Button
+                variant="outline"
+                size="sm"
+                loading={isPending}
+                loadingText={t("unlinking")}
+                onClick={() => handleUnlink(identity)}
+              >
+                {t("unlinkButton")}
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                loading={isPending}
+                loadingText={t("linking")}
+                onClick={() => handleLink(provider)}
+              >
+                {t("linkButton")}
+              </Button>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export function SecurityTab({
+  mfaEnabled,
+  identities,
+  enabledOAuthProviders,
+  locale,
+}: {
+  mfaEnabled: boolean;
+  identities: UserIdentity[];
+  enabledOAuthProviders: OAuthProviderId[];
+  locale: AppLocale;
+}) {
   const t = useTranslations("Account.security");
 
   return (
@@ -246,6 +344,12 @@ export function SecurityTab({ mfaEnabled }: { mfaEnabled: boolean }) {
         <ChangePasswordForm />
         <Separator />
         <TwoFactorSection initiallyEnabled={mfaEnabled} />
+        <Separator />
+        <LinkedAccountsSection
+          identities={identities}
+          enabledProviders={enabledOAuthProviders}
+          locale={locale}
+        />
         <Separator />
         <SessionsSection />
       </CardContent>

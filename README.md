@@ -95,19 +95,32 @@ le détail des décisions) :
   vers `/connexion?next=...` si non connecté ; `/admin` redirige vers `/app`
   si le rôle n'est pas un rôle interne (§7.1).
 - **Paramètres** (`/app/parametres`) : profil, sécurité (changement de mot
-  de passe, 2FA TOTP native Supabase, déconnexion de tous les appareils),
-  langue & devise (`profiles.locale`/`currency`, prioritaires sur le cookie
-  une fois connecté), notifications, abonnement (placeholder), suppression
-  de compte RGPD (re-vérification du mot de passe).
+  de passe, 2FA TOTP native Supabase, comptes liés, déconnexion de tous les
+  appareils), langue & devise (`profiles.locale`/`currency`, prioritaires
+  sur le cookie une fois connecté), notifications, abonnement (placeholder),
+  suppression de compte RGPD (re-vérification du mot de passe).
 - **Base de données** : migration
   `supabase/migrations/20260704140000_auth_profiles_and_roles.sql` — enum
   `user_role` (§7.1), table `profiles` (trigger de création automatique,
-  verrou anti-élévation de privilège), `audit_log` (§12, §17), RLS complète.
+  verrou anti-élévation de privilège), `audit_log` (§12, §17), RLS complète ;
+  et `supabase/migrations/20260704150000_countries_and_currencies.sql` —
+  pays/devises en table de configuration (voir plus bas).
 - **Rôles** : seul `artist` est attribuable via `/inscription` ; les rôles
   internes sont attribués manuellement (bootstrap du premier `super_admin`
   documenté dans `supabase/seed.sql`).
-- **Apple Sign In différé** (`[V1]` + compte Apple Developer payant requis) ;
-  **2FA construite malgré son tag `[V1]`** (native Supabase, sert le §17).
+- **OAuth provider-agnostique** (`src/app/[locale]/(auth)/oauth-providers.ts`,
+  `oauth-button.tsx`) : Google actif (`[MVP]`), **Apple différé mais son
+  architecture complète est prête** (registre de providers, Server Action
+  générique, callback déjà agnostique, comptes liés via
+  `linkIdentity`/`unlinkIdentity`) — l'activer ne demande que des
+  identifiants, aucune refonte. **2FA construite malgré son tag `[V1]`**
+  (native Supabase, sert le §17). Détail validé par Axel dans
+  `docs/adr/0007-auth-architecture.md`.
+- **Pays/devises en base**, pas en dur : tables `countries` (36 marchés
+  Afrique/Europe/Amérique du Nord) et `currencies` (11 devises), liste
+  métier validée par Axel — ajouter un marché = une ligne insérée, jamais
+  une modification de code. Voir
+  `src/app/(private)/app/parametres/country-currency-data.ts` et ADR 0007.
 
 ⚠️ **Aucun projet Supabase réel n'est connecté** (`.env.local` a les clés
 vides) — voir "Notes importantes" ci-dessous.
@@ -161,16 +174,18 @@ src/
 │   │   ├── layout.tsx       Root layout n°1 (html/body, NextIntlClientProvider, PostHog)
 │   │   ├── (marketing)/     Accueil, Distribution, Tarifs... (Sprint 2)
 │   │   └── (auth)/          /connexion·/login, /inscription·/signup... (Sprint 3)
-│   │       ├── actions.ts    Server Actions (signIn, signUp, signInWithGoogle...)
-│   │       └── schemas.ts    Schémas Zod partagés Server Actions ↔ formulaires
+│   │       ├── actions.ts    Server Actions (signIn, signUp, signInWithOAuth...)
+│   │       ├── schemas.ts    Schémas Zod partagés Server Actions ↔ formulaires
+│   │       ├── oauth-providers.ts   Registre providers OAuth (google actif, apple prêt)
+│   │       └── oauth-button.tsx     OAuthButton/OAuthButtons génériques (icônes incluses)
 │   ├── (private)/           Dashboard + back-office, PAS de préfixe de locale
 │   │   ├── layout.tsx       Root layout n°2 (+ <PrivateHeader>, Sprint 3)
 │   │   ├── actions.ts        signOut() (déconnexion appareil courant)
 │   │   ├── app/             Dashboard artiste (Sprint 4)
-│   │   │   └── parametres/   Profil, sécurité (2FA), langue, notifications, RGPD (Sprint 3)
+│   │   │   └── parametres/   Profil, sécurité (2FA, comptes liés), langue, notifications, RGPD (Sprint 3)
 │   │   └── admin/           Back-office (Sprint 4+)
 │   ├── api/
-│   │   ├── auth/callback/    Échange PKCE unique (Google, confirmation, reset — Sprint 3)
+│   │   ├── auth/callback/    Échange PKCE unique (tout provider OAuth, confirmation, reset — Sprint 3)
 │   │   └── health/           Endpoint de santé (uptime monitoring, §25)
 │   └── globals.css          Tailwind v4 + design tokens Sterkte Records (§9)
 ├── i18n/                    Config next-intl (routing, navigation, messages fr/en/ln)
@@ -179,7 +194,8 @@ src/
 │   ├── fonts.ts              Polices partagées entre les deux root layouts
 │   ├── supabase/            Clients browser / server / admin / middleware (session SSR)
 │   │   ├── profile.ts         fetchUserRole/homeForRole partagés proxy.ts ↔ Server Actions
-│   │   └── auth-errors.ts     Mapping codes d'erreur Supabase Auth → clés i18n
+│   │   ├── auth-errors.ts     Mapping codes d'erreur Supabase Auth → clés i18n
+│   │   └── callback-url.ts    authCallbackUrl() partagé (auth)/actions.ts ↔ parametres/actions.ts
 │   ├── storage/r2.ts         Cloudflare R2 — URLs présignées upload/download
 │   ├── payments/             Stripe, Flutterwave, Paystack — clients bruts
 │   ├── email/resend.ts       Client Resend
@@ -199,7 +215,7 @@ src/
 
 supabase/
 ├── config.toml
-├── migrations/               Baseline + profiles/rôles/audit_log (Sprint 3)
+├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3)
 └── seed.sql                  Note de bootstrap du premier super_admin
 
 docs/adr/                     Décisions d'architecture documentées
@@ -228,7 +244,7 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - `docs/adr/0004-i18n-content-policy.md` — fr/en référence complète, ln en brouillon assumé, parité de clés vérifiée automatiquement, zéro texte en dur (validé)
 - `docs/adr/0005-typography-fallback.md` — Inter/Bricolage Grotesque en attendant Satoshi/Clash Display (à valider)
 - `docs/adr/0006-content-sourcing.md` — sources du contenu réel (CGU fournies par Axel, PDF de contenu, prototype zip), roster artistes non repris (données factices), deux incohérences CDC/contenu réel à trancher (voir Notes importantes)
-- `docs/adr/0007-auth-architecture.md` — flux PKCE unique, attribution des rôles, Apple différé, 2FA construite malgré son tag `[V1]`, sessions limitées à la déconnexion globale, `profiles.locale` prioritaire sur le cookie, Paramètres > Abonnement en placeholder, contrainte d'environnement (pas de test de bout en bout)
+- `docs/adr/0007-auth-architecture.md` — flux PKCE unique, attribution des rôles, Apple différé mais architecture OAuth complète prête (providers/callback/DB/comptes liés), 2FA construite malgré son tag `[V1]`, sessions limitées à la déconnexion globale, `profiles.locale` prioritaire sur le cookie, pays/devises en table de configuration (liste métier validée par Axel), Paramètres > Abonnement en placeholder, contrainte d'environnement (pas de test de bout en bout)
 
 ## Notes importantes
 
@@ -285,9 +301,22 @@ réel n'est committé ; `.env.local` est ignoré par git.
   formulaire public. Un trigger Postgres (`protect_profile_role`) empêche
   un utilisateur de changer son propre rôle par une simple mise à jour de
   profil.
-- **Apple Sign In différé, 2FA construite quand même** : Apple est `[V1]`
-  au CDC ET nécessite un compte Apple Developer payant (blocage
-  administratif, même famille de décision que LabelGrid, ADR 0003) ; la 2FA
-  TOTP est elle nativement supportée par Supabase (aucune dépendance
+- **Apple Sign In différé, architecture complète prête (validé par Axel)** :
+  Apple est `[V1]` au CDC ET nécessite un compte Apple Developer payant
+  (blocage administratif, même famille de décision que LabelGrid, ADR 0003).
+  Axel a validé le report à condition qu'aucune refonte ne soit nécessaire à
+  l'activation — c'est le cas : registre de providers, Server Action
+  générique, callback déjà agnostique, comptes liés (`linkIdentity`/
+  `unlinkIdentity`) fonctionnent déjà pour Apple, il ne manque que les
+  identifiants (`SUPABASE_AUTH_EXTERNAL_APPLE_CLIENT_ID`/`_SECRET`). La 2FA
+  TOTP, elle, est nativement supportée par Supabase (aucune dépendance
   externe) donc construite dès ce sprint malgré son propre tag `[V1]` — voir
   ADR 0007.
+- **Pays/devises : liste métier validée par Axel, en base** (amende la
+  proposition initiale, jugée trop générique) : 36 pays (Afrique
+  francophone/anglophone + RDC, Maghreb, Europe, Amérique du Nord) et
+  11 devises effectivement utilisées dans les règlements Sterkte Records,
+  servis par les tables `countries`/`currencies`
+  (`supabase/migrations/20260704150000_countries_and_currencies.sql`) —
+  pas un tableau TypeScript. Étendre la liste = une ligne insérée en base,
+  jamais une modification de `ProfileTab`/`LanguageTab` — voir ADR 0007.

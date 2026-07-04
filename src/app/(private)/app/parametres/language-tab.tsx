@@ -17,7 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { updateLocaleAndCurrency } from "./actions";
 import { updateLocaleCurrencySchema, type UpdateLocaleCurrencyValues } from "./schemas";
 import { routing, type AppLocale } from "@/i18n/routing";
-import { CURRENCY_CODES, displayLocaleFor } from "./country-currency-data";
+import { displayLocaleFor } from "./country-currency-data";
 
 const LOCALE_LABELS: Record<AppLocale, string> = {
   fr: "Français",
@@ -25,7 +25,16 @@ const LOCALE_LABELS: Record<AppLocale, string> = {
   ln: "Lingala",
 };
 
-export function LanguageTab({ locale, currency }: { locale: AppLocale; currency: string }) {
+export function LanguageTab({
+  locale,
+  currency,
+  currencyCodes,
+}: {
+  locale: AppLocale;
+  currency: string;
+  /** Codes ISO actifs — table `public.currencies` (§11.2), pas un tableau en dur. */
+  currencyCodes: string[];
+}) {
   const t = useTranslations("Account.language");
   const currentLocale = useLocale();
   const currencyNames = new Intl.DisplayNames([displayLocaleFor(currentLocale)], {
@@ -94,7 +103,7 @@ export function LanguageTab({ locale, currency }: { locale: AppLocale; currency:
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {CURRENCY_CODES.map((code) => (
+                      {currencyCodes.map((code) => (
                         <SelectItem key={code} value={code}>
                           {currencyNames.of(code) ?? code} ({code})
                         </SelectItem>

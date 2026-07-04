@@ -24,9 +24,18 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { updateProfile } from "./actions";
 import { updateProfileSchema, type UpdateProfileValues } from "./schemas";
-import { COUNTRY_CODES, displayLocaleFor } from "./country-currency-data";
+import { displayLocaleFor } from "./country-currency-data";
 
-export function ProfileTab({ fullName, country }: { fullName: string; country: string | null }) {
+export function ProfileTab({
+  fullName,
+  country,
+  countryCodes,
+}: {
+  fullName: string;
+  country: string | null;
+  /** Codes ISO actifs — table `public.countries` (§11.2), pas un tableau en dur. */
+  countryCodes: string[];
+}) {
   const t = useTranslations("Account.profile");
   const locale = useLocale();
   const regionNames = new Intl.DisplayNames([displayLocaleFor(locale)], { type: "region" });
@@ -82,7 +91,7 @@ export function ProfileTab({ fullName, country }: { fullName: string; country: s
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {COUNTRY_CODES.map((code) => (
+                      {countryCodes.map((code) => (
                         <SelectItem key={code} value={code}>
                           {regionNames.of(code) ?? code}
                         </SelectItem>

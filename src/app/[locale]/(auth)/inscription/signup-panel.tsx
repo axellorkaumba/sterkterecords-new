@@ -6,11 +6,18 @@ import { MailCheckIcon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/navigation";
-import { GoogleSignInButton } from "../google-button";
+import { OAuthButtons } from "../oauth-button";
 import { SignupForm } from "./signup-form";
 import type { AppLocale } from "@/i18n/routing";
+import type { OAuthProviderId } from "../oauth-providers";
 
-export function SignupPanel({ locale }: { locale: AppLocale }) {
+export function SignupPanel({
+  locale,
+  oauthProviders,
+}: {
+  locale: AppLocale;
+  oauthProviders: OAuthProviderId[];
+}) {
   const t = useTranslations("Auth");
   const [confirmedEmail, setConfirmedEmail] = useState<string | null>(null);
 
@@ -38,7 +45,11 @@ export function SignupPanel({ locale }: { locale: AppLocale }) {
         <CardDescription>{t("signup.subtitle")}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <GoogleSignInButton locale={locale} label={t("signup.google")} />
+        <OAuthButtons
+          providers={oauthProviders}
+          locale={locale}
+          labels={{ google: t("signup.google"), apple: t("signup.apple") }}
+        />
 
         <div className="flex items-center gap-3">
           <Separator className="flex-1" />

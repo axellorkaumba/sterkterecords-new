@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/navigation";
 import { createSeoMetadata } from "@/lib/seo";
-import { GoogleSignInButton } from "../google-button";
+import { OAuthButtons } from "../oauth-button";
+import { getEnabledOAuthProviders } from "../oauth-providers";
 import { LoginForm } from "./login-form";
 
 export const generateMetadata = createSeoMetadata("Seo.login", { noindex: true });
@@ -40,7 +41,12 @@ export default async function LoginPage({
           </p>
         ) : null}
 
-        <GoogleSignInButton locale={locale} next={next} label={t("login.google")} />
+        <OAuthButtons
+          providers={getEnabledOAuthProviders()}
+          locale={locale}
+          next={next}
+          labels={{ google: t("login.google"), apple: t("login.apple") }}
+        />
 
         <div className="flex items-center gap-3">
           <Separator className="flex-1" />

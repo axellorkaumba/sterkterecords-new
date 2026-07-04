@@ -1,6 +1,7 @@
 /**
  * Type `Database` écrit à la main, reflétant
- * `supabase/migrations/20260704140000_auth_profiles_and_roles.sql`.
+ * `supabase/migrations/20260704140000_auth_profiles_and_roles.sql` et
+ * `supabase/migrations/20260704150000_countries_and_currencies.sql`.
  *
  * Normalement généré par `pnpm supabase:gen:types` contre un vrai projet
  * Supabase (local Docker ou cloud) — indisponible dans cet environnement
@@ -64,7 +65,68 @@ export type Database = {
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
+          {
+            foreignKeyName: "profiles_country_fkey";
+            columns: ["country"];
+            isOneToOne: false;
+            referencedRelation: "countries";
+            referencedColumns: ["code"];
+          },
+          {
+            foreignKeyName: "profiles_currency_fkey";
+            columns: ["currency"];
+            isOneToOne: false;
+            referencedRelation: "currencies";
+            referencedColumns: ["code"];
+          },
         ];
+      };
+      countries: {
+        Row: {
+          code: string;
+          default_currency: string;
+          active: boolean;
+          sort_order: number;
+        };
+        Insert: {
+          code: string;
+          default_currency: string;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Update: {
+          code?: string;
+          default_currency?: string;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "countries_default_currency_fkey";
+            columns: ["default_currency"];
+            isOneToOne: false;
+            referencedRelation: "currencies";
+            referencedColumns: ["code"];
+          },
+        ];
+      };
+      currencies: {
+        Row: {
+          code: string;
+          active: boolean;
+          sort_order: number;
+        };
+        Insert: {
+          code: string;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Update: {
+          code?: string;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Relationships: [];
       };
       audit_log: {
         Row: {

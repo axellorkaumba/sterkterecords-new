@@ -543,7 +543,8 @@
       "orContinueWith": "or continue with",
       "google": "Continue with Google",
       "noAccount": "Don't have an account?",
-      "signupLink": "Create an account"
+      "signupLink": "Create an account",
+      "apple": "Continue with Apple"
     },
     "signup": {
       "tag": "Sign up",
@@ -564,7 +565,8 @@
       "hasAccount": "Already have an account?",
       "loginLink": "Sign in",
       "successTitle": "Check your inbox",
-      "successDescription": "A confirmation email was just sent to {email}. Click the link to activate your account."
+      "successDescription": "A confirmation email was just sent to {email}. Click the link to activate your account.",
+      "apple": "Continue with Apple"
     },
     "forgotPassword": {
       "tag": "Forgot password",
@@ -658,7 +660,20 @@
       "sessionsTitle": "Active sessions",
       "sessionsDescription": "Sign out of every device connected to your account, including this one.",
       "signOutEverywhereButton": "Sign out of all devices",
-      "signingOutEverywhere": "Signing out…"
+      "signingOutEverywhere": "Signing out…",
+      "linkedAccountsTitle": "Linked accounts",
+      "linkedAccountsDescription": "Connect third-party accounts to sign in faster.",
+      "linkedBadge": "Linked",
+      "notLinkedBadge": "Not linked",
+      "linkButton": "Link",
+      "unlinkButton": "Unlink",
+      "linking": "Redirecting…",
+      "unlinking": "Unlinking…",
+      "unlinkedSuccess": "Account unlinked.",
+      "providers": {
+        "google": "Google",
+        "apple": "Apple"
+      }
     },
     "language": {
       "title": "Language & currency",

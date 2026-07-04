@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { AppLocale } from "@/i18n/routing";
+import { getEnabledOAuthProviders } from "@/app/[locale]/(auth)/oauth-providers";
 import { ProfileTab } from "./profile-tab";
 import { SecurityTab } from "./security-tab";
 import { LanguageTab } from "./language-tab";
@@ -16,9 +17,9 @@ export async function generateMetadata() {
 
 /**
  * Paramètres du compte (§11.2 du CDC) : profil, sécurité (mot de passe,
- * 2FA), langue & devise, notifications, abonnement, suppression RGPD.
- * Protégée par `src/proxy.ts` (garde d'authentification sur `/app`) — un
- * utilisateur non connecté n'atteint jamais ce composant.
+ * 2FA, comptes liés), langue & devise, notifications, abonnement,
+ * suppression RGPD. Protégée par `src/proxy.ts` (garde d'authentification
+ * sur `/app`) — un utilisateur non connecté n'atteint jamais ce composant.
  */
 export default async function SettingsPage() {
   const t = await getTranslations("Account");
@@ -35,14 +36,26 @@ export default async function SettingsPage() {
     return null;
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("full_name, country, locale, currency, notify_email, notify_whatsapp")
-    .eq("id", user.id)
-    .single();
+  const [
+    { data: profile },
+    { data: mfaFactors },
+    { data: identitiesData },
+    { data: countries },
+    { data: currencies },
+  ] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("full_name, country, locale, currency, notify_email, notify_whatsapp")
+      .eq("id", user.id)
+      .single(),
+    supabase.auth.mfa.listFactors(),
+    supabase.auth.getUserIdentities(),
+    supabase.from("countries").select("code").eq("active", true).order("sort_order"),
+    supabase.from("currencies").select("code").eq("active", true).order("sort_order"),
+  ]);
 
-  const { data: mfaFactors } = await supabase.auth.mfa.listFactors();
   const mfaEnabled = (mfaFactors?.totp.length ?? 0) > 0;
+  const locale = (profile?.locale as AppLocale | undefined) ?? "fr";
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6 p-4 sm:p-8">
@@ -62,15 +75,25 @@ export default async function SettingsPage() {
         </TabsList>
 
         <TabsContent value="profile">
-          <ProfileTab fullName={profile?.full_name ?? ""} country={profile?.country ?? null} />
+          <ProfileTab
+            fullName={profile?.full_name ?? ""}
+            country={profile?.country ?? null}
+            countryCodes={(countries ?? []).map((c) => c.code)}
+          />
         </TabsContent>
         <TabsContent value="security">
-          <SecurityTab mfaEnabled={mfaEnabled} />
+          <SecurityTab
+            mfaEnabled={mfaEnabled}
+            identities={identitiesData?.identities ?? []}
+            enabledOAuthProviders={getEnabledOAuthProviders()}
+            locale={locale}
+          />
         </TabsContent>
         <TabsContent value="language">
           <LanguageTab
-            locale={(profile?.locale as AppLocale | undefined) ?? "fr"}
+            locale={locale}
             currency={profile?.currency ?? "USD"}
+            currencyCodes={(currencies ?? []).map((c) => c.code)}
           />
         </TabsContent>
         <TabsContent value="notifications">

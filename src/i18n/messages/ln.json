@@ -560,7 +560,8 @@
       "orContinueWith": "TODO(ln): ou continue avec",
       "google": "TODO(ln): Continuer avec Google",
       "noAccount": "TODO(ln): Pas encore de compte ?",
-      "signupLink": "TODO(ln): Créer un compte"
+      "signupLink": "TODO(ln): Créer un compte",
+      "apple": "TODO(ln): Continuer avec Apple"
     },
     "signup": {
       "tag": "TODO(ln): Inscription",
@@ -581,7 +582,8 @@
       "hasAccount": "TODO(ln): Déjà un compte ?",
       "loginLink": "TODO(ln): Se connecter",
       "successTitle": "TODO(ln): Vérifie ta boîte mail",
-      "successDescription": "TODO(ln): Un email de confirmation vient d'être envoyé à {email}. Clique sur le lien pour activer ton compte."
+      "successDescription": "TODO(ln): Un email de confirmation vient d'être envoyé à {email}. Clique sur le lien pour activer ton compte.",
+      "apple": "TODO(ln): Continuer avec Apple"
     },
     "forgotPassword": {
       "tag": "TODO(ln): Mot de passe oublié",
@@ -675,7 +677,20 @@
       "sessionsTitle": "TODO(ln): Sessions actives",
       "sessionsDescription": "TODO(ln): Déconnecte tous les appareils connectés à ton compte, y compris celui-ci.",
       "signOutEverywhereButton": "TODO(ln): Se déconnecter de tous les appareils",
-      "signingOutEverywhere": "TODO(ln): Déconnexion…"
+      "signingOutEverywhere": "TODO(ln): Déconnexion…",
+      "linkedAccountsTitle": "TODO(ln): Comptes liés",
+      "linkedAccountsDescription": "TODO(ln): Connecte des comptes tiers pour te connecter plus rapidement.",
+      "linkedBadge": "TODO(ln): Lié",
+      "notLinkedBadge": "TODO(ln): Non lié",
+      "linkButton": "TODO(ln): Lier",
+      "unlinkButton": "TODO(ln): Délier",
+      "linking": "TODO(ln): Redirection…",
+      "unlinking": "TODO(ln): Déliaison…",
+      "unlinkedSuccess": "TODO(ln): Compte délié.",
+      "providers": {
+        "google": "TODO(ln): Google",
+        "apple": "TODO(ln): Apple"
+      }
     },
     "language": {
       "title": "TODO(ln): Langue & devise",

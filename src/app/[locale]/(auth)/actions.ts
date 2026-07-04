@@ -6,7 +6,7 @@ import { mapSupabaseErrorCode, type AuthErrorCode } from "@/lib/supabase/auth-er
 import { fetchUserRole, homeForRole } from "@/lib/supabase/profile";
 import { getPathname } from "@/i18n/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
-import { clientEnv } from "@/lib/env";
+import { authCallbackUrl } from "@/lib/supabase/callback-url";
 import {
   signInSchema,
   signUpSchema,
@@ -19,16 +19,9 @@ import {
   type UpdatePasswordValues,
   type ResendValues,
 } from "./schemas";
+import { OAUTH_PROVIDER_IDS, type OAuthProviderId } from "./oauth-providers";
 
 type ActionResult = { error: AuthErrorCode | null };
-
-function callbackUrl(params: Record<string, string | undefined>): string {
-  const url = new URL("/api/auth/callback", clientEnv.NEXT_PUBLIC_SITE_URL);
-  for (const [key, value] of Object.entries(params)) {
-    if (value) url.searchParams.set(key, value);
-  }
-  return url.toString();
-}
 
 /**
  * Connexion email + mot de passe (§11.2, MVP). En cas de succès, redirige
@@ -68,7 +61,7 @@ export async function signUp(values: SignUpFormValues): Promise<ActionResult> {
     password,
     options: {
       data: { full_name: fullName, locale },
-      emailRedirectTo: callbackUrl({ type: "signup", locale }),
+      emailRedirectTo: authCallbackUrl({ type: "signup", locale }),
     },
   });
 
@@ -77,19 +70,28 @@ export async function signUp(values: SignUpFormValues): Promise<ActionResult> {
 }
 
 /**
- * Démarre le flux OAuth Google (§3.1, MVP). Appelée comme `action` de
- * formulaire (`<form action={signInWithGoogle}>`) : ne retourne jamais en cas
- * de succès, redirige le navigateur vers Google puis, via
+ * Démarre un flux OAuth (§11.2 — Google `[MVP]`, Apple `[V1]` différé, voir
+ * `oauth-providers.ts`). Générique par construction : activer un nouveau
+ * provider ne demande pas de nouvelle Server Action, seulement une entrée
+ * dans `OAUTH_PROVIDER_IDS` + les identifiants correspondants. Appelée comme
+ * `action` de formulaire (`<form action={signInWithOAuth}>`) : ne retourne
+ * jamais en cas de succès, redirige le navigateur vers le provider puis, via
  * `/api/auth/callback`, vers `/app`/`/admin`.
  */
-export async function signInWithGoogle(formData: FormData): Promise<void> {
+export async function signInWithOAuth(formData: FormData): Promise<void> {
   const locale = (formData.get("locale") as AppLocale | null) ?? routing.defaultLocale;
   const next = formData.get("next") as string | null;
+  const providerInput = formData.get("provider") as OAuthProviderId | null;
+
+  if (!providerInput || !OAUTH_PROVIDER_IDS.includes(providerInput)) {
+    const loginPath = getPathname({ href: "/connexion", locale });
+    redirect(`${loginPath}?error=oauth_failed`);
+  }
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: { redirectTo: callbackUrl({ locale, next: next ?? undefined }) },
+    provider: providerInput,
+    options: { redirectTo: authCallbackUrl({ locale, next: next ?? undefined }) },
   });
 
   if (error || !data.url) {
@@ -113,7 +115,7 @@ export async function requestPasswordReset(values: ForgotPasswordValues): Promis
 
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: callbackUrl({ type: "recovery", locale }),
+    redirectTo: authCallbackUrl({ type: "recovery", locale }),
   });
 
   if (error) return { error: mapSupabaseErrorCode(error) };
@@ -152,7 +154,7 @@ export async function resendVerificationEmail(values: ResendValues): Promise<Act
   const { error } = await supabase.auth.resend({
     type: "signup",
     email,
-    options: { emailRedirectTo: callbackUrl({ type: "signup", locale }) },
+    options: { emailRedirectTo: authCallbackUrl({ type: "signup", locale }) },
   });
 
   if (error) return { error: mapSupabaseErrorCode(error) };

@@ -1,6 +1,13 @@
 # ADR 0007 — Architecture de l'authentification (Sprint 3)
 
-**Statut :** Informatif — documente des décisions prises pendant l'implémentation ; deux points restent à confirmer explicitement avec Axel (voir en bas).
+**Statut :** Validé par Axel (2026-07-04), avec deux amendements — voir
+"Amendements validés par Axel" en bas : (1) Apple Sign In reste différé mais
+l'architecture complète (interfaces/providers/callbacks/DB/comptes liés) est
+construite dès maintenant, activable sans refonte ; (2) la liste pays/devises
+initialement proposée (~27 pays génériques) a été remplacée par une liste
+métier (~36 pays, 11 devises) pensée pour les marchés réels de la distribution
+musicale Sterkte Records, servie depuis une table de configuration plutôt que
+codée en dur.
 
 ## Contexte
 
@@ -42,14 +49,51 @@ Un trigger `protect_profile_role` empêche un utilisateur de changer son
 propre `role` via une simple mise à jour de son profil — seul `super_admin`
 ou le client `service_role` le peuvent (défense en profondeur, §17).
 
-### 3. Apple Sign In différé — même famille de décision que LabelGrid (ADR 0003)
+### 3. Apple Sign In différé, architecture complète prête (validé par Axel)
 
 Apple est `[V1]` au §11.2, ET nécessite un compte Apple Developer payant
 (99 $/an) + génération d'un client secret JWT signé (rotation ~6 mois) : un
-blocage administratif, pas seulement un manque de temps de dev. Le bouton
-"Continuer avec Apple" n'est pas construit ; `supabase/config.toml` documente
-la configuration cible (`[auth.external.apple]`, `enabled = false`) pour
-quand Axel aura le compte développeur.
+blocage administratif, pas seulement un manque de temps de dev — même famille
+de décision que LabelGrid (ADR 0003). Axel a validé le report **à condition
+que rien ne soit à refaire à l'activation** : c'est le cas, chaque couche est
+déjà provider-agnostique.
+
+- **Interfaces/registre** : `src/app/[locale]/(auth)/oauth-providers.ts`
+  définit `OAuthProviderId = "google" | "apple"` et
+  `getEnabledOAuthProviders()`, qui active Apple dès que
+  `SUPABASE_AUTH_EXTERNAL_APPLE_CLIENT_ID`/`SUPABASE_AUTH_EXTERNAL_APPLE_SECRET`
+  sont renseignées (même mécanique que le mock LabelGrid — bascule sur
+  présence de variable d'environnement, jamais de code à changer).
+- **Providers/config** : `supabase/config.toml` a déjà le bloc
+  `[auth.external.apple]` (désactivé, `client_id`/`secret` en substitution
+  `env(...)`) ; `.env.example` documente les deux variables à renseigner.
+- **Server Action générique** : `signInWithOAuth` (dans
+  `src/app/[locale]/(auth)/actions.ts`) prend le provider en paramètre
+  (`FormData`, validé contre `OAUTH_PROVIDER_IDS`) — ni Google ni Apple
+  n'ont de Server Action dédiée à maintenir séparément.
+- **Composant UI générique** : `OAuthButton`/`OAuthButtons`
+  (`src/app/[locale]/(auth)/oauth-button.tsx`) rendent un bouton par provider
+  actif, icône Apple déjà dessinée (SVG monochrome `currentColor`) —
+  n'affichent le bouton Apple que lorsque `getEnabledOAuthProviders()` le
+  retourne.
+- **Callback** : `src/app/api/auth/callback/route.ts` échange le `code` PKCE
+  sans jamais nommer de provider — déjà valide pour Apple tel quel.
+- **Base de données** : aucune table dédiée par provider — Supabase Auth gère
+  nativement les identités multiples par utilisateur
+  (`auth.identities`, une ligne par provider lié à un même `auth.users.id`).
+  Le trigger `handle_new_user` (migration `20260704140000`) se déclenche à
+  l'identique quel que soit le provider d'origine (email, Google, Apple).
+- **Comptes liés** : Paramètres > Sécurité affiche un statut Lié/Non lié par
+  provider actif et des actions `linkOAuthIdentity`/`unlinkOAuthIdentity`
+  (`supabase.auth.linkIdentity`/`unlinkIdentity`, natif Supabase) — permet à
+  un utilisateur déjà inscrit par email de lier son compte Apple une fois le
+  provider activé, sans migration de compte.
+
+**Activation future (aucun développement requis)** : créer le compte Apple
+Developer, générer le Services ID + client secret JWT, renseigner les deux
+variables d'environnement, activer `[auth.external.apple]` (local) ou le
+provider Apple du dashboard (cloud). Le bouton, le callback, l'attribution de
+rôle et les comptes liés fonctionnent immédiatement.
 
 ### 4. 2FA (TOTP) construit malgré le tag `[V1]` du CDC
 
@@ -115,13 +159,49 @@ d'abord, test plus tard"). Conséquences :
   au-delà de cette frontière (création réelle d'un compte, RLS en pratique,
   emails envoyés) reste à valider dès qu'un projet Supabase existe.
 
-## À confirmer explicitement avec Axel
+### 9. Pays/devises : table de configuration métier (validé par Axel, amendé)
 
-1. **Pays/devises** : liste resserrée à ~27 pays / 9 devises pertinents pour
-   Sterkte Records plutôt que la liste ISO complète (voir
-   `src/app/(private)/app/parametres/country-currency-data.ts`) — à étendre
-   si un marché manquant se présente.
-2. **Politique de mot de passe** : minimum 8 caractères (`config.toml`,
-   schémas Zod) — le CDC ne précise pas de règle explicite au-delà de
-   "haché" (§17) ; 8 caractères est un choix par défaut raisonnable, pas une
-   exigence du CDC.
+Proposition initiale (~27 pays génériques codés en dur) rejetée par Axel au
+profit d'une liste **métier**, pensée pour les marchés où Sterkte Records
+opère réellement — et d'une architecture **base de données**, pas un tableau
+TypeScript, pour permettre d'ajouter un pays/une devise sans toucher au code.
+
+- **Tables** `public.countries` (36 pays) et `public.currencies`
+  (11 devises) — migration
+  `supabase/migrations/20260704150000_countries_and_currencies.sql`. RLS :
+  lecture publique des lignes `active = true`, écriture réservée au
+  `service_role` (gestion via le futur back-office, §11.10, ou SQL direct
+  en attendant).
+- **Liste validée par Axel** :
+  - Afrique (24) : RDC, Congo-Brazzaville, Cameroun, Côte d'Ivoire, Sénégal,
+    Gabon, Bénin, Togo, Burkina Faso, Mali, Guinée, Guinée Équatoriale,
+    Rwanda, Burundi, Angola, Kenya, Tanzanie, Ouganda, Afrique du Sud, Maroc,
+    Tunisie, Algérie, Égypte, Maurice.
+  - Europe (10) : France, Belgique, Suisse, Luxembourg, Allemagne,
+    Royaume-Uni, Pays-Bas, Espagne, Italie, Portugal.
+  - Amérique du Nord (2) : Canada, États-Unis.
+  - Devises (11) : EUR, USD, CDF, XAF, XOF, GBP, CAD, MAD, ZAR, KES, TZS.
+- **`countries.default_currency`** (FK vers `currencies`) alimente la
+  résolution "devise auto/pays" (§11.2). Pour les pays dont la devise
+  nationale n'est pas dans la liste des 11 (ex. GNF, RWF, TND...), repli
+  pragmatique sur USD ou EUR — documenté ligne par ligne dans la migration,
+  réversible en ajoutant la devise native puis en réassignant
+  `default_currency`, toujours sans changement de code.
+- **`profiles.country`/`profiles.currency`** référencent désormais ces
+  tables par contrainte `FOREIGN KEY` (remplace les `CHECK` par regex du
+  premier jet) : une valeur invalide est rejetée par Postgres, pas
+  seulement par la validation applicative.
+- **UI** (`ProfileTab`/`LanguageTab`) reçoit les codes actifs en props
+  depuis `page.tsx` (Server Component, lecture DB) — plus aucun import de
+  liste en dur. Les libellés restent dérivés à l'affichage via
+  `Intl.DisplayNames` (aucune traduction de nom de pays/devise à maintenir).
+- **Étendre la liste** : une ligne `insert into public.countries (...)` (ou
+  `currencies`) via une nouvelle migration ou le futur back-office — jamais
+  une modification de `ProfileTab`/`LanguageTab`.
+
+## Point encore ouvert
+
+- **Politique de mot de passe** : minimum 8 caractères (`config.toml`,
+  schémas Zod) — le CDC ne précise pas de règle explicite au-delà de
+  "haché" (§17) ; 8 caractères est un choix par défaut raisonnable, pas une
+  exigence du CDC. Non tranché explicitement par Axel, signalé pour mémoire.

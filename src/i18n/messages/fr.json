@@ -543,7 +543,8 @@
       "orContinueWith": "ou continue avec",
       "google": "Continuer avec Google",
       "noAccount": "Pas encore de compte ?",
-      "signupLink": "Créer un compte"
+      "signupLink": "Créer un compte",
+      "apple": "Continuer avec Apple"
     },
     "signup": {
       "tag": "Inscription",
@@ -564,7 +565,8 @@
       "hasAccount": "Déjà un compte ?",
       "loginLink": "Se connecter",
       "successTitle": "Vérifie ta boîte mail",
-      "successDescription": "Un email de confirmation vient d'être envoyé à {email}. Clique sur le lien pour activer ton compte."
+      "successDescription": "Un email de confirmation vient d'être envoyé à {email}. Clique sur le lien pour activer ton compte.",
+      "apple": "Continuer avec Apple"
     },
     "forgotPassword": {
       "tag": "Mot de passe oublié",
@@ -658,7 +660,20 @@
       "sessionsTitle": "Sessions actives",
       "sessionsDescription": "Déconnecte tous les appareils connectés à ton compte, y compris celui-ci.",
       "signOutEverywhereButton": "Se déconnecter de tous les appareils",
-      "signingOutEverywhere": "Déconnexion…"
+      "signingOutEverywhere": "Déconnexion…",
+      "linkedAccountsTitle": "Comptes liés",
+      "linkedAccountsDescription": "Connecte des comptes tiers pour te connecter plus rapidement.",
+      "linkedBadge": "Lié",
+      "notLinkedBadge": "Non lié",
+      "linkButton": "Lier",
+      "unlinkButton": "Délier",
+      "linking": "Redirection…",
+      "unlinking": "Déliaison…",
+      "unlinkedSuccess": "Compte délié.",
+      "providers": {
+        "google": "Google",
+        "apple": "Apple"
+      }
     },
     "language": {
       "title": "Langue & devise",

@@ -23,6 +23,13 @@ const serverEnvSchema = z.object({
   // --- Supabase (Postgres + Auth + RLS + Realtime) ---
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
 
+  // --- OAuth Apple (§11.2, [V1] — différé : compte Apple Developer payant
+  // requis, voir docs/adr/0007-auth-architecture.md). Présence de ces deux
+  // variables = bouton "Continuer avec Apple" affiché, même mécanique que
+  // le mock LabelGrid (ADR 0003).
+  SUPABASE_AUTH_EXTERNAL_APPLE_CLIENT_ID: z.string().min(1).optional(),
+  SUPABASE_AUTH_EXTERNAL_APPLE_SECRET: z.string().min(1).optional(),
+
   // --- Cloudflare R2 (stockage audio/artwork, S3-compatible) ---
   R2_ACCOUNT_ID: z.string().min(1).optional(),
   R2_ACCESS_KEY_ID: z.string().min(1).optional(),

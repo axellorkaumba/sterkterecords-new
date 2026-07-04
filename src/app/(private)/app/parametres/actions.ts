@@ -3,10 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import type { UserIdentity } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { mapSupabaseErrorCode, type AuthErrorCode } from "@/lib/supabase/auth-errors";
-import { LOCALE_COOKIE_NAME } from "@/i18n/routing";
+import { authCallbackUrl } from "@/lib/supabase/callback-url";
+import { LOCALE_COOKIE_NAME, type AppLocale } from "@/i18n/routing";
+import {
+  OAUTH_PROVIDER_IDS,
+  getEnabledOAuthProviders,
+  type OAuthProviderId,
+} from "@/app/[locale]/(auth)/oauth-providers";
 import {
   updateProfileSchema,
   changePasswordSchema,
@@ -200,4 +207,40 @@ export async function deleteAccount(values: DeleteAccountValues): Promise<Action
 
   await supabase.auth.signOut({ scope: "global" });
   redirect("/");
+}
+
+/**
+ * Comptes liés (§11.2) — architecture prête pour Apple dès que le provider
+ * sera activé (voir docs/adr/0007-auth-architecture.md) : ces deux actions
+ * fonctionnent déjà pour n'importe quel provider de `OAUTH_PROVIDER_IDS`,
+ * sans changement de code à l'activation.
+ */
+export async function linkOAuthIdentity(
+  provider: OAuthProviderId,
+  locale: AppLocale,
+): Promise<void> {
+  if (!OAUTH_PROVIDER_IDS.includes(provider) || !getEnabledOAuthProviders().includes(provider)) {
+    return;
+  }
+
+  const { supabase } = await requireUser();
+  const { data, error } = await supabase.auth.linkIdentity({
+    provider,
+    options: { redirectTo: authCallbackUrl({ locale, next: "/app/parametres" }) },
+  });
+
+  if (!error && data.url) {
+    redirect(data.url);
+  }
+}
+
+export async function unlinkOAuthIdentity(identity: UserIdentity): Promise<ActionResult> {
+  const { supabase, user } = await requireUser();
+
+  const { error } = await supabase.auth.unlinkIdentity(identity);
+  if (error) return { error: mapSupabaseErrorCode(error) };
+
+  await logAudit(user.id, "oauth_identity_unlinked", "profile", user.id);
+  revalidatePath("/app/parametres");
+  return { error: null };
 }
