@@ -3,3 +3,18 @@
 -- Vide au Sprint 0 : aucune table métier n'existe encore. Chaque sprint qui
 -- introduit des tables (profiles, artists, releases...) ajoute ici ses
 -- données de démo correspondantes.
+
+-- ------------------------------------------------------------------------------
+-- Bootstrap du premier compte super_admin (Sprint 3, §7.1) : aucun rôle
+-- interne n'est attribuable via le formulaire public d'inscription (toujours
+-- `artist`, voir la migration 20260704140000). Le tout premier compte staff
+-- (Axel) doit donc être promu manuellement, une fois après une inscription
+-- normale via /inscription :
+--
+--   update public.profiles set role = 'super_admin' where id =
+--     (select id from auth.users where email = 'axellorkaumba@gmail.com');
+--
+-- Volontairement absent de ce seed (qui tourne sur une base vide, sans
+-- utilisateur existant) — à exécuter une fois, à la main, dans Supabase
+-- Studio (local) ou le SQL Editor (projet cloud). Voir
+-- docs/adr/0007-auth-architecture.md.

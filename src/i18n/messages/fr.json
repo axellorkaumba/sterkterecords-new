@@ -52,6 +52,26 @@
     "legalNotice": {
       "title": "Mentions légales – Sterkte Records",
       "description": "Informations légales sur l'éditeur du site Sterkte Records et l'hébergement de la plateforme."
+    },
+    "login": {
+      "title": "Connexion – Sterkte Records",
+      "description": "Connecte-toi à ton compte Sterkte Records pour gérer tes sorties, tes stats et tes revenus."
+    },
+    "signup": {
+      "title": "Créer un compte – Sterkte Records",
+      "description": "Crée ton compte artiste et distribue ta musique sur toutes les plateformes en quelques minutes."
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié – Sterkte Records",
+      "description": "Réinitialise le mot de passe de ton compte Sterkte Records."
+    },
+    "resetPassword": {
+      "title": "Nouveau mot de passe – Sterkte Records",
+      "description": "Choisis un nouveau mot de passe pour ton compte Sterkte Records."
+    },
+    "verifyEmail": {
+      "title": "Vérification email – Sterkte Records",
+      "description": "Confirme ton adresse email pour activer ton compte Sterkte Records."
     }
   },
   "Nav": {
@@ -487,17 +507,99 @@
     }
   },
   "Auth": {
+    "errors": {
+      "invalid_credentials": "Email ou mot de passe incorrect.",
+      "email_not_confirmed": "Confirme ton adresse email avant de te connecter — vérifie ta boîte de réception.",
+      "user_already_exists": "Un compte existe déjà avec cette adresse email.",
+      "weak_password": "Ce mot de passe est trop faible (8 caractères minimum).",
+      "same_password": "Le nouveau mot de passe doit être différent de l'ancien.",
+      "over_email_send_rate_limit": "Trop de tentatives — réessaie dans quelques minutes.",
+      "over_request_rate_limit": "Trop de tentatives — réessaie dans quelques minutes.",
+      "session_not_found": "Ta session a expiré — reconnecte-toi.",
+      "user_not_found": "Aucun compte ne correspond à cette adresse email.",
+      "oauth_failed": "La connexion avec Google a échoué. Réessaie ou utilise ton email.",
+      "auth_callback_failed": "Ce lien n'est plus valide ou a déjà été utilisé.",
+      "unknown": "Une erreur est survenue. Réessaie dans un instant."
+    },
+    "validation": {
+      "emailInvalid": "Adresse email invalide.",
+      "passwordMin": "8 caractères minimum.",
+      "passwordsMismatch": "Les mots de passe ne correspondent pas.",
+      "fullNameMin": "Indique ton nom complet.",
+      "termsRequired": "Tu dois accepter les conditions pour continuer.",
+      "requiredField": "Ce champ est requis."
+    },
     "login": {
-      "placeholder": "Connexion — arrive au Sprint 3."
+      "tag": "Connexion",
+      "title": "Content de te revoir",
+      "subtitle": "Connecte-toi pour gérer tes sorties et suivre tes revenus.",
+      "emailLabel": "Adresse email",
+      "emailPlaceholder": "toi@exemple.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "forgotPasswordLink": "Mot de passe oublié ?",
+      "submit": "Se connecter",
+      "submitting": "Connexion…",
+      "orContinueWith": "ou continue avec",
+      "google": "Continuer avec Google",
+      "noAccount": "Pas encore de compte ?",
+      "signupLink": "Créer un compte"
     },
     "signup": {
-      "placeholder": "Inscription — arrive au Sprint 3."
+      "tag": "Inscription",
+      "title": "Distribue ta musique",
+      "subtitle": "Crée ton compte — c'est gratuit et ça prend une minute.",
+      "fullNameLabel": "Nom complet",
+      "fullNamePlaceholder": "Ton nom d'artiste ou nom complet",
+      "emailLabel": "Adresse email",
+      "emailPlaceholder": "toi@exemple.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "passwordHint": "8 caractères minimum.",
+      "termsLabel": "J'accepte les <cgu>Conditions Générales d'Utilisation</cgu> et la <privacy>Politique de Confidentialité</privacy>.",
+      "submit": "Créer mon compte",
+      "submitting": "Création du compte…",
+      "orContinueWith": "ou continue avec",
+      "google": "Continuer avec Google",
+      "hasAccount": "Déjà un compte ?",
+      "loginLink": "Se connecter",
+      "successTitle": "Vérifie ta boîte mail",
+      "successDescription": "Un email de confirmation vient d'être envoyé à {email}. Clique sur le lien pour activer ton compte."
     },
     "forgotPassword": {
-      "placeholder": "Mot de passe oublié — arrive au Sprint 3."
+      "tag": "Mot de passe oublié",
+      "title": "Réinitialiser ton mot de passe",
+      "subtitle": "Indique ton adresse email — on t'envoie un lien de réinitialisation.",
+      "emailLabel": "Adresse email",
+      "emailPlaceholder": "toi@exemple.com",
+      "submit": "Envoyer le lien",
+      "submitting": "Envoi…",
+      "successTitle": "Email envoyé",
+      "successDescription": "Si un compte existe pour {email}, un lien de réinitialisation vient d'être envoyé.",
+      "backToLogin": "Retour à la connexion"
+    },
+    "resetPassword": {
+      "tag": "Nouveau mot de passe",
+      "title": "Choisis un nouveau mot de passe",
+      "subtitle": "Ton nouveau mot de passe doit contenir au moins 8 caractères.",
+      "passwordLabel": "Nouveau mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Enregistrer",
+      "submitting": "Enregistrement…",
+      "invalidLinkTitle": "Lien invalide ou expiré",
+      "invalidLinkDescription": "Ce lien de réinitialisation n'est plus valide. Demandes-en un nouveau.",
+      "requestNewLink": "Demander un nouveau lien"
     },
     "verifyEmail": {
-      "placeholder": "Vérification email — arrive au Sprint 3."
+      "tag": "Vérification email",
+      "title": "Vérifie ton adresse email",
+      "description": "Un email de confirmation t'a été envoyé. Clique sur le lien qu'il contient pour activer ton compte.",
+      "resendLabel": "Rien reçu ?",
+      "resendButton": "Renvoyer l'email",
+      "resendSuccess": "Email renvoyé — vérifie ta boîte de réception (et tes spams).",
+      "backToLogin": "Retour à la connexion"
     }
   },
   "PrivateArea": {
@@ -508,5 +610,96 @@
   },
   "Admin": {
     "placeholder": "Back-office — arrive avec les modules métier."
+  },
+  "Account": {
+    "title": "Paramètres",
+    "subtitle": "Profil, sécurité, langue et préférences de ton compte.",
+    "tabs": {
+      "profile": "Profil",
+      "security": "Sécurité",
+      "language": "Langue & devise",
+      "notifications": "Notifications",
+      "subscription": "Abonnement",
+      "danger": "Suppression du compte"
+    },
+    "profile": {
+      "title": "Informations du profil",
+      "fullNameLabel": "Nom complet",
+      "avatarUrlLabel": "URL de la photo de profil",
+      "avatarUrlPlaceholder": "https://…",
+      "countryLabel": "Pays",
+      "countryPlaceholder": "Sélectionner un pays",
+      "saveButton": "Enregistrer",
+      "saving": "Enregistrement…",
+      "savedToast": "Profil mis à jour."
+    },
+    "security": {
+      "changePasswordTitle": "Changer de mot de passe",
+      "newPasswordLabel": "Nouveau mot de passe",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "changePasswordButton": "Changer le mot de passe",
+      "changingPassword": "Modification…",
+      "passwordChanged": "Mot de passe modifié.",
+      "twoFactorTitle": "Double authentification (2FA)",
+      "twoFactorDescription": "Ajoute une couche de sécurité avec une application d'authentification (Google Authenticator, Authy...). Obligatoire pour valider un retrait.",
+      "twoFactorEnabledBadge": "Activée",
+      "twoFactorDisabledBadge": "Désactivée",
+      "enableButton": "Activer la 2FA",
+      "disableButton": "Désactiver la 2FA",
+      "disabling": "Désactivation…",
+      "qrInstructions": "Scanne ce QR code avec ton application d'authentification, puis saisis le code à 6 chiffres généré.",
+      "verificationCodeLabel": "Code de vérification",
+      "verificationCodePlaceholder": "123456",
+      "verifyButton": "Vérifier et activer",
+      "verifying": "Vérification…",
+      "enabledSuccess": "Double authentification activée.",
+      "disabledSuccess": "Double authentification désactivée.",
+      "cancel": "Annuler",
+      "sessionsTitle": "Sessions actives",
+      "sessionsDescription": "Déconnecte tous les appareils connectés à ton compte, y compris celui-ci.",
+      "signOutEverywhereButton": "Se déconnecter de tous les appareils",
+      "signingOutEverywhere": "Déconnexion…"
+    },
+    "language": {
+      "title": "Langue & devise",
+      "localeLabel": "Langue de l'interface",
+      "currencyLabel": "Devise",
+      "saveButton": "Enregistrer",
+      "saving": "Enregistrement…",
+      "savedToast": "Préférences mises à jour."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "emailLabel": "Notifications par email",
+      "emailDescription": "Sorties livrées, rapports mensuels, retraits.",
+      "whatsappLabel": "Notifications WhatsApp",
+      "whatsappDescription": "Rappels de rendez-vous studio, alertes importantes (bientôt disponible).",
+      "saveButton": "Enregistrer",
+      "saving": "Enregistrement…",
+      "savedToast": "Préférences mises à jour."
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "currentPlanLabel": "Plan actuel",
+      "freePlanName": "Free",
+      "description": "La gestion des abonnements et moyens de paiement arrive avec le module Distribution.",
+      "viewPlansCta": "Voir les tarifs"
+    },
+    "danger": {
+      "title": "Supprimer mon compte",
+      "description": "Cette action est irréversible et supprime définitivement ton compte, tes sorties et tes données, conformément au RGPD.",
+      "deleteButton": "Supprimer mon compte",
+      "dialogTitle": "Confirmer la suppression",
+      "dialogDescription": "Saisis ton mot de passe pour confirmer. Cette action est immédiate et irréversible.",
+      "passwordLabel": "Mot de passe",
+      "cancel": "Annuler",
+      "confirmDelete": "Supprimer définitivement",
+      "deleting": "Suppression…"
+    }
+  },
+  "PrivateHeader": {
+    "settingsLink": "Paramètres",
+    "logoutButton": "Se déconnecter",
+    "loggingOut": "Déconnexion…"
   }
 }

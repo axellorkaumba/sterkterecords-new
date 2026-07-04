@@ -118,6 +118,11 @@ export const routing = defineRouting({
       en: "/verify-email",
       ln: "/verification-email",
     },
+    "/reinitialiser-mot-de-passe": {
+      fr: "/reinitialiser-mot-de-passe",
+      en: "/reset-password",
+      ln: "/reinitialiser-mot-de-passe",
+    },
   },
 });
 

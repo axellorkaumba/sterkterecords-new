@@ -1,10 +1,13 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+import { createSeoMetadata } from "@/lib/seo";
+import { SignupPanel } from "./signup-panel";
+import type { AppLocale } from "@/i18n/routing";
 
-// Placeholder — formulaire d'inscription (Supabase Auth) livré au Sprint 3.
+export const generateMetadata = createSeoMetadata("Seo.signup", { noindex: true });
+
 export default async function SignupPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("Auth.signup");
 
-  return <p className="text-sm text-neutral-500">{t("placeholder")}</p>;
+  return <SignupPanel locale={locale as AppLocale} />;
 }

@@ -53,6 +53,26 @@
     "legalNotice": {
       "title": "TODO(ln): Mentions légales – Sterkte Records",
       "description": "TODO(ln): Informations légales sur l'éditeur du site Sterkte Records et l'hébergement de la plateforme."
+    },
+    "login": {
+      "title": "TODO(ln): Connexion – Sterkte Records",
+      "description": "TODO(ln): Connecte-toi à ton compte Sterkte Records pour gérer tes sorties, tes stats et tes revenus."
+    },
+    "signup": {
+      "title": "TODO(ln): Créer un compte – Sterkte Records",
+      "description": "TODO(ln): Crée ton compte artiste et distribue ta musique sur toutes les plateformes en quelques minutes."
+    },
+    "forgotPassword": {
+      "title": "TODO(ln): Mot de passe oublié – Sterkte Records",
+      "description": "TODO(ln): Réinitialise le mot de passe de ton compte Sterkte Records."
+    },
+    "resetPassword": {
+      "title": "TODO(ln): Nouveau mot de passe – Sterkte Records",
+      "description": "TODO(ln): Choisis un nouveau mot de passe pour ton compte Sterkte Records."
+    },
+    "verifyEmail": {
+      "title": "TODO(ln): Vérification email – Sterkte Records",
+      "description": "TODO(ln): Confirme ton adresse email pour activer ton compte Sterkte Records."
     }
   },
   "Nav": {
@@ -504,17 +524,99 @@
     }
   },
   "Auth": {
+    "errors": {
+      "invalid_credentials": "TODO(ln): Email ou mot de passe incorrect.",
+      "email_not_confirmed": "TODO(ln): Confirme ton adresse email avant de te connecter — vérifie ta boîte de réception.",
+      "user_already_exists": "TODO(ln): Un compte existe déjà avec cette adresse email.",
+      "weak_password": "TODO(ln): Ce mot de passe est trop faible (8 caractères minimum).",
+      "same_password": "TODO(ln): Le nouveau mot de passe doit être différent de l'ancien.",
+      "over_email_send_rate_limit": "TODO(ln): Trop de tentatives — réessaie dans quelques minutes.",
+      "over_request_rate_limit": "TODO(ln): Trop de tentatives — réessaie dans quelques minutes.",
+      "session_not_found": "TODO(ln): Ta session a expiré — reconnecte-toi.",
+      "user_not_found": "TODO(ln): Aucun compte ne correspond à cette adresse email.",
+      "oauth_failed": "TODO(ln): La connexion avec Google a échoué. Réessaie ou utilise ton email.",
+      "auth_callback_failed": "TODO(ln): Ce lien n'est plus valide ou a déjà été utilisé.",
+      "unknown": "TODO(ln): Une erreur est survenue. Réessaie dans un instant."
+    },
+    "validation": {
+      "emailInvalid": "TODO(ln): Adresse email invalide.",
+      "passwordMin": "TODO(ln): 8 caractères minimum.",
+      "passwordsMismatch": "TODO(ln): Les mots de passe ne correspondent pas.",
+      "fullNameMin": "TODO(ln): Indique ton nom complet.",
+      "termsRequired": "TODO(ln): Tu dois accepter les conditions pour continuer.",
+      "requiredField": "TODO(ln): Ce champ est requis."
+    },
     "login": {
-      "placeholder": "TODO(ln): Connexion — arrive au Sprint 3."
+      "tag": "TODO(ln): Connexion",
+      "title": "TODO(ln): Content de te revoir",
+      "subtitle": "TODO(ln): Connecte-toi pour gérer tes sorties et suivre tes revenus.",
+      "emailLabel": "TODO(ln): Adresse email",
+      "emailPlaceholder": "TODO(ln): toi@exemple.com",
+      "passwordLabel": "TODO(ln): Mot de passe",
+      "passwordPlaceholder": "TODO(ln): ••••••••",
+      "forgotPasswordLink": "TODO(ln): Mot de passe oublié ?",
+      "submit": "TODO(ln): Se connecter",
+      "submitting": "TODO(ln): Connexion…",
+      "orContinueWith": "TODO(ln): ou continue avec",
+      "google": "TODO(ln): Continuer avec Google",
+      "noAccount": "TODO(ln): Pas encore de compte ?",
+      "signupLink": "TODO(ln): Créer un compte"
     },
     "signup": {
-      "placeholder": "TODO(ln): Inscription — arrive au Sprint 3."
+      "tag": "TODO(ln): Inscription",
+      "title": "TODO(ln): Distribue ta musique",
+      "subtitle": "TODO(ln): Crée ton compte — c'est gratuit et ça prend une minute.",
+      "fullNameLabel": "TODO(ln): Nom complet",
+      "fullNamePlaceholder": "TODO(ln): Ton nom d'artiste ou nom complet",
+      "emailLabel": "TODO(ln): Adresse email",
+      "emailPlaceholder": "TODO(ln): toi@exemple.com",
+      "passwordLabel": "TODO(ln): Mot de passe",
+      "passwordPlaceholder": "TODO(ln): ••••••••",
+      "passwordHint": "TODO(ln): 8 caractères minimum.",
+      "termsLabel": "TODO(ln): J'accepte les <cgu>Conditions Générales d'Utilisation</cgu> et la <privacy>Politique de Confidentialité</privacy>.",
+      "submit": "TODO(ln): Créer mon compte",
+      "submitting": "TODO(ln): Création du compte…",
+      "orContinueWith": "TODO(ln): ou continue avec",
+      "google": "TODO(ln): Continuer avec Google",
+      "hasAccount": "TODO(ln): Déjà un compte ?",
+      "loginLink": "TODO(ln): Se connecter",
+      "successTitle": "TODO(ln): Vérifie ta boîte mail",
+      "successDescription": "TODO(ln): Un email de confirmation vient d'être envoyé à {email}. Clique sur le lien pour activer ton compte."
     },
     "forgotPassword": {
-      "placeholder": "TODO(ln): Mot de passe oublié — arrive au Sprint 3."
+      "tag": "TODO(ln): Mot de passe oublié",
+      "title": "TODO(ln): Réinitialiser ton mot de passe",
+      "subtitle": "TODO(ln): Indique ton adresse email — on t'envoie un lien de réinitialisation.",
+      "emailLabel": "TODO(ln): Adresse email",
+      "emailPlaceholder": "TODO(ln): toi@exemple.com",
+      "submit": "TODO(ln): Envoyer le lien",
+      "submitting": "TODO(ln): Envoi…",
+      "successTitle": "TODO(ln): Email envoyé",
+      "successDescription": "TODO(ln): Si un compte existe pour {email}, un lien de réinitialisation vient d'être envoyé.",
+      "backToLogin": "TODO(ln): Retour à la connexion"
+    },
+    "resetPassword": {
+      "tag": "TODO(ln): Nouveau mot de passe",
+      "title": "TODO(ln): Choisis un nouveau mot de passe",
+      "subtitle": "TODO(ln): Ton nouveau mot de passe doit contenir au moins 8 caractères.",
+      "passwordLabel": "TODO(ln): Nouveau mot de passe",
+      "passwordPlaceholder": "TODO(ln): ••••••••",
+      "confirmPasswordLabel": "TODO(ln): Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "TODO(ln): ••••••••",
+      "submit": "TODO(ln): Enregistrer",
+      "submitting": "TODO(ln): Enregistrement…",
+      "invalidLinkTitle": "TODO(ln): Lien invalide ou expiré",
+      "invalidLinkDescription": "TODO(ln): Ce lien de réinitialisation n'est plus valide. Demandes-en un nouveau.",
+      "requestNewLink": "TODO(ln): Demander un nouveau lien"
     },
     "verifyEmail": {
-      "placeholder": "TODO(ln): Vérification email — arrive au Sprint 3."
+      "tag": "TODO(ln): Vérification email",
+      "title": "TODO(ln): Vérifie ton adresse email",
+      "description": "TODO(ln): Un email de confirmation t'a été envoyé. Clique sur le lien qu'il contient pour activer ton compte.",
+      "resendLabel": "TODO(ln): Rien reçu ?",
+      "resendButton": "TODO(ln): Renvoyer l'email",
+      "resendSuccess": "TODO(ln): Email renvoyé — vérifie ta boîte de réception (et tes spams).",
+      "backToLogin": "TODO(ln): Retour à la connexion"
     }
   },
   "PrivateArea": {
@@ -525,5 +627,96 @@
   },
   "Admin": {
     "placeholder": "TODO(ln): Back-office — arrive avec les modules métier."
+  },
+  "Account": {
+    "title": "TODO(ln): Paramètres",
+    "subtitle": "TODO(ln): Profil, sécurité, langue et préférences de ton compte.",
+    "tabs": {
+      "profile": "TODO(ln): Profil",
+      "security": "TODO(ln): Sécurité",
+      "language": "TODO(ln): Langue & devise",
+      "notifications": "TODO(ln): Notifications",
+      "subscription": "TODO(ln): Abonnement",
+      "danger": "TODO(ln): Suppression du compte"
+    },
+    "profile": {
+      "title": "TODO(ln): Informations du profil",
+      "fullNameLabel": "TODO(ln): Nom complet",
+      "avatarUrlLabel": "TODO(ln): URL de la photo de profil",
+      "avatarUrlPlaceholder": "TODO(ln): https://…",
+      "countryLabel": "TODO(ln): Pays",
+      "countryPlaceholder": "TODO(ln): Sélectionner un pays",
+      "saveButton": "TODO(ln): Enregistrer",
+      "saving": "TODO(ln): Enregistrement…",
+      "savedToast": "TODO(ln): Profil mis à jour."
+    },
+    "security": {
+      "changePasswordTitle": "TODO(ln): Changer de mot de passe",
+      "newPasswordLabel": "TODO(ln): Nouveau mot de passe",
+      "confirmPasswordLabel": "TODO(ln): Confirmer le mot de passe",
+      "changePasswordButton": "TODO(ln): Changer le mot de passe",
+      "changingPassword": "TODO(ln): Modification…",
+      "passwordChanged": "TODO(ln): Mot de passe modifié.",
+      "twoFactorTitle": "TODO(ln): Double authentification (2FA)",
+      "twoFactorDescription": "TODO(ln): Ajoute une couche de sécurité avec une application d'authentification (Google Authenticator, Authy...). Obligatoire pour valider un retrait.",
+      "twoFactorEnabledBadge": "TODO(ln): Activée",
+      "twoFactorDisabledBadge": "TODO(ln): Désactivée",
+      "enableButton": "TODO(ln): Activer la 2FA",
+      "disableButton": "TODO(ln): Désactiver la 2FA",
+      "disabling": "TODO(ln): Désactivation…",
+      "qrInstructions": "TODO(ln): Scanne ce QR code avec ton application d'authentification, puis saisis le code à 6 chiffres généré.",
+      "verificationCodeLabel": "TODO(ln): Code de vérification",
+      "verificationCodePlaceholder": "TODO(ln): 123456",
+      "verifyButton": "TODO(ln): Vérifier et activer",
+      "verifying": "TODO(ln): Vérification…",
+      "enabledSuccess": "TODO(ln): Double authentification activée.",
+      "disabledSuccess": "TODO(ln): Double authentification désactivée.",
+      "cancel": "TODO(ln): Annuler",
+      "sessionsTitle": "TODO(ln): Sessions actives",
+      "sessionsDescription": "TODO(ln): Déconnecte tous les appareils connectés à ton compte, y compris celui-ci.",
+      "signOutEverywhereButton": "TODO(ln): Se déconnecter de tous les appareils",
+      "signingOutEverywhere": "TODO(ln): Déconnexion…"
+    },
+    "language": {
+      "title": "TODO(ln): Langue & devise",
+      "localeLabel": "TODO(ln): Langue de l'interface",
+      "currencyLabel": "TODO(ln): Devise",
+      "saveButton": "TODO(ln): Enregistrer",
+      "saving": "TODO(ln): Enregistrement…",
+      "savedToast": "TODO(ln): Préférences mises à jour."
+    },
+    "notifications": {
+      "title": "TODO(ln): Notifications",
+      "emailLabel": "TODO(ln): Notifications par email",
+      "emailDescription": "TODO(ln): Sorties livrées, rapports mensuels, retraits.",
+      "whatsappLabel": "TODO(ln): Notifications WhatsApp",
+      "whatsappDescription": "TODO(ln): Rappels de rendez-vous studio, alertes importantes (bientôt disponible).",
+      "saveButton": "TODO(ln): Enregistrer",
+      "saving": "TODO(ln): Enregistrement…",
+      "savedToast": "TODO(ln): Préférences mises à jour."
+    },
+    "subscription": {
+      "title": "TODO(ln): Abonnement",
+      "currentPlanLabel": "TODO(ln): Plan actuel",
+      "freePlanName": "TODO(ln): Free",
+      "description": "TODO(ln): La gestion des abonnements et moyens de paiement arrive avec le module Distribution.",
+      "viewPlansCta": "TODO(ln): Voir les tarifs"
+    },
+    "danger": {
+      "title": "TODO(ln): Supprimer mon compte",
+      "description": "TODO(ln): Cette action est irréversible et supprime définitivement ton compte, tes sorties et tes données, conformément au RGPD.",
+      "deleteButton": "TODO(ln): Supprimer mon compte",
+      "dialogTitle": "TODO(ln): Confirmer la suppression",
+      "dialogDescription": "TODO(ln): Saisis ton mot de passe pour confirmer. Cette action est immédiate et irréversible.",
+      "passwordLabel": "TODO(ln): Mot de passe",
+      "cancel": "TODO(ln): Annuler",
+      "confirmDelete": "TODO(ln): Supprimer définitivement",
+      "deleting": "TODO(ln): Suppression…"
+    }
+  },
+  "PrivateHeader": {
+    "settingsLink": "TODO(ln): Paramètres",
+    "logoutButton": "TODO(ln): Se déconnecter",
+    "loggingOut": "TODO(ln): Déconnexion…"
   }
 }

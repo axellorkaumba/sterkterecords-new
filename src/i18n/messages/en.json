@@ -52,6 +52,26 @@
     "legalNotice": {
       "title": "Legal Notice – Sterkte Records",
       "description": "Legal information about the Sterkte Records site publisher and platform hosting."
+    },
+    "login": {
+      "title": "Sign in – Sterkte Records",
+      "description": "Sign in to your Sterkte Records account to manage your releases, stats and revenue."
+    },
+    "signup": {
+      "title": "Create an account – Sterkte Records",
+      "description": "Create your artist account and distribute your music everywhere in minutes."
+    },
+    "forgotPassword": {
+      "title": "Forgot password – Sterkte Records",
+      "description": "Reset the password for your Sterkte Records account."
+    },
+    "resetPassword": {
+      "title": "New password – Sterkte Records",
+      "description": "Choose a new password for your Sterkte Records account."
+    },
+    "verifyEmail": {
+      "title": "Email verification – Sterkte Records",
+      "description": "Confirm your email address to activate your Sterkte Records account."
     }
   },
   "Nav": {
@@ -487,17 +507,99 @@
     }
   },
   "Auth": {
+    "errors": {
+      "invalid_credentials": "Incorrect email or password.",
+      "email_not_confirmed": "Confirm your email address before signing in — check your inbox.",
+      "user_already_exists": "An account already exists with this email address.",
+      "weak_password": "This password is too weak (8 characters minimum).",
+      "same_password": "Your new password must be different from the old one.",
+      "over_email_send_rate_limit": "Too many attempts — try again in a few minutes.",
+      "over_request_rate_limit": "Too many attempts — try again in a few minutes.",
+      "session_not_found": "Your session has expired — sign in again.",
+      "user_not_found": "No account matches this email address.",
+      "oauth_failed": "Google sign-in failed. Try again or use your email.",
+      "auth_callback_failed": "This link is no longer valid or has already been used.",
+      "unknown": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "emailInvalid": "Invalid email address.",
+      "passwordMin": "8 characters minimum.",
+      "passwordsMismatch": "Passwords do not match.",
+      "fullNameMin": "Enter your full name.",
+      "termsRequired": "You must accept the terms to continue.",
+      "requiredField": "This field is required."
+    },
     "login": {
-      "placeholder": "Log in — ships in Sprint 3."
+      "tag": "Sign in",
+      "title": "Welcome back",
+      "subtitle": "Sign in to manage your releases and track your revenue.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "forgotPasswordLink": "Forgot your password?",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "orContinueWith": "or continue with",
+      "google": "Continue with Google",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Create an account"
     },
     "signup": {
-      "placeholder": "Sign up — ships in Sprint 3."
+      "tag": "Sign up",
+      "title": "Distribute your music",
+      "subtitle": "Create your account — it's free and takes a minute.",
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Your artist name or full name",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "passwordHint": "8 characters minimum.",
+      "termsLabel": "I accept the <cgu>Terms of Service</cgu> and <privacy>Privacy Policy</privacy>.",
+      "submit": "Create my account",
+      "submitting": "Creating account…",
+      "orContinueWith": "or continue with",
+      "google": "Continue with Google",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "successTitle": "Check your inbox",
+      "successDescription": "A confirmation email was just sent to {email}. Click the link to activate your account."
     },
     "forgotPassword": {
-      "placeholder": "Forgot password — ships in Sprint 3."
+      "tag": "Forgot password",
+      "title": "Reset your password",
+      "subtitle": "Enter your email address — we'll send you a reset link.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Send reset link",
+      "submitting": "Sending…",
+      "successTitle": "Email sent",
+      "successDescription": "If an account exists for {email}, a reset link has just been sent.",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "tag": "New password",
+      "title": "Choose a new password",
+      "subtitle": "Your new password must be at least 8 characters long.",
+      "passwordLabel": "New password",
+      "passwordPlaceholder": "••••••••",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Save",
+      "submitting": "Saving…",
+      "invalidLinkTitle": "Invalid or expired link",
+      "invalidLinkDescription": "This reset link is no longer valid. Request a new one.",
+      "requestNewLink": "Request a new link"
     },
     "verifyEmail": {
-      "placeholder": "Verify email — ships in Sprint 3."
+      "tag": "Email verification",
+      "title": "Verify your email address",
+      "description": "A confirmation email has been sent to you. Click the link inside to activate your account.",
+      "resendLabel": "Didn't receive anything?",
+      "resendButton": "Resend email",
+      "resendSuccess": "Email resent — check your inbox (and spam folder).",
+      "backToLogin": "Back to sign in"
     }
   },
   "PrivateArea": {
@@ -508,5 +610,96 @@
   },
   "Admin": {
     "placeholder": "Back office — ships with the business modules."
+  },
+  "Account": {
+    "title": "Settings",
+    "subtitle": "Profile, security, language and preferences for your account.",
+    "tabs": {
+      "profile": "Profile",
+      "security": "Security",
+      "language": "Language & currency",
+      "notifications": "Notifications",
+      "subscription": "Subscription",
+      "danger": "Delete account"
+    },
+    "profile": {
+      "title": "Profile information",
+      "fullNameLabel": "Full name",
+      "avatarUrlLabel": "Profile picture URL",
+      "avatarUrlPlaceholder": "https://…",
+      "countryLabel": "Country",
+      "countryPlaceholder": "Select a country",
+      "saveButton": "Save",
+      "saving": "Saving…",
+      "savedToast": "Profile updated."
+    },
+    "security": {
+      "changePasswordTitle": "Change password",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm password",
+      "changePasswordButton": "Change password",
+      "changingPassword": "Updating…",
+      "passwordChanged": "Password changed.",
+      "twoFactorTitle": "Two-factor authentication (2FA)",
+      "twoFactorDescription": "Add a layer of security with an authenticator app (Google Authenticator, Authy...). Required to confirm a payout.",
+      "twoFactorEnabledBadge": "Enabled",
+      "twoFactorDisabledBadge": "Disabled",
+      "enableButton": "Enable 2FA",
+      "disableButton": "Disable 2FA",
+      "disabling": "Disabling…",
+      "qrInstructions": "Scan this QR code with your authenticator app, then enter the 6-digit code it generates.",
+      "verificationCodeLabel": "Verification code",
+      "verificationCodePlaceholder": "123456",
+      "verifyButton": "Verify and enable",
+      "verifying": "Verifying…",
+      "enabledSuccess": "Two-factor authentication enabled.",
+      "disabledSuccess": "Two-factor authentication disabled.",
+      "cancel": "Cancel",
+      "sessionsTitle": "Active sessions",
+      "sessionsDescription": "Sign out of every device connected to your account, including this one.",
+      "signOutEverywhereButton": "Sign out of all devices",
+      "signingOutEverywhere": "Signing out…"
+    },
+    "language": {
+      "title": "Language & currency",
+      "localeLabel": "Interface language",
+      "currencyLabel": "Currency",
+      "saveButton": "Save",
+      "saving": "Saving…",
+      "savedToast": "Preferences updated."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "emailLabel": "Email notifications",
+      "emailDescription": "Delivered releases, monthly reports, payouts.",
+      "whatsappLabel": "WhatsApp notifications",
+      "whatsappDescription": "Studio booking reminders, important alerts (coming soon).",
+      "saveButton": "Save",
+      "saving": "Saving…",
+      "savedToast": "Preferences updated."
+    },
+    "subscription": {
+      "title": "Subscription",
+      "currentPlanLabel": "Current plan",
+      "freePlanName": "Free",
+      "description": "Subscription and payment method management arrives with the Distribution module.",
+      "viewPlansCta": "View pricing"
+    },
+    "danger": {
+      "title": "Delete my account",
+      "description": "This action is irreversible and permanently deletes your account, releases and data, in line with GDPR.",
+      "deleteButton": "Delete my account",
+      "dialogTitle": "Confirm deletion",
+      "dialogDescription": "Enter your password to confirm. This action is immediate and irreversible.",
+      "passwordLabel": "Password",
+      "cancel": "Cancel",
+      "confirmDelete": "Permanently delete",
+      "deleting": "Deleting…"
+    }
+  },
+  "PrivateHeader": {
+    "settingsLink": "Settings",
+    "logoutButton": "Sign out",
+    "loggingOut": "Signing out…"
   }
 }

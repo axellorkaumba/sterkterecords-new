@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { fontVariables } from "@/lib/fonts";
 import { Providers } from "@/components/providers";
+import { PrivateHeader } from "@/components/private/private-header";
 import "../globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,8 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
  * fois connecté — Sprint 3, modifiable à tout moment dans les paramètres).
  * Voir docs/adr/0002-i18n-routing.md.
  *
- * TODO(Sprint 3) : brancher le rafraîchissement de session Supabase et la
- * protection des routes ici (garde d'authentification + rôles, §7 du CDC).
+ * Rafraîchissement de session + garde d'authentification/rôles (§7, §17) :
+ * `src/proxy.ts` (redirige vers `/connexion` si non connecté, vers `/app` si
+ * rôle non-staff sur `/admin`) — ce layout ne s'exécute donc jamais pour un
+ * visiteur non authentifié.
  */
 export default async function PrivateRootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
@@ -37,6 +40,7 @@ export default async function PrivateRootLayout({ children }: { children: React.
       <body className="flex min-h-full flex-col">
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
+            <PrivateHeader />
             {children}
           </NextIntlClientProvider>
         </Providers>

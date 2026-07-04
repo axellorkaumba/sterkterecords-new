@@ -4,12 +4,13 @@ Plateforme SaaS de distribution musicale — Sterkte Records SARL
 (Lubumbashi/RDC · Agadir/Maroc). Source de vérité produit : le cahier des
 charges (`CDC_Sterkte_Records_Distributor.md`, fourni hors repo).
 
-**Statut : Sprint 2 — Site Public.** Le site public (marketing + légal) est
-en place avec du contenu réel, en FR/EN complets (LN en brouillon). Aucune
-fonctionnalité applicative (auth, distribution, paiements) n'est encore
-implémentée — les Sprints 0 à 2 posent l'architecture, l'outillage, la
-charte visuelle et le site vitrine sur lesquels les sprints suivants
-s'appuient.
+**Statut : Sprint 3 — Authentification.** Email/mot de passe, Google, 2FA
+TOTP, réinitialisation de mot de passe, Paramètres complets et garde
+d'authentification `/app`/`/admin` sont en place. **Aucun projet Supabase
+réel n'est encore branché** (ni local via Docker, ni cloud) : tout est vérifié
+par `typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel
+Supabase — voir `docs/adr/0007-auth-architecture.md`. La distribution, les
+paiements et le dashboard artiste (contenu) restent à construire.
 
 ## Stack
 
@@ -76,6 +77,41 @@ FR/EN complet (§11.1, §11.6-11.11 du CDC) :
 - **Roster ("Nos artistes") non repris** : les données du prototype sont
   des profils factices (photos stock) — reporté jusqu'à de vraies données.
 
+## Authentification (Sprint 3)
+
+Implémente le §11.2 du CDC (voir `docs/adr/0007-auth-architecture.md` pour
+le détail des décisions) :
+
+- **Connexion / inscription** (`src/app/[locale]/(auth)/`) : email + mot de
+  passe, Google (`[MVP]`), vérification email obligatoire avant connexion,
+  réinitialisation de mot de passe (`/reinitialiser-mot-de-passe`), renvoi
+  d'email de confirmation. Formulaires React Hook Form + Zod
+  (`src/components/ui/form.tsx`), Server Actions
+  (`src/app/[locale]/(auth)/actions.ts`).
+- **Callback unique** `src/app/api/auth/callback/route.ts` : échange PKCE
+  pour Google, confirmation d'inscription et réinitialisation de mot de
+  passe.
+- **Garde d'authentification** (`src/proxy.ts`) : `/app`/`/admin` redirigent
+  vers `/connexion?next=...` si non connecté ; `/admin` redirige vers `/app`
+  si le rôle n'est pas un rôle interne (§7.1).
+- **Paramètres** (`/app/parametres`) : profil, sécurité (changement de mot
+  de passe, 2FA TOTP native Supabase, déconnexion de tous les appareils),
+  langue & devise (`profiles.locale`/`currency`, prioritaires sur le cookie
+  une fois connecté), notifications, abonnement (placeholder), suppression
+  de compte RGPD (re-vérification du mot de passe).
+- **Base de données** : migration
+  `supabase/migrations/20260704140000_auth_profiles_and_roles.sql` — enum
+  `user_role` (§7.1), table `profiles` (trigger de création automatique,
+  verrou anti-élévation de privilège), `audit_log` (§12, §17), RLS complète.
+- **Rôles** : seul `artist` est attribuable via `/inscription` ; les rôles
+  internes sont attribués manuellement (bootstrap du premier `super_admin`
+  documenté dans `supabase/seed.sql`).
+- **Apple Sign In différé** (`[V1]` + compte Apple Developer payant requis) ;
+  **2FA construite malgré son tag `[V1]`** (native Supabase, sert le §17).
+
+⚠️ **Aucun projet Supabase réel n'est connecté** (`.env.local` a les clés
+vides) — voir "Notes importantes" ci-dessous.
+
 ## Démarrage
 
 Prérequis : Node ≥ 20.9, pnpm (`corepack enable` ou `npm i -g pnpm`).
@@ -125,17 +161,25 @@ src/
 │   │   ├── layout.tsx       Root layout n°1 (html/body, NextIntlClientProvider, PostHog)
 │   │   ├── (marketing)/     Accueil, Distribution, Tarifs... (Sprint 2)
 │   │   └── (auth)/          /connexion·/login, /inscription·/signup... (Sprint 3)
+│   │       ├── actions.ts    Server Actions (signIn, signUp, signInWithGoogle...)
+│   │       └── schemas.ts    Schémas Zod partagés Server Actions ↔ formulaires
 │   ├── (private)/           Dashboard + back-office, PAS de préfixe de locale
-│   │   ├── layout.tsx       Root layout n°2 (html/body, NextIntlClientProvider, PostHog)
+│   │   ├── layout.tsx       Root layout n°2 (+ <PrivateHeader>, Sprint 3)
+│   │   ├── actions.ts        signOut() (déconnexion appareil courant)
 │   │   ├── app/             Dashboard artiste (Sprint 4)
+│   │   │   └── parametres/   Profil, sécurité (2FA), langue, notifications, RGPD (Sprint 3)
 │   │   └── admin/           Back-office (Sprint 4+)
-│   ├── api/health/          Endpoint de santé (uptime monitoring, §25)
+│   ├── api/
+│   │   ├── auth/callback/    Échange PKCE unique (Google, confirmation, reset — Sprint 3)
+│   │   └── health/           Endpoint de santé (uptime monitoring, §25)
 │   └── globals.css          Tailwind v4 + design tokens Sterkte Records (§9)
 ├── i18n/                    Config next-intl (routing, navigation, messages fr/en/ln)
 ├── lib/
 │   ├── env.ts               Validation Zod des variables d'environnement
 │   ├── fonts.ts              Polices partagées entre les deux root layouts
-│   ├── supabase/            Clients browser / server / admin (RLS-safe + service role)
+│   ├── supabase/            Clients browser / server / admin / middleware (session SSR)
+│   │   ├── profile.ts         fetchUserRole/homeForRole partagés proxy.ts ↔ Server Actions
+│   │   └── auth-errors.ts     Mapping codes d'erreur Supabase Auth → clés i18n
 │   ├── storage/r2.ts         Cloudflare R2 — URLs présignées upload/download
 │   ├── payments/             Stripe, Flutterwave, Paystack — clients bruts
 │   ├── email/resend.ts       Client Resend
@@ -145,16 +189,18 @@ src/
 │   └── analytics/            Providers PostHog (client + serveur)
 ├── components/
 │   ├── ui/                  Composants shadcn personnalisés + sur-mesure (Sprint 1, §9)
+│   │   └── form.tsx           React Hook Form + Zod, adapté à Base UI (Sprint 3)
+│   ├── private/private-header.tsx   Barre minimale /app·/admin (Sprint 3, nav complète Sprint 4)
 │   ├── theme-provider.tsx / theme-toggle.tsx   Dark/light mode (next-themes)
 │   └── providers.tsx        Composition unique des providers client
 ├── hooks/, server/actions/, types/   Squelettes, remplis au fil des sprints
 ├── instrumentation.ts / instrumentation-client.ts   Bootstrap Sentry
-└── proxy.ts                 Routing i18n (site public/auth uniquement, convention Next.js ≥16)
+└── proxy.ts                 Routing i18n + garde d'authentification (Sprint 3)
 
 supabase/
 ├── config.toml
-├── migrations/               Baseline : extensions Postgres + fonction updated_at
-└── seed.sql
+├── migrations/               Baseline + profiles/rôles/audit_log (Sprint 3)
+└── seed.sql                  Note de bootstrap du premier super_admin
 
 docs/adr/                     Décisions d'architecture documentées
 ```
@@ -171,7 +217,8 @@ réel n'est committé ; `.env.local` est ignoré par git.
 
 - **Sprint 0 :** infrastructure (repo, tooling, adaptateurs, i18n).
 - **Sprint 1 :** Design System — voir ci-dessus.
-- **Sprint 2 (ce commit) :** Site public — voir ci-dessus.
+- **Sprint 2 :** Site public — voir ci-dessus.
+- **Sprint 3 (ce commit) :** Authentification — voir ci-dessus.
 
 ## Décisions d'architecture
 
@@ -181,6 +228,7 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - `docs/adr/0004-i18n-content-policy.md` — fr/en référence complète, ln en brouillon assumé, parité de clés vérifiée automatiquement, zéro texte en dur (validé)
 - `docs/adr/0005-typography-fallback.md` — Inter/Bricolage Grotesque en attendant Satoshi/Clash Display (à valider)
 - `docs/adr/0006-content-sourcing.md` — sources du contenu réel (CGU fournies par Axel, PDF de contenu, prototype zip), roster artistes non repris (données factices), deux incohérences CDC/contenu réel à trancher (voir Notes importantes)
+- `docs/adr/0007-auth-architecture.md` — flux PKCE unique, attribution des rôles, Apple différé, 2FA construite malgré son tag `[V1]`, sessions limitées à la déconnexion globale, `profiles.locale` prioritaire sur le cookie, Paramètres > Abonnement en placeholder, contrainte d'environnement (pas de test de bout en bout)
 
 ## Notes importantes
 
@@ -219,3 +267,27 @@ réel n'est committé ; `.env.local` est ignoré par git.
   - _Année de fondation_ : le CDC indique 2021, mais le PDF de contenu et
     le prototype indiquent tous deux 2020. `foundingDate` (JSON-LD) et le
     contenu « À propos » utilisent 2020.
+- **Aucun projet Supabase réel connecté (Sprint 3)** : ni instance locale
+  (Docker absent de cet environnement), ni projet cloud. Toute la migration
+  SQL, les policies RLS et les Server Actions d'authentification sont
+  vérifiées par `typecheck`/`lint`/tests navigateur jusqu'à la frontière de
+  l'appel Supabase (qui échoue alors avec un message explicite, jamais un
+  crash silencieux) — voir `docs/adr/0007-auth-architecture.md`, section
+  "Contrainte d'environnement". **Dès qu'un projet existe** (local via
+  `pnpm supabase:start` ou cloud) : `pnpm supabase:migrate:up` puis
+  `pnpm supabase:gen:types` pour remplacer le type `Database` écrit à la
+  main dans `src/types/database.types.ts`, et un test de bout en bout réel
+  (inscription, confirmation email, connexion, RLS) reste à faire.
+- **Rôles (§7.1)** : `/inscription` attribue toujours `artist` — les 8
+  autres rôles (`super_admin`, `accounting`, `support`, `ar_manager`,
+  `marketing`, `manager`, `team_member`, `organizer`) sont attribués
+  manuellement ou par une logique produit à venir, jamais depuis le
+  formulaire public. Un trigger Postgres (`protect_profile_role`) empêche
+  un utilisateur de changer son propre rôle par une simple mise à jour de
+  profil.
+- **Apple Sign In différé, 2FA construite quand même** : Apple est `[V1]`
+  au CDC ET nécessite un compte Apple Developer payant (blocage
+  administratif, même famille de décision que LabelGrid, ADR 0003) ; la 2FA
+  TOTP est elle nativement supportée par Supabase (aucune dépendance
+  externe) donc construite dès ce sprint malgré son propre tag `[V1]` — voir
+  ADR 0007.

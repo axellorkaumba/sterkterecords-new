@@ -223,7 +223,10 @@ enable_signup = true
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+# Sprint 3 (§10.1, §11.2 du CDC) : le parcours self-service enchaîne
+# Inscription → Vérification email → Choix du forfait → Paiement — la
+# confirmation doit donc bloquer la connexion tant qu'elle n'a pas eu lieu.
+enable_confirmations = true
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
@@ -298,10 +301,13 @@ auth_token = "env(SUPABASE_AUTH_SMS_TWILIO_AUTH_TOKEN)"
 # Control how many MFA factors can be enrolled at once per user.
 max_enrolled_factors = 10
 
-# Control MFA via App Authenticator (TOTP)
+# Control MFA via App Authenticator (TOTP) — §11.2/§17 du CDC (2FA obligatoire
+# pour valider un retrait, optionnelle ailleurs). Activé dès le Sprint 3 pour
+# la gestion (Paramètres > Sécurité) ; l'application obligatoire au moment du
+# retrait arrivera avec le module Royalties/Payouts.
 [auth.mfa.totp]
-enroll_enabled = false
-verify_enabled = false
+enroll_enabled = true
+verify_enabled = true
 
 # Configure MFA via Phone Messaging
 [auth.mfa.phone]
@@ -319,6 +325,25 @@ max_frequency = "5s"
 # Use an external OAuth provider. The full list of providers are: `apple`, `azure`, `bitbucket`,
 # `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin_oidc`, `notion`, `twitch`,
 # `twitter`, `x`, `slack`, `spotify`, `workos`, `zoom`.
+#
+# Google : MVP (§3.1, §11.2 du CDC). Renseigner un OAuth Client ID/Secret créé
+# sur https://console.cloud.google.com (type "Web application", redirect URI
+# `<SUPABASE_URL>/auth/v1/callback`).
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+redirect_uri = ""
+url = ""
+skip_nonce_check = false
+email_optional = false
+
+# Apple : `[V1]` au §11.2 du CDC, ET nécessite un compte Apple Developer payant
+# (99 $/an) + génération d'un client secret JWT signé (rotation ~6 mois) — un
+# blocage administratif, pas seulement technique (même famille de décision que
+# l'adaptateur LabelGrid mocké, voir docs/adr/0003 et docs/adr/0007). Laissé
+# désactivé ici ; le bouton "Continuer avec Apple" n'est rendu côté UI que si
+# les identifiants sont configurés (voir docs/adr/0007-auth-architecture.md).
 [auth.external.apple]
 enabled = false
 client_id = ""
