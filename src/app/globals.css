@@ -262,6 +262,21 @@
   }
 }
 
+/* Bandeau défilant des plateformes DSP (accueil, §11.1). Dupliqué en deux
+   moitiés identiques dans le composant pour boucler sans à-coup. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
 /* Respect de prefers-reduced-motion (§9.7) : toutes les animations ≤300ms
    sont désactivées pour les utilisateurs sensibles au mouvement. */
 @media (prefers-reduced-motion: reduce) {

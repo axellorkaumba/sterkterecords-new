@@ -1,8 +1,58 @@
 {
   "Metadata": {
     "siteName": "Sterkte Records",
-    "defaultTitle": "Sterkte Records — Music distribution from Francophone Africa",
-    "defaultDescription": "Your melody comes to life here and echoes across the world."
+    "defaultTitle": "Sterkte Records – Independent Music Label & Distribution",
+    "defaultDescription": "Independent music label: production, distribution, booking and management. Your music reaches the whole world."
+  },
+  "Seo": {
+    "about": {
+      "title": "About Sterkte Records – A passionate, innovative label",
+      "description": "Discover the story, vision and expert team behind Sterkte Records, a label dedicated to helping artists thrive."
+    },
+    "distribution": {
+      "title": "Digital music distribution – Sterkte Records",
+      "description": "Easily distribute your music on Spotify, Apple Music, Deezer and more with Sterkte Records."
+    },
+    "studio": {
+      "title": "Professional recording studio – Sterkte Records",
+      "description": "Recording, mixing and mastering in our fully equipped studio. Elevate the quality of your productions."
+    },
+    "booking": {
+      "title": "Artist & event booking – Sterkte Records",
+      "description": "Book our artists for concerts, festivals and private events with simplified management."
+    },
+    "featuring": {
+      "title": "Featuring request – Music collaboration with Sterkte",
+      "description": "Collaborate with our artists through a simple, transparent process. Submit your project now."
+    },
+    "consulting": {
+      "title": "Artist consulting & management – Sterkte Records",
+      "description": "Strategy, coaching and management to grow your music career with Sterkte Records."
+    },
+    "contact": {
+      "title": "Contact – Sterkte Records",
+      "description": "A question, a project? Contact the Sterkte Records team by email, phone or contact form."
+    },
+    "pricing": {
+      "title": "Pricing – Sterkte Records",
+      "description": "Transparent subscriptions with a clear revenue share. Choose the plan that fits your music career."
+    },
+    "faq": {
+      "title": "Frequently asked questions – Sterkte Records",
+      "description": "Accepted formats, release delays, royalty payouts: every answer to your questions."
+    },
+    "legalCgu": {
+      "title": "Terms of Use – Sterkte Records",
+      "description": "Clear, transparent terms: you keep 100% of your rights, and know exactly what you earn and when."
+    },
+    "legalPrivacy": {
+      "title": "Privacy Policy – Sterkte Records",
+      "description": "How we protect your personal data, in accordance with the GDPR."
+    },
+    "legalNotice": {
+      "title": "Legal Notice – Sterkte Records",
+      "description": "Legal information about the Sterkte Records site publisher and platform hosting."
+    }
   },
   "Nav": {
     "home": "Home",
@@ -17,16 +67,424 @@
     "contact": "Contact",
     "help": "Help",
     "login": "Log in",
-    "signup": "Get started"
+    "signup": "Get started",
+    "changeLanguage": "Change language",
+    "openMenu": "Open menu"
   },
   "Footer": {
     "rights": "All rights reserved.",
     "legalNotice": "Legal notice",
     "terms": "Terms of use",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "brandDescription": "Independent music label dedicated to the rise of today's and tomorrow's musical talents. Based in Lubumbashi, DRC.",
+    "servicesHeading": "Services",
+    "labelHeading": "Label",
+    "contactHeading": "Contact",
+    "allSocialLinks": "All our social links ↗",
+    "copyright": "© {year} Sterkte Records SARL — All rights reserved · Avenue Mama Yemo, Lubumbashi, DRC"
   },
   "Home": {
-    "comingSoon": "The public site ships in Sprint 2 — infrastructure is in place."
+    "badge": "Independent label · Lubumbashi, DRC",
+    "heroTitle": "Your melody <gold>comes to life here</gold> and <red>echoes across the world</red>",
+    "heroSubtitle": "Production, digital distribution, management and booking — full support to make your music shine and reach your fans everywhere.",
+    "ctaPrimary": "Create an artist account",
+    "ctaSecondary": "Distribute a track",
+    "stats": {
+      "platforms": "Platforms",
+      "artists": "Artists",
+      "streams": "Streams",
+      "countries": "Countries"
+    },
+    "servicesTag": "Our services",
+    "servicesTitle": "Everything for your music career",
+    "servicesDescription": "From composition to success, Sterkte Records guides you at every step with complete, personalized services.",
+    "services": {
+      "distribution": {
+        "title": "Digital Distribution",
+        "description": "Get your music on Spotify, Apple Music, Deezer and 150+ platforms worldwide."
+      },
+      "studio": {
+        "title": "Studio",
+        "description": "Recording, mixing and mastering in a studio equipped with the latest technology."
+      },
+      "booking": {
+        "title": "Booking",
+        "description": "Book our artists for your concerts, festivals and private events."
+      },
+      "featuring": {
+        "title": "Featuring",
+        "description": "Collaborate with our artists and grow your audience."
+      },
+      "consulting": {
+        "title": "Consulting",
+        "description": "Strategy, coaching and management to grow your career."
+      },
+      "artistSpace": {
+        "title": "Artist Space",
+        "description": "Manage your tracks, track your streams and royalties in real time."
+      }
+    },
+    "ctaFinalTag": "Ready to start?",
+    "ctaFinalTitle": "Free your creativity, <gold>we'll handle the rest.</gold>",
+    "ctaFinalDescription": "More than a label, a family dedicated to your success. Join Sterkte Records and take your career further.",
+    "ctaFinalPrimary": "Join the label",
+    "ctaFinalSecondary": "Contact us"
+  },
+  "About": {
+    "tag": "About",
+    "title": "Who <gold>we are</gold>",
+    "intro": "Sterkte Records was born from a passion for authentic music and a commitment to supporting artists in a constantly evolving industry.",
+    "visionLabel": "Our vision",
+    "visionText": "Build a bridge between artists' creativity and a global audience through personalized strategies, optimal digital distribution, and transparent management. Founded in 2020, our label is built on innovation, excellence and closeness with our talents.",
+    "missionLabel": "Our mission",
+    "missionText": "Support every artist, whatever their style or background, to reveal their potential and take them beyond borders. From composition to success, Sterkte Records guides you every step of the way.",
+    "teamLabel": "Leadership team",
+    "team": {
+      "axel": {
+        "name": "Axel l'or Kaumba",
+        "role": "Founder & Digital Distribution",
+        "description": "Digital marketing expert with several years of industry experience. Passionate about discovering new talent."
+      },
+      "abigail": {
+        "name": "Abigail Angelani",
+        "role": "Marketing & Communications Director",
+        "description": "Specialist in digital strategies and innovative promotional campaigns."
+      },
+      "diademe": {
+        "name": "Diadème Ngandu",
+        "role": "Artist Manager",
+        "description": "Personalized support for artists on career development and project management."
+      }
+    }
+  },
+  "Distribution": {
+    "tag": "Distribution",
+    "title": "Distribute your music <gold>everywhere</gold>",
+    "description": "Make your tracks available on all major platforms: Spotify, Apple Music, Deezer, YouTube Music, and more.",
+    "steps": {
+      "step1": {
+        "title": "Create your artist account",
+        "description": "Sign up and complete your profile with your personal and professional information."
+      },
+      "step2": {
+        "title": "Upload your tracks",
+        "description": "Upload your tracks in high quality (WAV, FLAC, MP3) with the cover artwork."
+      },
+      "step3": {
+        "title": "Fill in the metadata",
+        "description": "Title, writers, genre, desired release date and contributors."
+      },
+      "step4": {
+        "title": "Validation and release",
+        "description": "Our team validates your submission and distributes it to 150+ platforms. Track it in real time."
+      }
+    },
+    "features": {
+      "reports": {
+        "title": "Detailed reports",
+        "description": "Real-time streaming and revenue statistics on your dashboard."
+      },
+      "royalties": {
+        "title": "Royalty management",
+        "description": "Transparent revenue tracking with detailed monthly reports."
+      },
+      "platforms": {
+        "title": "150+ platforms",
+        "description": "Spotify, Apple Music, Deezer, YouTube Music, Tidal, Amazon Music and more."
+      },
+      "speed": {
+        "title": "Fast release",
+        "description": "Your music available within days on every platform."
+      }
+    },
+    "ctaLoggedIn": "Go to your dashboard to distribute",
+    "ctaLoggedOut": "Create an account to distribute"
+  },
+  "Studio": {
+    "tag": "Studio",
+    "title": "Your sound, our <gold>expertise</gold>",
+    "description": "Professional recording studio equipped with the latest technology. Recording, mixing, mastering.",
+    "plans": {
+      "recording": {
+        "title": "Recording",
+        "price": "$50",
+        "unit": "/hour",
+        "items": [
+          "Fully equipped professional studio",
+          "Dedicated sound engineer",
+          "WAV/FLAC/MP3 formats",
+          "Vocal coaching included"
+        ]
+      },
+      "mixMaster": {
+        "title": "Mixing & Mastering",
+        "price": "$200",
+        "unit": "/track",
+        "items": [
+          "Professional mix",
+          "High-quality mastering",
+          "2 revisions included",
+          "Multi-format export"
+        ]
+      },
+      "mobile": {
+        "title": "Mobile Studio",
+        "price": "$75",
+        "unit": "/hour",
+        "items": [
+          "Travel included",
+          "Professional equipment",
+          "On-site recording",
+          "Full flexibility"
+        ]
+      }
+    },
+    "reserveButton": "Book",
+    "formTitle": "Book a session",
+    "form": {
+      "studioType": "Studio type",
+      "onSite": "On-site studio",
+      "mobileOption": "Mobile studio",
+      "duration": "Duration (hours)",
+      "date": "Preferred date",
+      "address": "Travel address",
+      "addressPlaceholder": "Your full address",
+      "priceEstimate": "Price estimate",
+      "submit": "Send request"
+    }
+  },
+  "Booking": {
+    "tag": "Booking",
+    "title": "Book your <gold>events</gold>",
+    "description": "Book our artists for concerts, festivals, private and corporate events, or find the ideal venue for your event.",
+    "tabs": {
+      "artist": "Book an artist",
+      "venue": "Book a venue"
+    },
+    "artistForm": {
+      "artistLabel": "Requested artist",
+      "artistPlaceholder": "Select an artist",
+      "otherOption": "Other (please specify)",
+      "eventType": "Event type",
+      "eventTypePlaceholder": "Select",
+      "eventTypes": {
+        "concert": "Concert",
+        "festival": "Festival",
+        "showcase": "Showcase",
+        "private": "Private event",
+        "corporate": "Corporate"
+      },
+      "date": "Date",
+      "budget": "Estimated budget",
+      "budgetPlaceholder": "e.g. $5,000",
+      "location": "Location",
+      "locationPlaceholder": "City, country",
+      "message": "Message",
+      "messagePlaceholder": "Additional details…",
+      "submit": "Send request"
+    },
+    "venueForm": {
+      "eventType": "Event type",
+      "eventTypePlaceholder": "Select",
+      "eventTypes": {
+        "concert": "Concert / Showcase",
+        "videoShoot": "Video shoot",
+        "private": "Private event",
+        "other": "Other"
+      },
+      "date": "Date",
+      "duration": "Estimated duration",
+      "durationPlaceholder": "e.g. 4 hours",
+      "message": "Message",
+      "messagePlaceholder": "Describe your needs…",
+      "submit": "Request a quote"
+    }
+  },
+  "Featuring": {
+    "tag": "Featuring",
+    "title": "Collaborate with our <gold>artists</gold>",
+    "description": "Submit your featuring request and grow your audience. We favor quality projects that respect our talents' commitments.",
+    "steps": {
+      "step1": {
+        "title": "Fill in the form",
+        "description": "Specify the project, the desired artist and the timeline."
+      },
+      "step2": {
+        "title": "Review within 7 days",
+        "description": "Our team reviews the request and assesses artistic fit."
+      },
+      "step3": {
+        "title": "Coordination and completion",
+        "description": "Once approved, we coordinate the collaboration through to completion of the track."
+      }
+    },
+    "formTitle": "Featuring request",
+    "form": {
+      "artistLabel": "Requested artist",
+      "artistPlaceholder": "Select an artist",
+      "projectName": "Project name",
+      "projectPlaceholder": "Track / project title",
+      "deadline": "Desired deadline",
+      "link": "Link to your project (optional)",
+      "linkPlaceholder": "SoundCloud, Google Drive link…",
+      "description": "Project description",
+      "descriptionPlaceholder": "Style, vision, details…",
+      "submit": "Submit request"
+    }
+  },
+  "Consulting": {
+    "tag": "Consulting & Management",
+    "title": "Strategic <gold>support</gold>",
+    "description": "Consulting services tailored to your artistic and business needs, at every stage of your career.",
+    "features": {
+      "launch": {
+        "title": "Launch strategy",
+        "description": "Personalized digital promotion plan to maximize the impact of your releases."
+      },
+      "career": {
+        "title": "Career management",
+        "description": "Contract negotiation with experienced lawyers and strategic planning."
+      },
+      "brand": {
+        "title": "Brand development",
+        "description": "Artistic coaching, brand image and market positioning."
+      },
+      "analytics": {
+        "title": "Data analysis",
+        "description": "Revenue optimization based on streaming data analysis."
+      },
+      "tours": {
+        "title": "Tour organization",
+        "description": "Complete logistical planning for your concerts and events."
+      },
+      "production": {
+        "title": "Full production",
+        "description": "Music videos, photo shoots, artwork design and visual assets."
+      }
+    },
+    "closingText": "Entrust your project to an experienced team to turn your passion into lasting success.",
+    "ctaButton": "Get in touch"
+  },
+  "ContactPage": {
+    "tag": "Contact",
+    "title": "Get in <gold>touch</gold>",
+    "description": "A question, a project, a collaboration? Feel free to write to us.",
+    "form": {
+      "name": "Full name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select",
+      "subjects": {
+        "distribution": "Distribution",
+        "studio": "Studio booking",
+        "booking": "Booking",
+        "featuring": "Featuring",
+        "consulting": "Consulting",
+        "other": "Other"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Your message…",
+      "submit": "Send"
+    },
+    "infoTitle": "Information",
+    "infoEmail": "Email",
+    "infoPhone": "Phone",
+    "infoAddress": "Address",
+    "allSocialLinks": "All our social links ↗"
+  },
+  "Pricing": {
+    "tag": "Pricing",
+    "title": "Pricing that grows with you",
+    "description": "Transparent subscriptions, no hidden commitments. You always keep the majority of your revenue, whatever your plan.",
+    "period": "/year",
+    "mostPopular": "Most popular",
+    "ctaFree": "Start for free",
+    "ctaPaid": "Choose this plan",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "€0",
+        "split": "70% of net revenue",
+        "features": ["Distribution to 5 major DSPs", "1 single per year", "Basic analytics"]
+      },
+      "artist": {
+        "name": "Artist",
+        "price": "€15",
+        "split": "75% of net revenue",
+        "features": ["50+ platforms incl. Boomplay", "Unlimited releases", "Advanced analytics"]
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "€35",
+        "split": "80% of net revenue",
+        "features": ["Everything in Artist", "Editorial pitching", "YouTube Content ID"]
+      },
+      "label": {
+        "name": "Label",
+        "price": "€99",
+        "split": "85% of net revenue",
+        "features": ["Everything in Pro", "Up to 5 artists", "Priority support"]
+      }
+    },
+    "feesNote": "The revenue share applies to net revenue, after technical fees (approx. 5%, DSP and aggregator commissions) are deducted. Full detail in our Terms, Article 8."
+  },
+  "Faq": {
+    "tag": "Help",
+    "title": "Frequently asked questions",
+    "description": "Everything you need to know before distributing your music with Sterkte Records.",
+    "items": {
+      "q1": {
+        "question": "Which audio file formats are accepted?",
+        "answer": "WAV and FLAC are recommended for maximum quality; MP3 is also accepted. A master of at least 16-bit / 44.1 kHz is required."
+      },
+      "q2": {
+        "question": "How long does it take for my music to go live?",
+        "answer": "We submit your release to platforms within 5 to 7 business days after full validation. Release delays then vary by platform (3 to 14 business days). We recommend submitting at least 3 weeks before your desired release date."
+      },
+      "q3": {
+        "question": "Do I keep the rights to my music?",
+        "answer": "Yes, 100%. Sterkte Records acts as a distribution agent: you remain the sole owner of your masters and copyrights."
+      },
+      "q4": {
+        "question": "When do I get paid, and from what amount?",
+        "answer": "Royalties are paid out quarterly, within 30 days after the end of each quarter, from a minimum threshold of $25 (or equivalent)."
+      },
+      "q5": {
+        "question": "Which platforms will my music be available on?",
+        "answer": "Spotify, Apple Music, Deezer, YouTube Music, TikTok, Boomplay, Audiomack, Amazon Music, Tidal and many more — over 150 platforms in total."
+      },
+      "q6": {
+        "question": "Can I take down my music at any time?",
+        "answer": "Yes, from your artist space or by email. The takedown is completed within 7 to 30 business days depending on the platforms involved."
+      },
+      "q7": {
+        "question": "Do you support Mobile Money payments?",
+        "answer": "Yes, in addition to international credit cards, we support Mobile Money (Airtel Money, M-Pesa, Orange Money, MTN) for artists in Africa."
+      },
+      "q8": {
+        "question": "How can I contact you with a question?",
+        "answer": "By email at contact.sterkterecords@gmail.com or via our contact form — we reply within 48 business hours."
+      }
+    }
+  },
+  "Legal": {
+    "cgu": {
+      "tag": "Terms",
+      "title": "Terms of Use",
+      "lastUpdated": "Version 1.0 — July 2026"
+    },
+    "privacy": {
+      "tag": "Privacy",
+      "title": "Privacy Policy",
+      "lastUpdated": "Last updated: July 2026"
+    },
+    "notice": {
+      "tag": "Legal Notice",
+      "title": "Legal Notice",
+      "lastUpdated": "Last updated: July 2026"
+    }
   },
   "Auth": {
     "login": {

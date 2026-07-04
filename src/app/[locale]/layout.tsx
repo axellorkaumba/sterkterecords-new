@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
 import { Providers } from "@/components/providers";
+import { StructuredData } from "@/components/marketing/structured-data";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -61,6 +62,7 @@ export default async function LocaleRootLayout({
   return (
     <html lang={locale} className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
+        <StructuredData />
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}

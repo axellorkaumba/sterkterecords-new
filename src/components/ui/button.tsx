@@ -73,6 +73,8 @@ function Button({
   loadingText = "…",
   disabled,
   children,
+  render,
+  nativeButton,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants> & ButtonExtraProps) {
   return (
@@ -81,6 +83,11 @@ function Button({
       disabled={disabled ?? loading}
       aria-busy={loading}
       className={cn(buttonVariants({ variant, size, className }))}
+      render={render}
+      // Un `render` custom (typiquement `<Link>`, qui rend un <a>) n'est
+      // presque jamais un vrai <button> — Base UI demande de le préciser
+      // explicitement, sinon avertissement d'accessibilité en console.
+      nativeButton={nativeButton ?? !render}
       {...props}
     >
       {loading ? (

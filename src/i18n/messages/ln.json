@@ -1,9 +1,59 @@
 {
-  "_status": "BROUILLON — toutes les valeurs sont des TODO explicites, volontairement non traduites (aucune traduction approximative/générée). Relecture par un locuteur natif prévue avant le Sprint 2. Voir docs/adr/0004-i18n-content-policy.md.",
+  "_status": "BROUILLON — toutes les valeurs sont des TODO explicites, volontairement non traduites (aucune traduction approximative/générée). Relecture par un locuteur natif prévue avant mise en production. Voir docs/adr/0004-i18n-content-policy.md.",
   "Metadata": {
     "siteName": "Sterkte Records",
-    "defaultTitle": "TODO(ln): Sterkte Records — Distribution musicale en Afrique francophone",
-    "defaultDescription": "TODO(ln): Votre mélodie prend vie ici et fait échos aux quatre coins du monde."
+    "defaultTitle": "TODO(ln): Sterkte Records – Label musical indépendant & distribution",
+    "defaultDescription": "TODO(ln): Label musical indépendant : production, distribution, booking et management. Votre musique rayonne dans le monde entier."
+  },
+  "Seo": {
+    "about": {
+      "title": "TODO(ln): À propos de Sterkte Records – Label passionné et innovant",
+      "description": "TODO(ln): Découvrez l'histoire, la vision et l'équipe experte derrière Sterkte Records, label dédié à l'épanouissement des artistes."
+    },
+    "distribution": {
+      "title": "TODO(ln): Distribution musicale digitale – Sterkte Records",
+      "description": "TODO(ln): Distribuez facilement votre musique sur Spotify, Apple Music, Deezer et plus grâce à Sterkte Records."
+    },
+    "studio": {
+      "title": "TODO(ln): Studio d'enregistrement professionnel – Sterkte Records",
+      "description": "TODO(ln): Enregistrement, mixage et mastering dans notre studio équipé. Boostez la qualité de vos productions."
+    },
+    "booking": {
+      "title": "TODO(ln): Booking artistes & événements – Sterkte Records",
+      "description": "TODO(ln): Réservez nos artistes pour concerts, festivals et événements privés avec une gestion simplifiée."
+    },
+    "featuring": {
+      "title": "TODO(ln): Demande de featuring – Collaboration musicale Sterkte",
+      "description": "TODO(ln): Collaborez avec nos artistes via une démarche simple et transparente. Soumettez votre projet dès maintenant."
+    },
+    "consulting": {
+      "title": "TODO(ln): Consulting & Management artistique – Sterkte Records",
+      "description": "TODO(ln): Stratégies, coaching et management pour développer votre carrière musicale avec Sterkte Records."
+    },
+    "contact": {
+      "title": "TODO(ln): Contact – Sterkte Records",
+      "description": "TODO(ln): Une question, un projet ? Contactez l'équipe Sterkte Records par email, téléphone ou formulaire."
+    },
+    "pricing": {
+      "title": "TODO(ln): Tarifs – Sterkte Records",
+      "description": "TODO(ln): Abonnements transparents avec partage de revenus clair. Choisis le plan adapté à ta carrière musicale."
+    },
+    "faq": {
+      "title": "TODO(ln): Questions fréquentes – Sterkte Records",
+      "description": "TODO(ln): Formats acceptés, délais de mise en ligne, paiement des royalties : toutes les réponses à tes questions."
+    },
+    "legalCgu": {
+      "title": "TODO(ln): Conditions Générales d'Utilisation – Sterkte Records",
+      "description": "TODO(ln): CGU claires et transparentes : tu gardes 100 % de tes droits, tu sais ce que tu touches et quand."
+    },
+    "legalPrivacy": {
+      "title": "TODO(ln): Politique de confidentialité – Sterkte Records",
+      "description": "TODO(ln): Comment nous protégeons vos données personnelles, conformément au RGPD."
+    },
+    "legalNotice": {
+      "title": "TODO(ln): Mentions légales – Sterkte Records",
+      "description": "TODO(ln): Informations légales sur l'éditeur du site Sterkte Records et l'hébergement de la plateforme."
+    }
   },
   "Nav": {
     "home": "TODO(ln): Accueil",
@@ -18,16 +68,440 @@
     "contact": "TODO(ln): Contact",
     "help": "TODO(ln): Aide",
     "login": "TODO(ln): Connexion",
-    "signup": "TODO(ln): Commencer"
+    "signup": "TODO(ln): Commencer",
+    "changeLanguage": "TODO(ln): Changer de langue",
+    "openMenu": "TODO(ln): Ouvrir le menu"
   },
   "Footer": {
     "rights": "TODO(ln): Tous droits réservés.",
     "legalNotice": "TODO(ln): Mentions légales",
     "terms": "TODO(ln): CGU",
-    "privacy": "TODO(ln): Confidentialité"
+    "privacy": "TODO(ln): Confidentialité",
+    "brandDescription": "TODO(ln): Label musical indépendant dédié à l'essor des talents musicaux d'aujourd'hui et de demain. Basé à Lubumbashi, RDC.",
+    "servicesHeading": "TODO(ln): Services",
+    "labelHeading": "TODO(ln): Label",
+    "contactHeading": "TODO(ln): Contact",
+    "allSocialLinks": "TODO(ln): Tous nos réseaux sociaux ↗",
+    "copyright": "TODO(ln): © {year} Sterkte Records SARL — Tous droits réservés · Avenue Mama Yemo, Lubumbashi, RDC"
   },
   "Home": {
-    "comingSoon": "TODO(ln): Le site public arrive au Sprint 2 — infrastructure en place."
+    "badge": "TODO(ln): Label indépendant · Lubumbashi, RDC",
+    "heroTitle": "TODO(ln): Votre mélodie <gold>prend vie ici</gold> et fait <red>écho au monde</red>",
+    "heroSubtitle": "TODO(ln): Production, distribution digitale, management et booking — un accompagnement complet pour faire rayonner votre musique et toucher vos fans partout dans le monde.",
+    "ctaPrimary": "TODO(ln): Créer un compte artiste",
+    "ctaSecondary": "TODO(ln): Distribuer un titre",
+    "stats": {
+      "platforms": "TODO(ln): Plateformes",
+      "artists": "TODO(ln): Artistes",
+      "streams": "TODO(ln): Streams",
+      "countries": "TODO(ln): Pays"
+    },
+    "servicesTag": "TODO(ln): Nos services",
+    "servicesTitle": "TODO(ln): Tout pour votre carrière musicale",
+    "servicesDescription": "TODO(ln): De la composition au succès, Sterkte Records vous guide à chaque étape avec des services complets et personnalisés.",
+    "services": {
+      "distribution": {
+        "title": "TODO(ln): Distribution Digitale",
+        "description": "TODO(ln): Diffusez votre musique sur Spotify, Apple Music, Deezer et 150+ plateformes mondiales."
+      },
+      "studio": {
+        "title": "TODO(ln): Studio",
+        "description": "TODO(ln): Enregistrement, mixage et mastering dans un studio équipé des dernières technologies."
+      },
+      "booking": {
+        "title": "TODO(ln): Booking",
+        "description": "TODO(ln): Réservez nos artistes pour vos concerts, festivals et événements privés."
+      },
+      "featuring": {
+        "title": "TODO(ln): Featurings",
+        "description": "TODO(ln): Collaborez avec nos artistes et élargissez votre audience."
+      },
+      "consulting": {
+        "title": "TODO(ln): Consulting",
+        "description": "TODO(ln): Stratégie, coaching et management pour développer votre carrière."
+      },
+      "artistSpace": {
+        "title": "TODO(ln): Espace Artiste",
+        "description": "TODO(ln): Gérez vos titres, suivez vos streams et royalties en temps réel."
+      }
+    },
+    "ctaFinalTag": "TODO(ln): Prêt à commencer ?",
+    "ctaFinalTitle": "TODO(ln): Libérez votre créativité, <gold>on s'occupe du reste.</gold>",
+    "ctaFinalDescription": "TODO(ln): Plus qu'un label, une famille dédiée à votre succès. Rejoignez Sterkte Records et propulsez votre carrière.",
+    "ctaFinalPrimary": "TODO(ln): Rejoindre le label",
+    "ctaFinalSecondary": "TODO(ln): Nous contacter"
+  },
+  "About": {
+    "tag": "TODO(ln): À propos",
+    "title": "TODO(ln): Qui sommes-<gold>nous</gold> ?",
+    "intro": "TODO(ln): Sterkte Records est né de la passion pour la musique authentique et la volonté d'accompagner les artistes dans un univers en constante évolution.",
+    "visionLabel": "TODO(ln): Notre vision",
+    "visionText": "TODO(ln): Créer un pont entre la créativité des artistes et un public mondial grâce à des stratégies personnalisées, une distribution digitale optimale, et un management transparent. Fondé en 2020, notre label mise sur l'innovation, l'excellence et la proximité avec nos talents.",
+    "missionLabel": "TODO(ln): Notre mission",
+    "missionText": "TODO(ln): Accompagner chaque artiste, quel que soit son style ou son parcours, pour révéler son potentiel et le propulser au-delà des frontières. De la composition au succès, Sterkte Records vous guide à chaque étape.",
+    "teamLabel": "TODO(ln): L'équipe dirigeante",
+    "team": {
+      "axel": {
+        "name": "Axel l'or Kaumba",
+        "role": "TODO(ln): Fondateur & Distribution digitale",
+        "description": "TODO(ln): Expert en marketing digital avec plusieurs années d'expérience dans l'industrie. Passionné par la découverte de nouveaux talents."
+      },
+      "abigail": {
+        "name": "Abigail Angelani",
+        "role": "TODO(ln): Directrice Marketing & Communication",
+        "description": "TODO(ln): Spécialiste en stratégies digitales et campagnes de promotion innovantes."
+      },
+      "diademe": {
+        "name": "Diadème Ngandu",
+        "role": "TODO(ln): Manager Artistique",
+        "description": "TODO(ln): Accompagnement personnalisé des artistes pour le développement de carrière et gestion de projet."
+      }
+    }
+  },
+  "Distribution": {
+    "tag": "TODO(ln): Distribution",
+    "title": "TODO(ln): Distribuez votre musique <gold>partout</gold>",
+    "description": "TODO(ln): Mettez vos titres à disposition sur toutes les plateformes majeures : Spotify, Apple Music, Deezer, YouTube Music, et bien plus.",
+    "steps": {
+      "step1": {
+        "title": "TODO(ln): Créez votre compte artiste",
+        "description": "TODO(ln): Inscrivez-vous et complétez votre profil avec vos informations personnelles et professionnelles."
+      },
+      "step2": {
+        "title": "TODO(ln): Téléchargez vos morceaux",
+        "description": "TODO(ln): Uploadez vos titres en haute qualité (WAV, FLAC, MP3) avec le visuel de couverture."
+      },
+      "step3": {
+        "title": "TODO(ln): Renseignez les métadonnées",
+        "description": "TODO(ln): Titre, auteurs, genre, date de sortie souhaitée et contributeurs."
+      },
+      "step4": {
+        "title": "TODO(ln): Validation et mise en ligne",
+        "description": "TODO(ln): Notre équipe valide votre soumission et distribue sur 150+ plateformes. Suivez en temps réel."
+      }
+    },
+    "features": {
+      "reports": {
+        "title": "TODO(ln): Rapports détaillés",
+        "description": "TODO(ln): Statistiques de streams et revenus en temps réel sur votre dashboard."
+      },
+      "royalties": {
+        "title": "TODO(ln): Gestion des royalties",
+        "description": "TODO(ln): Suivi transparent de vos revenus avec rapports mensuels détaillés."
+      },
+      "platforms": {
+        "title": "TODO(ln): 150+ plateformes",
+        "description": "TODO(ln): Spotify, Apple Music, Deezer, YouTube Music, Tidal, Amazon Music et plus."
+      },
+      "speed": {
+        "title": "TODO(ln): Mise en ligne rapide",
+        "description": "TODO(ln): Votre musique disponible en quelques jours sur toutes les plateformes."
+      }
+    },
+    "ctaLoggedIn": "TODO(ln): Accéder au dashboard pour distribuer",
+    "ctaLoggedOut": "TODO(ln): Créer un compte pour distribuer"
+  },
+  "Studio": {
+    "tag": "TODO(ln): Studio",
+    "title": "TODO(ln): Votre son, notre <gold>expertise</gold>",
+    "description": "TODO(ln): Studio d'enregistrement professionnel équipé des dernières technologies. Enregistrement, mixage, mastering.",
+    "plans": {
+      "recording": {
+        "title": "TODO(ln): Enregistrement",
+        "price": "TODO(ln): 50 $",
+        "unit": "TODO(ln): /heure",
+        "items": [
+          "TODO(ln): Studio professionnel équipé",
+          "TODO(ln): Ingénieur son dédié",
+          "TODO(ln): Formats WAV/FLAC/MP3",
+          "TODO(ln): Coaching vocal inclus"
+        ]
+      },
+      "mixMaster": {
+        "title": "TODO(ln): Mixage & Mastering",
+        "price": "TODO(ln): 200 $",
+        "unit": "TODO(ln): /titre",
+        "items": [
+          "TODO(ln): Mix professionnel",
+          "TODO(ln): Mastering haute qualité",
+          "TODO(ln): 2 révisions incluses",
+          "TODO(ln): Export multi-formats"
+        ]
+      },
+      "mobile": {
+        "title": "TODO(ln): Studio Mobile",
+        "price": "TODO(ln): 75 $",
+        "unit": "TODO(ln): /heure",
+        "items": [
+          "TODO(ln): Déplacement inclus",
+          "TODO(ln): Matériel professionnel",
+          "TODO(ln): Enregistrement sur site",
+          "TODO(ln): Flexibilité totale"
+        ]
+      }
+    },
+    "reserveButton": "TODO(ln): Réserver",
+    "formTitle": "TODO(ln): Réserver une session",
+    "form": {
+      "studioType": "TODO(ln): Type de studio",
+      "onSite": "TODO(ln): Studio sur place",
+      "mobileOption": "TODO(ln): Studio mobile",
+      "duration": "TODO(ln): Durée (heures)",
+      "date": "TODO(ln): Date souhaitée",
+      "address": "TODO(ln): Adresse de déplacement",
+      "addressPlaceholder": "TODO(ln): Votre adresse complète",
+      "priceEstimate": "TODO(ln): Estimation du prix",
+      "submit": "TODO(ln): Envoyer la demande"
+    }
+  },
+  "Booking": {
+    "tag": "TODO(ln): Booking",
+    "title": "TODO(ln): Réservez vos <gold>événements</gold>",
+    "description": "TODO(ln): Réservez nos artistes pour concerts, festivals, événements privés et corporate, ou trouvez le lieu idéal pour votre événement.",
+    "tabs": {
+      "artist": "TODO(ln): Réserver un artiste",
+      "venue": "TODO(ln): Réserver un lieu"
+    },
+    "artistForm": {
+      "artistLabel": "TODO(ln): Artiste souhaité",
+      "artistPlaceholder": "TODO(ln): Sélectionner un artiste",
+      "otherOption": "TODO(ln): Autre (préciser)",
+      "eventType": "TODO(ln): Type d'événement",
+      "eventTypePlaceholder": "TODO(ln): Sélectionner",
+      "eventTypes": {
+        "concert": "TODO(ln): Concert",
+        "festival": "TODO(ln): Festival",
+        "showcase": "TODO(ln): Showcase",
+        "private": "TODO(ln): Événement privé",
+        "corporate": "TODO(ln): Corporate"
+      },
+      "date": "TODO(ln): Date",
+      "budget": "TODO(ln): Budget estimé",
+      "budgetPlaceholder": "TODO(ln): ex : 5000 $",
+      "location": "TODO(ln): Lieu",
+      "locationPlaceholder": "TODO(ln): Ville, pays",
+      "message": "TODO(ln): Message",
+      "messagePlaceholder": "TODO(ln): Détails supplémentaires…",
+      "submit": "TODO(ln): Envoyer la demande"
+    },
+    "venueForm": {
+      "eventType": "TODO(ln): Type d'événement",
+      "eventTypePlaceholder": "TODO(ln): Sélectionner",
+      "eventTypes": {
+        "concert": "TODO(ln): Concert / Showcase",
+        "videoShoot": "TODO(ln): Tournage de clip",
+        "private": "TODO(ln): Événement privé",
+        "other": "TODO(ln): Autre"
+      },
+      "date": "TODO(ln): Date",
+      "duration": "TODO(ln): Durée estimée",
+      "durationPlaceholder": "TODO(ln): ex : 4 heures",
+      "message": "TODO(ln): Message",
+      "messagePlaceholder": "TODO(ln): Décrivez votre besoin…",
+      "submit": "TODO(ln): Demander un devis"
+    }
+  },
+  "Featuring": {
+    "tag": "TODO(ln): Featurings",
+    "title": "TODO(ln): Collaborez avec nos <gold>artistes</gold>",
+    "description": "TODO(ln): Soumettez votre demande de featuring et élargissez votre audience. Nous privilégions les projets qualitatifs et respectueux.",
+    "steps": {
+      "step1": {
+        "title": "TODO(ln): Remplissez le formulaire",
+        "description": "TODO(ln): Précisez le projet, l'artiste souhaité et les délais."
+      },
+      "step2": {
+        "title": "TODO(ln): Analyse sous 7 jours",
+        "description": "TODO(ln): Notre équipe étudie la demande et évalue la compatibilité artistique."
+      },
+      "step3": {
+        "title": "TODO(ln): Coordination et finalisation",
+        "description": "TODO(ln): Dès validation, nous coordonnons la collaboration jusqu'à la finalisation du morceau."
+      }
+    },
+    "formTitle": "TODO(ln): Demande de featuring",
+    "form": {
+      "artistLabel": "TODO(ln): Artiste souhaité",
+      "artistPlaceholder": "TODO(ln): Sélectionner un artiste",
+      "projectName": "TODO(ln): Nom du projet",
+      "projectPlaceholder": "TODO(ln): Titre du morceau / projet",
+      "deadline": "TODO(ln): Deadline souhaitée",
+      "link": "TODO(ln): Lien vers votre projet (optionnel)",
+      "linkPlaceholder": "TODO(ln): Lien SoundCloud, Google Drive…",
+      "description": "TODO(ln): Description du projet",
+      "descriptionPlaceholder": "TODO(ln): Style, vision, détails…",
+      "submit": "TODO(ln): Soumettre la demande"
+    }
+  },
+  "Consulting": {
+    "tag": "TODO(ln): Consulting & Management",
+    "title": "TODO(ln): Un accompagnement <gold>stratégique</gold>",
+    "description": "TODO(ln): Des services de consulting adaptés à vos besoins artistiques et commerciaux, à chaque étape de votre carrière.",
+    "features": {
+      "launch": {
+        "title": "TODO(ln): Stratégie de lancement",
+        "description": "TODO(ln): Plan de promotion digitale personnalisé pour maximiser l'impact de vos sorties."
+      },
+      "career": {
+        "title": "TODO(ln): Gestion de carrière",
+        "description": "TODO(ln): Négociation de contrats avec des juristes expérimentés et planification stratégique."
+      },
+      "brand": {
+        "title": "TODO(ln): Développement de marque",
+        "description": "TODO(ln): Coaching artistique, image de marque et positionnement sur le marché."
+      },
+      "analytics": {
+        "title": "TODO(ln): Analyse de données",
+        "description": "TODO(ln): Optimisation des revenus basée sur l'analyse des statistiques d'écoute."
+      },
+      "tours": {
+        "title": "TODO(ln): Organisation de tournées",
+        "description": "TODO(ln): Planification logistique complète pour vos concerts et événements."
+      },
+      "production": {
+        "title": "TODO(ln): Production complète",
+        "description": "TODO(ln): Clips vidéo, séances photo, conception de pochettes et supports visuels."
+      }
+    },
+    "closingText": "TODO(ln): Confiez votre projet à une équipe expérimentée pour transformer votre passion en succès durable.",
+    "ctaButton": "TODO(ln): Prendre contact"
+  },
+  "ContactPage": {
+    "tag": "TODO(ln): Contact",
+    "title": "TODO(ln): Contactez-<gold>nous</gold>",
+    "description": "TODO(ln): Une question, un projet, une collaboration ? N'hésitez pas à nous écrire.",
+    "form": {
+      "name": "TODO(ln): Nom complet",
+      "namePlaceholder": "TODO(ln): Votre nom",
+      "email": "TODO(ln): Email",
+      "emailPlaceholder": "TODO(ln): email@exemple.com",
+      "subject": "TODO(ln): Sujet",
+      "subjectPlaceholder": "TODO(ln): Sélectionner",
+      "subjects": {
+        "distribution": "TODO(ln): Distribution",
+        "studio": "TODO(ln): Réservation studio",
+        "booking": "TODO(ln): Booking",
+        "featuring": "TODO(ln): Featuring",
+        "consulting": "TODO(ln): Consulting",
+        "other": "TODO(ln): Autre"
+      },
+      "message": "TODO(ln): Message",
+      "messagePlaceholder": "TODO(ln): Votre message…",
+      "submit": "TODO(ln): Envoyer"
+    },
+    "infoTitle": "TODO(ln): Informations",
+    "infoEmail": "TODO(ln): Email",
+    "infoPhone": "TODO(ln): Téléphone",
+    "infoAddress": "TODO(ln): Adresse",
+    "allSocialLinks": "TODO(ln): Tous nos réseaux sociaux ↗"
+  },
+  "Pricing": {
+    "tag": "TODO(ln): Tarifs",
+    "title": "TODO(ln): Un tarif qui grandit avec toi",
+    "description": "TODO(ln): Abonnement transparent, sans engagement caché. Tu gardes toujours la majorité de tes revenus, quel que soit ton plan.",
+    "period": "TODO(ln): /an",
+    "mostPopular": "TODO(ln): Le plus choisi",
+    "ctaFree": "TODO(ln): Commencer gratuitement",
+    "ctaPaid": "TODO(ln): Choisir ce plan",
+    "plans": {
+      "free": {
+        "name": "TODO(ln): Free",
+        "price": "TODO(ln): 0 €",
+        "split": "TODO(ln): 70 % des revenus nets",
+        "features": [
+          "TODO(ln): Distribution sur 5 DSP majeurs",
+          "TODO(ln): 1 single par an",
+          "TODO(ln): Statistiques de base"
+        ]
+      },
+      "artist": {
+        "name": "TODO(ln): Artist",
+        "price": "TODO(ln): 15 €",
+        "split": "TODO(ln): 75 % des revenus nets",
+        "features": [
+          "TODO(ln): 50+ plateformes dont Boomplay",
+          "TODO(ln): Sorties illimitées",
+          "TODO(ln): Statistiques avancées"
+        ]
+      },
+      "pro": {
+        "name": "TODO(ln): Pro",
+        "price": "TODO(ln): 35 €",
+        "split": "TODO(ln): 80 % des revenus nets",
+        "features": [
+          "TODO(ln): Tout Artist",
+          "TODO(ln): Pitching éditorial",
+          "TODO(ln): YouTube Content ID"
+        ]
+      },
+      "label": {
+        "name": "TODO(ln): Label",
+        "price": "TODO(ln): 99 €",
+        "split": "TODO(ln): 85 % des revenus nets",
+        "features": [
+          "TODO(ln): Tout Pro",
+          "TODO(ln): Jusqu'à 5 artistes",
+          "TODO(ln): Support prioritaire"
+        ]
+      }
+    },
+    "feesNote": "TODO(ln): Le partage de revenus s'applique sur les revenus nets, après déduction des frais techniques (environ 5 %, commissions DSP et agrégateur). Détail complet dans nos CGU, article 8."
+  },
+  "Faq": {
+    "tag": "TODO(ln): Aide",
+    "title": "TODO(ln): Questions fréquentes",
+    "description": "TODO(ln): Tout ce qu'il faut savoir avant de distribuer votre musique avec Sterkte Records.",
+    "items": {
+      "q1": {
+        "question": "TODO(ln): Quels formats de fichiers audio sont acceptés ?",
+        "answer": "TODO(ln): WAV et FLAC sont recommandés pour une qualité maximale ; le MP3 est également accepté. Un master en 16 bits / 44,1 kHz minimum est requis."
+      },
+      "q2": {
+        "question": "TODO(ln): Combien de temps prend la mise en ligne de ma musique ?",
+        "answer": "TODO(ln): Nous soumettons votre sortie aux plateformes sous 5 à 7 jours ouvrés après validation complète. Les délais varient ensuite selon chaque plateforme (3 à 14 jours ouvrés). Nous recommandons de soumettre au moins 3 semaines avant la date de sortie souhaitée."
+      },
+      "q3": {
+        "question": "TODO(ln): Est-ce que je garde mes droits sur ma musique ?",
+        "answer": "TODO(ln): Oui, à 100 %. Sterkte Records agit comme mandataire de distribution : vous restez seul propriétaire de vos masters et de vos droits d'auteur."
+      },
+      "q4": {
+        "question": "TODO(ln): Quand suis-je payé et à partir de quel montant ?",
+        "answer": "TODO(ln): Les royalties sont reversées trimestriellement, dans les 30 jours suivant la clôture de chaque trimestre, à partir d'un seuil de 25 $ (ou équivalent)."
+      },
+      "q5": {
+        "question": "TODO(ln): Sur quelles plateformes ma musique sera-t-elle disponible ?",
+        "answer": "TODO(ln): Spotify, Apple Music, Deezer, YouTube Music, TikTok, Boomplay, Audiomack, Amazon Music, Tidal et bien d'autres — plus de 150 plateformes au total."
+      },
+      "q6": {
+        "question": "TODO(ln): Puis-je retirer ma musique à tout moment ?",
+        "answer": "TODO(ln): Oui, depuis votre espace artiste ou par email. Le retrait effectif intervient sous 7 à 30 jours ouvrés selon les plateformes concernées."
+      },
+      "q7": {
+        "question": "TODO(ln): Proposez-vous des solutions de paiement Mobile Money ?",
+        "answer": "TODO(ln): Oui, en plus des cartes bancaires internationales, nous prenons en charge le Mobile Money (Airtel Money, M-Pesa, Orange Money, MTN) pour les artistes en Afrique."
+      },
+      "q8": {
+        "question": "TODO(ln): Comment vous contacter en cas de question ?",
+        "answer": "TODO(ln): Par email à contact.sterkterecords@gmail.com ou via notre formulaire de contact — nous répondons sous 48 heures ouvrées."
+      }
+    }
+  },
+  "Legal": {
+    "cgu": {
+      "tag": "TODO(ln): CGU",
+      "title": "TODO(ln): Conditions Générales d'Utilisation",
+      "lastUpdated": "TODO(ln): Version 1.0 — Juillet 2026"
+    },
+    "privacy": {
+      "tag": "TODO(ln): Confidentialité",
+      "title": "TODO(ln): Politique de confidentialité",
+      "lastUpdated": "TODO(ln): Dernière mise à jour : juillet 2026"
+    },
+    "notice": {
+      "tag": "TODO(ln): Mentions légales",
+      "title": "TODO(ln): Mentions légales",
+      "lastUpdated": "TODO(ln): Dernière mise à jour : juillet 2026"
+    }
   },
   "Auth": {
     "login": {

@@ -37,6 +37,66 @@ export const routing = defineRouting({
   },
   pathnames: {
     "/": "/",
+    "/a-propos": {
+      fr: "/a-propos",
+      en: "/about",
+      ln: "/a-propos",
+    },
+    "/distribution": {
+      fr: "/distribution",
+      en: "/distribution",
+      ln: "/distribution",
+    },
+    "/tarifs": {
+      fr: "/tarifs",
+      en: "/pricing",
+      ln: "/tarifs",
+    },
+    "/studio": {
+      fr: "/studio",
+      en: "/studio",
+      ln: "/studio",
+    },
+    "/booking": {
+      fr: "/booking",
+      en: "/booking",
+      ln: "/booking",
+    },
+    "/featuring": {
+      fr: "/featuring",
+      en: "/featuring",
+      ln: "/featuring",
+    },
+    "/consulting": {
+      fr: "/consulting",
+      en: "/consulting",
+      ln: "/consulting",
+    },
+    "/contact": {
+      fr: "/contact",
+      en: "/contact",
+      ln: "/contact",
+    },
+    "/aide": {
+      fr: "/aide",
+      en: "/help",
+      ln: "/aide",
+    },
+    "/legal/cgu": {
+      fr: "/legal/cgu",
+      en: "/legal/terms",
+      ln: "/legal/cgu",
+    },
+    "/legal/confidentialite": {
+      fr: "/legal/confidentialite",
+      en: "/legal/privacy",
+      ln: "/legal/confidentialite",
+    },
+    "/legal/mentions": {
+      fr: "/legal/mentions",
+      en: "/legal/notice",
+      ln: "/legal/mentions",
+    },
     "/connexion": {
       fr: "/connexion",
       en: "/login",
