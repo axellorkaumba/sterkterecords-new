@@ -4,20 +4,23 @@ Plateforme SaaS de distribution musicale — Sterkte Records SARL
 (Lubumbashi/RDC · Agadir/Maroc). Source de vérité produit : le cahier des
 charges (`CDC_Sterkte_Records_Distributor.md`, fourni hors repo).
 
-**Statut : Sprint 7 — Emails transactionnels.** Authentification (Sprint 3),
+**Statut : Sprint 8 — Back-office minimal.** Authentification (Sprint 3),
 dashboard artiste (Sprint 4), tunnel de distribution à 9 étapes (Sprint 5),
-abonnement/paiements SOLO/AFRIQUE/LABEL (Sprint 6), et désormais les emails
-transactionnels (§14) : vérification/bienvenue, réinitialisation mot de
-passe et alertes sécurité (via le Send Email Hook Supabase), reçus de
-paiement, sortie soumise, retrait confirmé — tous en React Email/Resend,
-trilingues. **Aucun projet Supabase, bucket R2, compte Stripe/Flutterwave/
+abonnement/paiements SOLO/AFRIQUE/LABEL (Sprint 6), emails transactionnels
+(Sprint 7), et désormais le back-office minimal du MVP (§11.10, §3.1) :
+file de validation qualité des sorties (approuver / renvoyer avec motif —
+la sortie ne part vers LabelGrid qu'après approbation staff, revu depuis le
+Sprint 5) et gestion des artistes Label vs Solo. Ceci clôt le socle MVP du
+CDC (§3.1). **Aucun projet Supabase, bucket R2, compte Stripe/Flutterwave/
 Resend réels ne sont encore branchés** : tout est vérifié par
 `typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel
 Supabase/R2/PSP/Resend — voir `docs/adr/0007-auth-architecture.md`,
 `docs/adr/0008-dashboard-artiste.md`, `docs/adr/0009-distribution-module.md`,
-`docs/adr/0010-abonnement-paiements.md` et
-`docs/adr/0011-emails-transactionnels.md`. Le portefeuille de royalties, les
-retraits (§11.5) et le back-office (§11.10) restent à construire.
+`docs/adr/0010-abonnement-paiements.md`,
+`docs/adr/0011-emails-transactionnels.md` et
+`docs/adr/0012-back-office-minimal.md`. Le portefeuille de royalties/
+retraits, Studio/Booking/Featuring/Consulting et le reste du back-office
+(§11.5-§11.11) relèvent du V1.
 
 ## Stack
 
@@ -286,6 +289,35 @@ Gabarits React Email + Resend (§14) — voir
   configuré dans cet environnement** : vérifié par `typecheck`/`lint`/
   `build` uniquement.
 
+## Back-office minimal (Sprint 8)
+
+Sous-ensemble MVP du §11.10 (§3.1 : "voir/valider les sorties, gérer les
+artistes label") — voir `docs/adr/0012-back-office-minimal.md` :
+
+- **File de validation qualité** (`/admin/sorties`) : les sorties soumises
+  par les artistes passent par le statut `in_review` (et non plus
+  directement `delivering`, revu depuis le Sprint 5 — voir ci-dessous) ;
+  le staff les approuve (envoi réel à LabelGrid) ou les renvoie avec un
+  motif, transmis à l'artiste par email (gabarit du Sprint 7, jusqu'ici
+  sans déclencheur).
+- **Gestion des artistes** (`/admin/artistes`) : liste Solo/Label, bascule
+  de forfait — un artiste passé en Label est immédiatement exempté du
+  paywall (`src/lib/subscriptions/gate.ts`, Sprint 6), sans changement de
+  cette logique.
+- **`submitRelease` ne parle plus directement à LabelGrid** (changement de
+  comportement depuis le Sprint 5) : l'envoi réel est désormais déclenché
+  par l'action staff `approveRelease` après validation. Corrige au passage
+  un bug latent : `labelgrid_sync` était inséré via le client RLS de
+  l'artiste alors que sa policy n'autorise que le service_role à écrire —
+  jamais détecté faute de projet Supabase réel.
+- **RLS étendue au staff** (nouvelle migration) : les policies UPDATE sur
+  `releases`/`artists` incluent désormais `is_staff()`, plutôt que de faire
+  passer ces actions par le client `service_role`.
+- **Nav back-office complète avec badges "Bientôt disponible"**, même
+  décision que `/app` (Sprint 4) : Finances, Studio, Booking, Featuring,
+  Consulting, Support, Contenus, Paramètres — hors périmètre du minimal
+  MVP.
+
 ## Démarrage
 
 Prérequis : Node ≥ 20.9, pnpm (`corepack enable` ou `npm i -g pnpm`).
@@ -352,7 +384,12 @@ src/
 │   │   │       ├── nouvelle/       Étape 1 (type de sortie) — crée la sortie brouillon
 │   │   │       ├── [releaseId]/    Étapes 2-9 (tunnel) ou fiche détail si non-brouillon
 │   │   │       └── actions.ts      CRUD release/track/contributor/platform + soumission LabelGrid + checkout add-on (Sprint 6)
-│   │   └── admin/           Back-office (Sprint 4+)
+│   │   └── admin/           Back-office (§11.10, Sprint 8)
+│   │       ├── layout.tsx     Sidebar nav complète (badges "Bientôt disponible")
+│   │       ├── page.tsx       Vue d'ensemble (comptages artistes/sorties)
+│   │       ├── actions.ts     approveRelease/rejectRelease, listAllArtists/toggleArtistPlan
+│   │       ├── artistes/      Liste + bascule de forfait Solo/Label
+│   │       └── sorties/       File de validation qualité (approuver / renvoyer avec motif)
 │   ├── api/
 │   │   ├── auth/callback/    Échange PKCE unique (tout provider OAuth, confirmation, reset — Sprint 3)
 │   │   ├── auth/email-hook/  Supabase Auth "Send Email Hook" — emails d'auth rebrandés (Sprint 7)
@@ -396,6 +433,8 @@ src/
 │   ├── private/private-header.tsx   Barre minimale /app·/admin (Sprint 3)
 │   ├── private/app-sidebar-nav.tsx   Nav complète /app, badges "Bientôt disponible" (Sprint 4)
 │   ├── private/app-mobile-nav.tsx    Sheet mobile réutilisant app-sidebar-nav
+│   ├── private/admin-sidebar-nav.tsx Nav complète /admin, même précédent que Sprint 4 (Sprint 8)
+│   ├── private/admin-mobile-nav.tsx  Sheet mobile réutilisant admin-sidebar-nav
 │   ├── theme-provider.tsx / theme-toggle.tsx   Dark/light mode (next-themes)
 │   └── providers.tsx        Composition unique des providers client
 ├── hooks/
@@ -406,7 +445,7 @@ src/
 
 supabase/
 ├── config.toml
-├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3) + artists/releases/tracks/stats/wallet/notifications (Sprint 4) + contributors/platforms/uploads/validation (Sprint 5) + plans/prix/régions/coupons/subscriptions/payments (Sprint 6)
+├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3) + artists/releases/tracks/stats/wallet/notifications (Sprint 4) + contributors/platforms/uploads/validation (Sprint 5) + plans/prix/régions/coupons/subscriptions/payments (Sprint 6) + RLS staff releases/artists (Sprint 8)
 └── seed.sql                  Note de bootstrap du premier super_admin
 
 docs/adr/                     Décisions d'architecture documentées
@@ -429,7 +468,8 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - **Sprint 4 :** Dashboard artiste — voir ci-dessus.
 - **Sprint 5 :** Module Distribution — voir ci-dessus.
 - **Sprint 6 :** Abonnement & Paiements — voir ci-dessus.
-- **Sprint 7 (ce commit) :** Emails transactionnels — voir ci-dessus.
+- **Sprint 7 :** Emails transactionnels — voir ci-dessus.
+- **Sprint 8 (ce commit) :** Back-office minimal — voir ci-dessus. Clôt le socle MVP du CDC (§3.1).
 
 ## Décisions d'architecture
 
@@ -444,6 +484,7 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - `docs/adr/0009-distribution-module.md` — upload multipart résumable complet et moteur de validation modulaire "premium évolutif" (validés explicitement par Axel), règles réelles (parsing WAV/FLAC/MP3, Web Audio API, JPEG SOF, checksum UPC-A) documentées avec leurs approximations assumées (niveau sonore, VBR MP3), règles IA/OCR non construites mais architecture prête, DSP sans logos officiels reproduits, gestion post-sortie sans workflow d'approbation automatisé
 - `docs/adr/0010-abonnement-paiements.md` — moteur de tarification générique sans valeur codée en dur (plans/régions/devises/remises/essais/coupons, validé explicitement par Axel), incohérence de tarification héritée du Sprint 2 tranchée (SOLO/AFRIQUE/LABEL, 100 % des royalties, `/tarifs` et CGU corrigés), Flutterwave retenu comme rail Mobile Money, Flutterwave sans abonnement natif (paiement à l'acte, renouvellement automatique différé au job planifié), paywall bloquant, résiliation immédiate (pas de report à la fin de période), webhooks en client `service_role`
 - `docs/adr/0011-emails-transactionnels.md` — emails d'auth via le Supabase Auth Send Email Hook (zéro changement des Server Actions existantes), alertes sécurité en redondance volontaire hook + appel direct (documentation Supabase ambiguë sur le déclenchement automatique), tableau des emails réellement câblés vs gabarits prêts mais non déclenchés (sortie livrée/à corriger — modules dépendants pas encore construits), échec d'envoi non bloquant pour l'action métier
+- `docs/adr/0012-back-office-minimal.md` — `submitRelease` ne parle plus directement à LabelGrid (revu depuis le Sprint 5, la sortie rejoint désormais `in_review` puis est approuvée/renvoyée par le staff), bug latent corrigé (`labelgrid_sync` écrit via le client admin, pas la session RLS de l'artiste), RLS étendue au staff sur `releases`/`artists` plutôt qu'un bypass service_role, gestion Label = bascule de forfait (pas de création de compte par le staff), nav `/admin` complète avec badges (même précédent que Sprint 4)
 
 ## Notes importantes
 
@@ -624,3 +665,25 @@ route.ts`), une fois activé côté dashboard, qui redirige l'envoi vers nos
   gabarits et les fonctions d'envoi sont vérifiés par
   `typecheck`/`lint`/`build` uniquement — voir ADR 0011, section
   "Contrainte d'environnement".
+- **`submitRelease` ne parle plus à LabelGrid (changement de comportement
+  depuis le Sprint 5, Sprint 8)** : la sortie rejoint désormais le statut
+  `in_review` (déjà prévu par l'énumération `release_status` du Sprint 4,
+  jamais exploité jusqu'ici) au lieu de partir directement en `delivering`.
+  L'envoi réel à LabelGrid est déplacé dans l'action staff `approveRelease`
+  (`/admin/sorties`) — voir ADR 0012. Les textes ("sortie soumise", message
+  de succès du tunnel) ont été corrigés pour ne plus annoncer une livraison
+  immédiate.
+- **Bug latent corrigé : `labelgrid_sync` écrit via le mauvais client
+  (Sprint 8)** : cette table n'a jamais eu de policy INSERT pour
+  `authenticated` (commentaire de la migration Sprint 5 : "Écrit par le
+  serveur"), mais `submitRelease` y écrivait via le client RLS de
+  l'artiste — aurait échoué contre un vrai projet Supabase, jamais détecté
+  faute d'un tel projet dans cet environnement. Corrigé : `approveRelease`
+  écrit désormais via `createAdminClient()`.
+- **Gestion des artistes Label = bascule de forfait, pas de création de
+  compte par le staff (Sprint 8)** : aucun flux self-service n'existe pour
+  qu'un membre du staff crée un compte au nom d'un tiers — l'artiste
+  s'inscrit toujours lui-même, le staff fait ensuite basculer
+  `artists.plan` vers `label` depuis `/admin/artistes`, ce qui l'exempte
+  immédiatement du paywall (`src/lib/subscriptions/gate.ts`, Sprint 6),
+  sans changement de cette logique. Voir ADR 0012.

@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getLabelGridClient } from "@/lib/labelgrid";
-import { getPublicUrl } from "@/lib/storage/r2";
 import { clientEnv } from "@/lib/env";
 import {
   getPaymentProvider,
@@ -398,26 +397,30 @@ export async function hasAddonBeenPaid(releaseId: string): Promise<boolean> {
 }
 
 /**
- * Soumission finale (§11.4 étape 9) : génère UPC/ISRC manquants, envoie à
- * LabelGrid (mock tant que l'intégration réelle n'est pas branchée, voir
- * ADR 0003), crée la ligne `labelgrid_sync`, journalise, passe le statut à
- * `delivering`, envoie l'email de confirmation (§14, voir ADR 0011). Bloque
- * tant que l'add-on Apple Music, si choisi, n'est pas payé (§5.3).
+ * Soumission finale (§11.4 étape 9) : passe le statut à `in_review` et
+ * envoie l'email de confirmation (§14, ADR 0011). **N'envoie plus
+ * directement à LabelGrid** — la sortie rejoint la file de validation
+ * qualité du back-office (§11.10) : c'est l'action staff `approveRelease`
+ * (`src/app/(private)/admin/actions.ts`) qui déclenche l'envoi réel après
+ * approbation, ou `rejectRelease` qui renvoie en brouillon avec motif (voir
+ * ADR 0012). Bloque tant que l'add-on Apple Music, si choisi, n'est pas
+ * payé (§5.3).
  */
 export async function submitRelease(releaseId: string): Promise<ActionResult> {
   const { supabase, user, artistId } = await requireArtist();
 
-  const [{ data: release }, { data: tracks }, { data: platforms }] = await Promise.all([
-    supabase.from("releases").select("*").eq("id", releaseId).eq("artist_id", artistId).single(),
-    supabase
-      .from("tracks")
-      .select("*, contributors(role, name, split_pct)")
-      .eq("release_id", releaseId)
-      .order("position"),
-    supabase.from("release_platforms").select("dsp").eq("release_id", releaseId),
-  ]);
+  const { data: release } = await supabase
+    .from("releases")
+    .select("*")
+    .eq("id", releaseId)
+    .eq("artist_id", artistId)
+    .single();
+  const { count: trackCount } = await supabase
+    .from("tracks")
+    .select("id", { count: "exact", head: true })
+    .eq("release_id", releaseId);
 
-  if (!release || !tracks || tracks.length === 0) {
+  if (!release || !trackCount) {
     return { error: "incomplete" };
   }
 
@@ -425,45 +428,12 @@ export async function submitRelease(releaseId: string): Promise<ActionResult> {
     return { error: "addon_unpaid" };
   }
 
-  const labelgrid = getLabelGridClient();
-
-  const { externalId } = await labelgrid.submitRelease({
-    releaseId: release.id,
-    type: release.type,
-    title: release.title,
-    upc: release.upc ?? undefined,
-    genre: release.genre ?? "",
-    language: release.language ?? "",
-    explicit: release.explicit,
-    artworkUrl: release.artwork_url ? getPublicUrl(release.artwork_url) : "",
-    releaseDate: release.release_date ?? new Date().toISOString(),
-    selectedDsps: (platforms ?? []).map((p) => p.dsp),
-    tracks: tracks.map((track) => ({
-      position: track.position,
-      title: track.title,
-      isrc: track.isrc ?? undefined,
-      audioFileUrl: track.audio_url ?? "",
-      explicit: track.explicit,
-      contributors: (track.contributors ?? []).map((c) => ({
-        name: c.name,
-        role: c.role,
-        splitPct: c.split_pct,
-      })),
-    })),
-  });
-
   await supabase
     .from("releases")
-    .update({ status: "delivering", submitted_at: new Date().toISOString(), current_step: 9 })
+    .update({ status: "in_review", submitted_at: new Date().toISOString(), current_step: 9 })
     .eq("id", releaseId);
 
-  await supabase.from("labelgrid_sync").insert({
-    release_id: releaseId,
-    external_id: externalId,
-    status: "in_delivery",
-  });
-
-  await logAudit(user.id, "release_submitted", releaseId);
+  await logAudit(user.id, "release_submitted_for_review", releaseId);
 
   if (user.email) {
     await sendReleaseSubmittedEmail({

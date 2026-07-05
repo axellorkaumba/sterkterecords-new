@@ -665,7 +665,74 @@
     }
   },
   "Admin": {
-    "placeholder": "Back-office — arrive avec les modules métier."
+    "placeholder": "Back-office — arrive avec les modules métier.",
+    "overview": {
+      "title": "Vue d'ensemble",
+      "subtitle": "Artistes, sorties en attente de validation, activité récente.",
+      "artistsTitle": "Artistes",
+      "artistsBreakdown": "{solo} Solo · {label} Label",
+      "pendingReviewTitle": "En attente de validation",
+      "pendingReviewDescription": "Sorties soumises par les artistes, en attente d'une décision.",
+      "releasesTitle": "Sorties actives",
+      "releasesBreakdown": "{delivering} en livraison · {delivered} livrées"
+    },
+    "artists": {
+      "title": "Artistes",
+      "subtitle": "Artistes Solo (self-service) et Label (gérés en interne).",
+      "empty": {
+        "title": "Aucun artiste",
+        "description": "Aucun profil artiste n'a encore été créé."
+      },
+      "columns": {
+        "name": "Nom",
+        "plan": "Forfait",
+        "releases": "Sorties",
+        "createdAt": "Créé le"
+      },
+      "plans": {
+        "solo": "Solo",
+        "label": "Label"
+      },
+      "switchTo": {
+        "solo": "Passer en Solo",
+        "label": "Passer en Label"
+      },
+      "switchDialog": {
+        "solo": {
+          "title": "Repasser cet artiste en Solo ?",
+          "description": "L'artiste redevient self-service : il devra souscrire un abonnement pour distribuer de nouvelles sorties."
+        },
+        "label": {
+          "title": "Passer cet artiste en Label ?",
+          "description": "L'artiste est désormais géré en interne — il n'a plus besoin d'abonnement actif pour accéder à son tableau de bord."
+        },
+        "cancel": "Annuler",
+        "confirm": "Confirmer"
+      },
+      "switchError": "Le changement de forfait a échoué. Réessaie dans un instant."
+    },
+    "releases": {
+      "title": "File de validation qualité",
+      "subtitle": "Sorties soumises par les artistes, en attente d'approbation avant livraison.",
+      "empty": {
+        "title": "Aucune sortie en attente",
+        "description": "Toutes les sorties soumises ont été traitées."
+      },
+      "columns": {
+        "title": "Titre",
+        "artist": "Artiste",
+        "type": "Type",
+        "submittedAt": "Soumise le"
+      },
+      "approveButton": "Approuver",
+      "rejectButton": "Renvoyer",
+      "rejectDialogTitle": "Renvoyer cette sortie à l'artiste",
+      "rejectDialogDescription": "Explique ce qui doit être corrigé — ce message sera envoyé par email à l'artiste.",
+      "reasonPlaceholder": "Ex. : la pochette ne respecte pas le format 3000×3000 px…",
+      "rejectDialogCancel": "Annuler",
+      "rejectDialogConfirm": "Renvoyer avec ce motif",
+      "actionError": "L'action a échoué. Réessaie dans un instant."
+    }
   },
   "Account": {
     "title": "Paramètres",
@@ -1197,11 +1264,11 @@
     },
     "submitStep": {
       "title": "Confirmation & envoi",
-      "subtitle": "Dernière étape avant l'envoi à nos plateformes partenaires.",
+      "subtitle": "Dernière étape avant l'envoi à notre équipe pour validation.",
       "submitButton": "Envoyer ma sortie",
       "submitting": "Envoi en cours…",
       "successTitle": "Sortie envoyée !",
-      "successDescription": "Ta sortie est en cours de livraison. Tu recevras une notification à chaque étape.",
+      "successDescription": "Ta sortie est en cours de validation par notre équipe avant sa mise en ligne. Tu recevras une notification à chaque étape.",
       "viewRelease": "Voir ma sortie",
       "errorIncomplete": "Il manque des informations — vérifie les étapes précédentes.",
       "error": "L'envoi a échoué. Réessaie dans un instant.",
@@ -1375,9 +1442,9 @@
       }
     },
     "releaseSubmitted": {
-      "preview": "« {title} » est en route vers les plateformes",
-      "heading": "« {title} » est en route vers les plateformes 🎉",
-      "body": "Ta sortie a été transmise à nos plateformes partenaires. Tu recevras une notification à chaque étape.",
+      "preview": "« {title} » est en cours de validation",
+      "heading": "« {title} » est en cours de validation",
+      "body": "Ta sortie a bien été reçue et sera vérifiée par notre équipe avant sa mise en ligne sur les plateformes. Tu recevras une notification dès qu'elle sera en cours de livraison.",
       "cta": "Voir ma sortie"
     },
     "releaseStatusUpdate": {
@@ -1406,5 +1473,20 @@
       "body": "Ta demande de retrait a été transmise à nos plateformes partenaires. Le retrait effectif peut prendre jusqu'à 30 jours ouvrés selon les plateformes concernées.",
       "cta": "Voir ma sortie"
     }
+  },
+  "AdminNav": {
+    "overview": "Vue d'ensemble",
+    "artists": "Artistes",
+    "releases": "Sorties",
+    "finances": "Finances",
+    "studio": "Studio",
+    "booking": "Booking",
+    "featuring": "Featuring",
+    "consulting": "Consulting",
+    "support": "Support",
+    "content": "Contenus",
+    "settings": "Paramètres",
+    "comingSoon": "Bientôt disponible",
+    "openMenu": "Ouvrir le menu"
   }
 }

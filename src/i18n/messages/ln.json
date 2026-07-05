@@ -666,7 +666,74 @@
     }
   },
   "Admin": {
-    "placeholder": "TODO(ln): Back-office — arrive avec les modules métier."
+    "placeholder": "TODO(ln): Back-office — arrive avec les modules métier.",
+    "overview": {
+      "title": "TODO(ln): Vue d'ensemble",
+      "subtitle": "TODO(ln): Artistes, sorties en attente de validation, activité récente.",
+      "artistsTitle": "TODO(ln): Artistes",
+      "artistsBreakdown": "TODO(ln): {solo} Solo · {label} Label",
+      "pendingReviewTitle": "TODO(ln): En attente de validation",
+      "pendingReviewDescription": "TODO(ln): Sorties soumises par les artistes, en attente d'une décision.",
+      "releasesTitle": "TODO(ln): Sorties actives",
+      "releasesBreakdown": "TODO(ln): {delivering} en livraison · {delivered} livrées"
+    },
+    "artists": {
+      "title": "TODO(ln): Artistes",
+      "subtitle": "TODO(ln): Artistes Solo (self-service) et Label (gérés en interne).",
+      "empty": {
+        "title": "TODO(ln): Aucun artiste",
+        "description": "TODO(ln): Aucun profil artiste n'a encore été créé."
+      },
+      "columns": {
+        "name": "TODO(ln): Nom",
+        "plan": "TODO(ln): Forfait",
+        "releases": "TODO(ln): Sorties",
+        "createdAt": "TODO(ln): Créé le"
+      },
+      "plans": {
+        "solo": "TODO(ln): Solo",
+        "label": "TODO(ln): Label"
+      },
+      "switchTo": {
+        "solo": "TODO(ln): Passer en Solo",
+        "label": "TODO(ln): Passer en Label"
+      },
+      "switchDialog": {
+        "solo": {
+          "title": "TODO(ln): Repasser cet artiste en Solo ?",
+          "description": "TODO(ln): L'artiste redevient self-service : il devra souscrire un abonnement pour distribuer de nouvelles sorties."
+        },
+        "label": {
+          "title": "TODO(ln): Passer cet artiste en Label ?",
+          "description": "TODO(ln): L'artiste est désormais géré en interne — il n'a plus besoin d'abonnement actif pour accéder à son tableau de bord."
+        },
+        "cancel": "TODO(ln): Annuler",
+        "confirm": "TODO(ln): Confirmer"
+      },
+      "switchError": "TODO(ln): Le changement de forfait a échoué. Réessaie dans un instant."
+    },
+    "releases": {
+      "title": "TODO(ln): File de validation qualité",
+      "subtitle": "TODO(ln): Sorties soumises par les artistes, en attente d'approbation avant livraison.",
+      "empty": {
+        "title": "TODO(ln): Aucune sortie en attente",
+        "description": "TODO(ln): Toutes les sorties soumises ont été traitées."
+      },
+      "columns": {
+        "title": "TODO(ln): Titre",
+        "artist": "TODO(ln): Artiste",
+        "type": "TODO(ln): Type",
+        "submittedAt": "TODO(ln): Soumise le"
+      },
+      "approveButton": "TODO(ln): Approuver",
+      "rejectButton": "TODO(ln): Renvoyer",
+      "rejectDialogTitle": "TODO(ln): Renvoyer cette sortie à l'artiste",
+      "rejectDialogDescription": "TODO(ln): Explique ce qui doit être corrigé — ce message sera envoyé par email à l'artiste.",
+      "reasonPlaceholder": "TODO(ln): Ex. : la pochette ne respecte pas le format 3000×3000 px…",
+      "rejectDialogCancel": "TODO(ln): Annuler",
+      "rejectDialogConfirm": "TODO(ln): Renvoyer avec ce motif",
+      "actionError": "TODO(ln): L'action a échoué. Réessaie dans un instant."
+    }
   },
   "Account": {
     "title": "TODO(ln): Paramètres",
@@ -1198,11 +1265,11 @@
     },
     "submitStep": {
       "title": "TODO(ln): Confirmation & envoi",
-      "subtitle": "TODO(ln): Dernière étape avant l'envoi à nos plateformes partenaires.",
+      "subtitle": "TODO(ln): Dernière étape avant l'envoi à notre équipe pour validation.",
       "submitButton": "TODO(ln): Envoyer ma sortie",
       "submitting": "TODO(ln): Envoi en cours…",
       "successTitle": "TODO(ln): Sortie envoyée !",
-      "successDescription": "TODO(ln): Ta sortie est en cours de livraison. Tu recevras une notification à chaque étape.",
+      "successDescription": "TODO(ln): Ta sortie est en cours de validation par notre équipe avant sa mise en ligne. Tu recevras une notification à chaque étape.",
       "viewRelease": "TODO(ln): Voir ma sortie",
       "errorIncomplete": "TODO(ln): Il manque des informations — vérifie les étapes précédentes.",
       "error": "TODO(ln): L'envoi a échoué. Réessaie dans un instant.",
@@ -1376,9 +1443,9 @@
       }
     },
     "releaseSubmitted": {
-      "preview": "TODO(ln): « {title} » est en route vers les plateformes",
-      "heading": "TODO(ln): « {title} » est en route vers les plateformes 🎉",
-      "body": "TODO(ln): Ta sortie a été transmise à nos plateformes partenaires. Tu recevras une notification à chaque étape.",
+      "preview": "TODO(ln): « {title} » est en cours de validation",
+      "heading": "TODO(ln): « {title} » est en cours de validation",
+      "body": "TODO(ln): Ta sortie a bien été reçue et sera vérifiée par notre équipe avant sa mise en ligne sur les plateformes. Tu recevras une notification dès qu'elle sera en cours de livraison.",
       "cta": "TODO(ln): Voir ma sortie"
     },
     "releaseStatusUpdate": {
@@ -1407,5 +1474,20 @@
       "body": "TODO(ln): Ta demande de retrait a été transmise à nos plateformes partenaires. Le retrait effectif peut prendre jusqu'à 30 jours ouvrés selon les plateformes concernées.",
       "cta": "TODO(ln): Voir ma sortie"
     }
+  },
+  "AdminNav": {
+    "overview": "TODO(ln): Vue d'ensemble",
+    "artists": "TODO(ln): Artistes",
+    "releases": "TODO(ln): Sorties",
+    "finances": "TODO(ln): Finances",
+    "studio": "TODO(ln): Studio",
+    "booking": "TODO(ln): Booking",
+    "featuring": "TODO(ln): Featuring",
+    "consulting": "TODO(ln): Consulting",
+    "support": "TODO(ln): Support",
+    "content": "TODO(ln): Contenus",
+    "settings": "TODO(ln): Paramètres",
+    "comingSoon": "TODO(ln): Bientôt disponible",
+    "openMenu": "TODO(ln): Ouvrir le menu"
   }
 }

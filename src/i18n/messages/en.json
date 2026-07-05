@@ -665,7 +665,74 @@
     }
   },
   "Admin": {
-    "placeholder": "Back office — ships with the business modules."
+    "placeholder": "Back office — coming with the business modules.",
+    "overview": {
+      "title": "Overview",
+      "subtitle": "Artists, releases pending review, recent activity.",
+      "artistsTitle": "Artists",
+      "artistsBreakdown": "{solo} Solo · {label} Label",
+      "pendingReviewTitle": "Pending review",
+      "pendingReviewDescription": "Releases submitted by artists, awaiting a decision.",
+      "releasesTitle": "Active releases",
+      "releasesBreakdown": "{delivering} delivering · {delivered} delivered"
+    },
+    "artists": {
+      "title": "Artists",
+      "subtitle": "Solo (self-service) and Label (managed in-house) artists.",
+      "empty": {
+        "title": "No artists",
+        "description": "No artist profile has been created yet."
+      },
+      "columns": {
+        "name": "Name",
+        "plan": "Plan",
+        "releases": "Releases",
+        "createdAt": "Created on"
+      },
+      "plans": {
+        "solo": "Solo",
+        "label": "Label"
+      },
+      "switchTo": {
+        "solo": "Switch to Solo",
+        "label": "Switch to Label"
+      },
+      "switchDialog": {
+        "solo": {
+          "title": "Switch this artist back to Solo?",
+          "description": "The artist becomes self-service again: they'll need an active subscription to distribute new releases."
+        },
+        "label": {
+          "title": "Switch this artist to Label?",
+          "description": "The artist is now managed in-house — no active subscription is required to access their dashboard."
+        },
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "switchError": "The plan change failed. Please try again in a moment."
+    },
+    "releases": {
+      "title": "Quality review queue",
+      "subtitle": "Releases submitted by artists, pending approval before delivery.",
+      "empty": {
+        "title": "No releases pending",
+        "description": "All submitted releases have been processed."
+      },
+      "columns": {
+        "title": "Title",
+        "artist": "Artist",
+        "type": "Type",
+        "submittedAt": "Submitted on"
+      },
+      "approveButton": "Approve",
+      "rejectButton": "Send back",
+      "rejectDialogTitle": "Send this release back to the artist",
+      "rejectDialogDescription": "Explain what needs to be fixed — this message will be emailed to the artist.",
+      "reasonPlaceholder": "E.g.: the artwork doesn't meet the 3000×3000 px requirement…",
+      "rejectDialogCancel": "Cancel",
+      "rejectDialogConfirm": "Send back with this reason",
+      "actionError": "The action failed. Please try again in a moment."
+    }
   },
   "Account": {
     "title": "Settings",
@@ -1197,11 +1264,11 @@
     },
     "submitStep": {
       "title": "Confirmation & submission",
-      "subtitle": "Last step before sending to our partner platforms.",
+      "subtitle": "Last step before sending it to our team for review.",
       "submitButton": "Submit my release",
       "submitting": "Submitting…",
-      "successTitle": "Release submitted!",
-      "successDescription": "Your release is being delivered. You'll get a notification at every step.",
+      "successTitle": "Release sent!",
+      "successDescription": "Your release is being reviewed by our team before going live. You'll get a notification at every step.",
       "viewRelease": "View my release",
       "errorIncomplete": "Some information is missing — check the previous steps.",
       "error": "Submission failed. Please try again in a moment.",
@@ -1375,9 +1442,9 @@
       }
     },
     "releaseSubmitted": {
-      "preview": "“{title}” is on its way to platforms",
-      "heading": "“{title}” is on its way to platforms 🎉",
-      "body": "Your release has been submitted to our partner platforms. You'll get a notification at every step.",
+      "preview": "“{title}” is under review",
+      "heading": "“{title}” is under review",
+      "body": "Your release has been received and will be checked by our team before going live on platforms. You'll get a notification as soon as it's being delivered.",
       "cta": "View my release"
     },
     "releaseStatusUpdate": {
@@ -1406,5 +1473,20 @@
       "body": "Your takedown request has been sent to our partner platforms. Full takedown can take up to 30 business days depending on the platform.",
       "cta": "View my release"
     }
+  },
+  "AdminNav": {
+    "overview": "Overview",
+    "artists": "Artists",
+    "releases": "Releases",
+    "finances": "Finances",
+    "studio": "Studio",
+    "booking": "Booking",
+    "featuring": "Featuring",
+    "consulting": "Consulting",
+    "support": "Support",
+    "content": "Content",
+    "settings": "Settings",
+    "comingSoon": "Coming soon",
+    "openMenu": "Open menu"
   }
 }
