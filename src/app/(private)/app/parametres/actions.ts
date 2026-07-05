@@ -244,3 +244,40 @@ export async function unlinkOAuthIdentity(identity: UserIdentity): Promise<Actio
   revalidatePath("/app/parametres");
   return { error: null };
 }
+
+/**
+ * Résiliation de l'abonnement SOLO (§5, §15). Pour Stripe, on résilie
+ * réellement l'abonnement côté PSP (le webhook `customer.subscription.deleted`
+ * confirmera l'état en base, mais on marque aussi la ligne localement tout de
+ * suite pour un retour immédiat). Pour Flutterwave, il n'existe pas
+ * d'abonnement récurrent réel à résilier côté PSP (chaque échéance est un
+ * paiement à l'acte, §11.5/ADR 0010) : on marque simplement l'intention de
+ * ne pas renouveler, ce qui suffit à désactiver l'accès à l'échéance.
+ */
+export async function cancelSubscriptionAction(): Promise<{ error: string | null }> {
+  const { supabase, user } = await requireUser();
+
+  const { data: subscription } = await supabase
+    .from("subscriptions")
+    .select("id, provider, external_id, status")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (!subscription || subscription.status !== "active") {
+    return { error: "no_active_subscription" };
+  }
+
+  if (subscription.provider === "stripe" && subscription.external_id) {
+    const { getStripeClient } = await import("@/lib/payments/stripe/client");
+    await getStripeClient().subscriptions.cancel(subscription.external_id);
+  }
+
+  const admin = createAdminClient();
+  await admin.from("subscriptions").update({ status: "canceled" }).eq("id", subscription.id);
+
+  await logAudit(user.id, "subscription_canceled", "subscription", subscription.id);
+  revalidatePath("/app/parametres");
+  return { error: null };
+}

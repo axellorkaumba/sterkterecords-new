@@ -136,7 +136,13 @@ export function DistributionTunnel({
         />
       ) : null}
 
-      {stepIndex === 7 ? <StepSubmit releaseId={release.id} onBack={() => goTo(6)} /> : null}
+      {stepIndex === 7 ? (
+        <StepSubmit
+          releaseId={release.id}
+          appleArtworkAddon={releaseData.appleArtworkAddon}
+          onBack={() => goTo(6)}
+        />
+      ) : null}
     </div>
   );
 }

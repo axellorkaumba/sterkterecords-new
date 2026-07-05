@@ -4,18 +4,21 @@ Plateforme SaaS de distribution musicale — Sterkte Records SARL
 (Lubumbashi/RDC · Agadir/Maroc). Source de vérité produit : le cahier des
 charges (`CDC_Sterkte_Records_Distributor.md`, fourni hors repo).
 
-**Statut : Sprint 5 — Module Distribution.** Authentification (Sprint 3) +
-dashboard artiste (Sprint 4) + tunnel de distribution complet à 9 étapes
-(§11.4, cœur du MVP) : upload audio/pochette multipart résumable, moteur de
-validation modulaire (audio/pochette/métadonnées), contributeurs & splits,
-plateformes DSP, calendrier, récapitulatif, soumission LabelGrid, gestion
-post-sortie (verrouillage, demande de modification, retrait). **Aucun
-projet Supabase ni bucket R2 réels ne sont encore branchés** : tout est
-vérifié par `typecheck`/`lint`/tests navigateur jusqu'à la frontière de
-l'appel Supabase/R2 — voir `docs/adr/0007-auth-architecture.md`,
-`docs/adr/0008-dashboard-artiste.md` et
-`docs/adr/0009-distribution-module.md`. Les paiements/royalties (§11.5,
-V1) restent à construire.
+**Statut : Sprint 6 — Abonnement & Paiements.** Authentification (Sprint 3) +
+dashboard artiste (Sprint 4) + tunnel de distribution à 9 étapes (Sprint 5)
+
+- abonnement/paiements (§5, §11.2, §13.2, MVP) : moteur de tarification
+  générique (plans/régions/devises/remises/essais/options, sans valeur codée
+  en dur), forfait SOLO (mensuel/annuel) + tarif régional AFRIQUE + LABEL sur
+  devis, 100 % des royalties à l'artiste, paywall bloquant, checkout réel
+  Stripe (international) et Flutterwave (Mobile Money Afrique), add-on
+  Artwork Apple Music payant. **Aucun projet Supabase, bucket R2, compte
+  Stripe/Flutterwave réels ne sont encore branchés** : tout est vérifié par
+  `typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel
+  Supabase/R2/PSP — voir `docs/adr/0007-auth-architecture.md`,
+  `docs/adr/0008-dashboard-artiste.md`, `docs/adr/0009-distribution-module.md`
+  et `docs/adr/0010-abonnement-paiements.md`. Le portefeuille de royalties et
+  les retraits (§11.5, reste du V1) restent à construire.
 
 ## Stack
 
@@ -199,6 +202,56 @@ tous deux validés explicitement par Axel) :
   couleur) plutôt que les logos Spotify/Apple Music/etc., qui sont des
   marques déposées.
 
+## Abonnement & Paiements (Sprint 6)
+
+Modèle SOLO / AFRIQUE / LABEL validé par Axel, 100 % des royalties à
+l'artiste — voir `docs/adr/0010-abonnement-paiements.md` pour le détail des
+décisions (incohérence de tarification héritée du Sprint 2 tranchée ici,
+moteur générique sans valeur codée en dur, Flutterwave retenu comme rail
+Mobile Money, paywall bloquant) :
+
+- **Moteur de tarification** (`plans`, `pricing_regions` +
+  `pricing_region_countries`, `plan_prices`, `plan_features`, `addons` +
+  `addon_prices`, `coupons` + `validate_coupon` — migration
+  `supabase/migrations/20260705120000_pricing_and_payments.sql`) : plans,
+  prix par période/devise/région, fonctionnalités par plan et coupons
+  entièrement pilotés par des tables de configuration. Lancement : SOLO
+  (2,49 €/mois ou 19,99 €/an), AFRIQUE (tarif régional ≈ 9,99 $/an, annuel
+  uniquement, pays éligibles configurables), LABEL (sur devis, non
+  self-service).
+- **Adaptateurs de paiement réels** (`src/lib/payments/`) : Stripe
+  (Checkout Sessions, prix dynamiques via `price_data`, abonnements natifs)
+  et Flutterwave (lien de paiement hébergé REST, pas d'abonnement natif —
+  chaque échéance est un paiement à l'acte dont le webhook prolonge la
+  ligne `subscriptions`). Rail résolu par pays
+  (`countries.default_payment_provider`, Afrique → Flutterwave, reste →
+  Stripe).
+- **Webhooks** (`src/app/api/webhooks/{stripe,flutterwave}/route.ts`) :
+  vérification de signature (Stripe, corps brut) / `verif-hash` +
+  re-vérification serveur de la transaction (Flutterwave) avant tout
+  crédit, client `service_role` (aucune session utilisateur dans un
+  webhook, même exception documentée que pour `audit_log`).
+- **Paywall** (`src/proxy.ts`, `src/lib/subscriptions/gate.ts`) : `/app`
+  (hors `/app/abonnement`, `/app/parametres`) redirige vers le choix de
+  forfait si l'artiste n'a ni forfait Label ni abonnement actif — tient la
+  promesse d'ADR 0008 ("le choix de forfait/paiement viendra s'insérer
+  avant l'onboarding").
+- **`/app/abonnement`** : choix du forfait (mensuel/annuel selon la région,
+  code promo optionnel) → checkout hébergé. **Paramètres > Abonnement** :
+  statut réel, échéance, changement de forfait, résiliation (immédiate).
+- **Add-on Artwork Apple Music payant** : `step-submit.tsx` (§11.4 étape 9)
+  bloque désormais la soumission tant que l'add-on choisi n'est pas payé
+  (checkout réel), alors que le Sprint 5 n'en affichait que le prix.
+- **`/tarifs` et CGU corrigés** : l'ancien modèle à paliers avec partage de
+  revenus (Sprint 2, incohérence documentée dans ADR 0006) est remplacé par
+  le modèle SOLO/AFRIQUE/LABEL — 100 % des royalties nettes à l'artiste,
+  seuil de retrait aligné sur 100 $ (§11.5). **Texte CGU engageant
+  juridiquement Sterkte Records — à faire relire par Axel/un juriste avant
+  mise en production.** `/tarifs` affiche ces prix en texte statique (i18n),
+  pas via `plan_prices` : une page marketing prérendue statiquement (SSG,
+  §18) ne doit pas dépendre d'un appel Supabase au build — voir ADR 0010,
+  décision 2. `/app/abonnement` reste, lui, entièrement piloté par la DB.
+
 ## Démarrage
 
 Prérequis : Node ≥ 20.9, pnpm (`corepack enable` ou `npm i -g pnpm`).
@@ -259,14 +312,16 @@ src/
 │   │   │   ├── layout.tsx     Sidebar nav complète (§8) + trigger mobile
 │   │   │   ├── page.tsx       Vue d'ensemble (cartes stats) ou onboarding si pas d'artiste
 │   │   │   ├── actions.ts     createArtistProfile() (onboarding, §10.1)
-│   │   │   ├── parametres/    Profil, sécurité (2FA, comptes liés), langue, notifications, RGPD (Sprint 3)
+│   │   │   ├── abonnement/    Choix du forfait + checkout (Sprint 6, §10.1 — exempté du paywall)
+│   │   │   ├── parametres/    Profil, sécurité (2FA, comptes liés), langue, notifications, abonnement (Sprint 6), RGPD
 │   │   │   └── distribution/  Tunnel à 9 étapes (Sprint 5, §11.4)
 │   │   │       ├── nouvelle/       Étape 1 (type de sortie) — crée la sortie brouillon
 │   │   │       ├── [releaseId]/    Étapes 2-9 (tunnel) ou fiche détail si non-brouillon
-│   │   │       └── actions.ts      CRUD release/track/contributor/platform + soumission LabelGrid
+│   │   │       └── actions.ts      CRUD release/track/contributor/platform + soumission LabelGrid + checkout add-on (Sprint 6)
 │   │   └── admin/           Back-office (Sprint 4+)
 │   ├── api/
 │   │   ├── auth/callback/    Échange PKCE unique (tout provider OAuth, confirmation, reset — Sprint 3)
+│   │   ├── webhooks/         Webhooks Stripe/Flutterwave, client service_role (Sprint 6)
 │   │   └── health/           Endpoint de santé (uptime monitoring, §25)
 │   └── globals.css          Tailwind v4 + design tokens Sterkte Records (§9)
 ├── i18n/                    Config next-intl (routing, navigation, messages fr/en/ln)
@@ -284,7 +339,12 @@ src/
 │   │   ├── audio/              Parsers WAV/FLAC/MP3, analyse du signal, règles
 │   │   ├── artwork/             Parser JPEG SOF, analyse de pixels, règles
 │   │   └── metadata/            Checksums ISRC/UPC, règles de cohérence
-│   ├── payments/             Stripe, Flutterwave, Paystack — clients bruts
+│   ├── payments/             Stripe/Flutterwave/Paystack — clients bruts (Sprint 0)
+│   │   ├── stripe-provider.ts  Checkout réel (abonnement + one-time), réutilise stripe/client.ts (Sprint 6)
+│   │   ├── flutterwave-provider.ts   Checkout réel + vérif. transaction, réutilise flutterwave/client.ts (Sprint 6)
+│   │   ├── pricing.ts          Résolution région/prix/coupon depuis la config DB (Sprint 6, voir ADR 0010)
+│   │   └── index.ts            getPaymentProvider() — point d'entrée unique
+│   ├── subscriptions/gate.ts Éligibilité paywall (plan Label ou abonnement actif) — proxy.ts + Server Components
 │   ├── email/resend.ts       Client Resend
 │   ├── labelgrid/            Contrat + mock (voir ADR 0003 ; +requestTakedown au Sprint 5)
 │   ├── whatsapp/             Client WhatsApp Cloud API
@@ -303,11 +363,11 @@ src/
 │   ├── use-has-mounted.ts
 │   └── use-resumable-upload.ts   Upload multipart résumable direct-to-R2 (Sprint 5)
 ├── instrumentation.ts / instrumentation-client.ts   Bootstrap Sentry
-└── proxy.ts                 Routing i18n + garde d'authentification (Sprint 3)
+└── proxy.ts                 Routing i18n + garde d'authentification + paywall (Sprint 6)
 
 supabase/
 ├── config.toml
-├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3) + artists/releases/tracks/stats/wallet/notifications (Sprint 4) + contributors/platforms/uploads/validation (Sprint 5)
+├── migrations/               Baseline + profiles/rôles/audit_log + countries/currencies (Sprint 3) + artists/releases/tracks/stats/wallet/notifications (Sprint 4) + contributors/platforms/uploads/validation (Sprint 5) + plans/prix/régions/coupons/subscriptions/payments (Sprint 6)
 └── seed.sql                  Note de bootstrap du premier super_admin
 
 docs/adr/                     Décisions d'architecture documentées
@@ -328,7 +388,8 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - **Sprint 2 :** Site public — voir ci-dessus.
 - **Sprint 3 :** Authentification — voir ci-dessus.
 - **Sprint 4 :** Dashboard artiste — voir ci-dessus.
-- **Sprint 5 (ce commit) :** Module Distribution — voir ci-dessus.
+- **Sprint 5 :** Module Distribution — voir ci-dessus.
+- **Sprint 6 (ce commit) :** Abonnement & Paiements — voir ci-dessus.
 
 ## Décisions d'architecture
 
@@ -341,6 +402,7 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - `docs/adr/0007-auth-architecture.md` — flux PKCE unique, attribution des rôles, Apple différé mais architecture OAuth complète prête (providers/callback/DB/comptes liés), 2FA construite malgré son tag `[V1]`, sessions limitées à la déconnexion globale, `profiles.locale` prioritaire sur le cookie, pays/devises en table de configuration (liste métier validée par Axel), Paramètres > Abonnement en placeholder, contrainte d'environnement (pas de test de bout en bout)
 - `docs/adr/0008-dashboard-artiste.md` — nav `/app` complète avec badges "Bientôt disponible" (validé par Axel), onboarding artiste avant paiement/forfait (pas encore construits), schéma releases/tracks minimal complété par le futur tunnel Distribution, "Streams (30j)" interprété comme dernier mois rapporté (données mensuelles par construction), wallet en lecture seule côté client
 - `docs/adr/0009-distribution-module.md` — upload multipart résumable complet et moteur de validation modulaire "premium évolutif" (validés explicitement par Axel), règles réelles (parsing WAV/FLAC/MP3, Web Audio API, JPEG SOF, checksum UPC-A) documentées avec leurs approximations assumées (niveau sonore, VBR MP3), règles IA/OCR non construites mais architecture prête, DSP sans logos officiels reproduits, gestion post-sortie sans workflow d'approbation automatisé
+- `docs/adr/0010-abonnement-paiements.md` — moteur de tarification générique sans valeur codée en dur (plans/régions/devises/remises/essais/coupons, validé explicitement par Axel), incohérence de tarification héritée du Sprint 2 tranchée (SOLO/AFRIQUE/LABEL, 100 % des royalties, `/tarifs` et CGU corrigés), Flutterwave retenu comme rail Mobile Money, Flutterwave sans abonnement natif (paiement à l'acte, renouvellement automatique différé au job planifié), paywall bloquant, résiliation immédiate (pas de report à la fin de période), webhooks en client `service_role`
 
 ## Notes importantes
 
@@ -370,15 +432,17 @@ réel n'est committé ; `.env.local` est ignoré par git.
   (colonne `○`/`●`/`ƒ`) après tout ajout de layout ou de
   `generateMetadata`.
 - **Deux incohérences trouvées entre le CDC et le contenu réel fourni**
-  (voir `docs/adr/0006-content-sourcing.md`), à trancher avec Axel :
-  - _Modèle de tarification_ : le CDC §5 décrit un modèle forfaitaire à
-    100 % de royalties conservées, alors que les CGU fournies (Art. 5.2, 8) et le prototype décrivent un modèle à paliers avec partage de
-    revenus. La page `/tarifs` reprend le modèle des CGU, jugé plus
-    proche de l'intention réelle (le CDC qualifie lui-même sa grille de
-    « recommandée »).
-  - _Année de fondation_ : le CDC indique 2021, mais le PDF de contenu et
-    le prototype indiquent tous deux 2020. `foundingDate` (JSON-LD) et le
-    contenu « À propos » utilisent 2020.
+  (voir `docs/adr/0006-content-sourcing.md`) :
+  - _Modèle de tarification — résolu au Sprint 6._ Le CDC §5 décrit un
+    modèle forfaitaire à 100 % de royalties conservées, alors que les CGU
+    fournies (Art. 5.2, 8) et le prototype décrivaient un modèle à paliers
+    avec partage de revenus, repris tel quel par erreur au Sprint 2. Axel a
+    tranché en faveur du CDC §5 (avec une évolution SOLO/AFRIQUE/LABEL) —
+    `/tarifs` et les CGU ont été corrigés en conséquence, voir
+    `docs/adr/0010-abonnement-paiements.md`.
+  - _Année de fondation (non résolu)_ : le CDC indique 2021, mais le PDF de
+    contenu et le prototype indiquent tous deux 2020. `foundingDate`
+    (JSON-LD) et le contenu « À propos » utilisent 2020.
 - **Aucun projet Supabase réel connecté (Sprint 3)** : ni instance locale
   (Docker absent de cet environnement), ni projet cloud. Toute la migration
   SQL, les policies RLS et les Server Actions d'authentification sont
@@ -422,18 +486,41 @@ réel n'est committé ; `.env.local` est ignoré par git.
   Consulting, Contrats, Équipe, Notifications) sont grisées avec un badge
   "Bientôt disponible" plutôt que d'attendre chaque sprint pour les
   ajouter — voir ADR 0008.
-- **Onboarding artiste avant le module Paiements** : le §10.1 place la
-  création du profil artiste après le choix de forfait/paiement, qui
-  n'existe pas encore. Elle se déclenche donc dès la première visite de
-  `/app` sans artiste existant — le choix de forfait viendra s'insérer
-  avant cette étape une fois le module construit, sans changer le schéma
-  `artists` — voir ADR 0008.
-- **`stats_monthly`/`wallet` vides par construction (Sprint 4)** : ces
-  tables ne sont peuplées que par le job de reporting mensuel LabelGrid et
-  les webhooks paiement (§13.1, §11.5), tous deux du module Royalties
-  (V1) — pas encore construit. Toutes les cartes du dashboard affichent
-  donc un état vide tant que ce module n'existe pas ; c'est le
-  comportement attendu, pas un bug.
+- **Onboarding artiste après le choix de forfait (résolu au Sprint 6)** :
+  le §10.1 place la création du profil artiste après le choix de
+  forfait/paiement — désormais tenu par le paywall (`src/proxy.ts`), qui
+  redirige vers `/app/abonnement` avant que `/app` (et donc l'onboarding)
+  ne soit atteignable, sans changer le schéma `artists` — voir ADR 0008 et
+  ADR 0010.
+- **`stats_monthly` vide par construction (Sprint 4), `wallet` alimenté par
+  les paiements dès le Sprint 6** : `stats_monthly` reste vide tant que le
+  job de reporting mensuel LabelGrid (§13.1, V1) n'est pas construit —
+  comportement attendu. `wallet.balance_*`, en revanche, sera alimenté par
+  le module Royalties (retraits, §11.5) à construire ; les webhooks
+  paiement de ce sprint alimentent `subscriptions`/`payments`, pas encore
+  `wallet`.
+- **Moteur de tarification générique sans valeur codée en dur (validé
+  explicitement par Axel, Sprint 6)** : plans, prix par période/devise/
+  région, fonctionnalités par plan, add-ons et coupons sont tous des
+  tables de configuration (`plans`, `pricing_regions`,
+  `pricing_region_countries`, `plan_prices`, `plan_features`, `addons`,
+  `addon_prices`, `coupons`) — ajouter un plan, un tarif régional ou un
+  pays éligible ne nécessite jamais de modifier le code. Aucune interface
+  d'administration pour ces tables n'est construite ce sprint (prévue
+  "plus tard" par Axel, relèvera du module Back-office, §11.10) — voir
+  `docs/adr/0010-abonnement-paiements.md`.
+- **Flutterwave sans abonnement natif** : contrairement à Stripe
+  (abonnements récurrents natifs), Flutterwave n'offre pas d'équivalent
+  fiable pour le Mobile Money africain — chaque échéance est un paiement à
+  l'acte, et **le renouvellement automatique (relance à l'approche de
+  l'échéance) n'est pas construit ce sprint**, différé au job planifié
+  (Inngest, §6.1, pas encore mis en place — même limite que le reporting
+  mensuel LabelGrid). Le paiement initial et la résiliation fonctionnent
+  pleinement.
+- **CGU et `/tarifs` corrigés — texte engageant juridiquement Sterkte
+  Records, à faire relire par Axel/un juriste avant mise en production**
+  (cohérent avec la note déjà posée à ce sujet par ADR 0006 pour tout
+  contenu CGU).
 - **Upload multipart résumable complet et moteur de validation "premium
   évolutif" (validés explicitement par Axel, Sprint 5)** : contrairement
   aux autres sprints où j'ai proposé une portée réduite par défaut, Axel a

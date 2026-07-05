@@ -6,6 +6,13 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getLabelGridClient } from "@/lib/labelgrid";
 import { getPublicUrl } from "@/lib/storage/r2";
+import { clientEnv } from "@/lib/env";
+import {
+  getPaymentProvider,
+  getAddonPrice,
+  resolveRegionForCountry,
+  resolveProviderForCountry,
+} from "@/lib/payments";
 import type { Database } from "@/types/database.types";
 import {
   releaseTypeSchema,
@@ -303,11 +310,90 @@ export async function getArtistCatalogFingerprint(): Promise<{
 }
 
 /**
+ * Paiement de l'option Artwork Apple Music (§5.3, §11.4 étape 9 : "paiement
+ * des add-ons éventuels" avant soumission). Prix résolu depuis `addon_prices`
+ * (région du pays du profil), rail de paiement résolu depuis
+ * `countries.default_payment_provider` — jamais de valeur en dur.
+ */
+export async function createAddonCheckoutAction(releaseId: string): Promise<ActionResult | never> {
+  const { supabase, user, artistId } = await requireArtist();
+
+  const { data: release } = await supabase
+    .from("releases")
+    .select("id, apple_artwork")
+    .eq("id", releaseId)
+    .eq("artist_id", artistId)
+    .single();
+  if (!release?.apple_artwork) return { error: "not_applicable" };
+
+  const alreadyPaid = await hasAddonBeenPaid(releaseId);
+  if (alreadyPaid) return { error: "already_paid" };
+
+  if (!user.email) return { error: "unknown" };
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("country")
+    .eq("id", user.id)
+    .single();
+
+  const region = await resolveRegionForCountry(supabase, profile?.country ?? null);
+  const provider = await resolveProviderForCountry(supabase, profile?.country ?? null);
+  const price = await getAddonPrice(supabase, "apple_music_artwork", region);
+  if (!price) return { error: "unknown" };
+
+  const admin = createAdminClient();
+  const { data: payment, error: paymentError } = await admin
+    .from("payments")
+    .insert({
+      user_id: user.id,
+      type: "addon",
+      provider,
+      amount: price.amount,
+      currency: price.currency,
+      status: "pending",
+      release_id: releaseId,
+      addon_id: "apple_music_artwork",
+    })
+    .select("id")
+    .single();
+  if (paymentError || !payment) return { error: "unknown" };
+
+  const siteUrl = clientEnv.NEXT_PUBLIC_SITE_URL;
+  const checkout = await getPaymentProvider(provider).createOneTimeCheckout({
+    userId: user.id,
+    email: user.email,
+    description: "Sterkte Records — Artwork Apple Music",
+    amount: price.amount,
+    currency: price.currency,
+    successUrl: `${siteUrl}/app/distribution/${releaseId}?addonPaid=1`,
+    cancelUrl: `${siteUrl}/app/distribution/${releaseId}?addonCanceled=1`,
+    paymentId: payment.id,
+  });
+
+  await admin.from("payments").update({ external_id: checkout.externalId }).eq("id", payment.id);
+  redirect(checkout.url);
+}
+
+export async function hasAddonBeenPaid(releaseId: string): Promise<boolean> {
+  const { supabase } = await requireArtist();
+  const { data } = await supabase
+    .from("payments")
+    .select("id")
+    .eq("release_id", releaseId)
+    .eq("addon_id", "apple_music_artwork")
+    .eq("status", "succeeded")
+    .maybeSingle();
+  return !!data;
+}
+
+/**
  * Soumission finale (§11.4 étape 9) : génère UPC/ISRC manquants, envoie à
  * LabelGrid (mock tant que l'intégration réelle n'est pas branchée, voir
  * ADR 0003), crée la ligne `labelgrid_sync`, journalise, passe le statut à
  * `delivering`. Email de confirmation différé (voir docs/adr/0009 —
  * Resend nécessite une adresse expéditeur vérifiée, non configurée ici).
+ * Bloque tant que l'add-on Apple Music, si choisi, n'est pas payé (§5.3).
  */
 export async function submitRelease(releaseId: string): Promise<ActionResult> {
   const { supabase, user, artistId } = await requireArtist();
@@ -324,6 +410,10 @@ export async function submitRelease(releaseId: string): Promise<ActionResult> {
 
   if (!release || !tracks || tracks.length === 0) {
     return { error: "incomplete" };
+  }
+
+  if (release.apple_artwork && !(await hasAddonBeenPaid(releaseId))) {
+    return { error: "addon_unpaid" };
   }
 
   const labelgrid = getLabelGridClient();

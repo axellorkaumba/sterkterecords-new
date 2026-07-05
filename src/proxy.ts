@@ -4,6 +4,7 @@ import { routing, LOCALE_COOKIE_NAME, type AppLocale } from "@/i18n/routing";
 import { getPathname } from "@/i18n/navigation";
 import { updateSupabaseSession } from "@/lib/supabase/middleware";
 import { fetchUserRole, homeForRole, STAFF_ROLES } from "@/lib/supabase/profile";
+import { hasActiveEntitlement } from "@/lib/subscriptions/gate";
 
 const intlProxy = createMiddleware(routing);
 
@@ -24,6 +25,13 @@ const AUTH_ONLY_PATHS = [
   "/ln/inscription",
 ];
 
+/**
+ * Chemins de `/app` exemptés du paywall (§10.1) : l'utilisateur doit pouvoir
+ * y accéder même sans abonnement actif pour en souscrire un ou gérer un
+ * abonnement existant/expiré.
+ */
+const PAYWALL_EXEMPT_APP_PATHS = ["/app/abonnement", "/app/parametres"];
+
 function copyCookies(from: NextResponse, to: NextResponse) {
   for (const cookie of from.cookies.getAll()) {
     to.cookies.set(cookie);
@@ -43,8 +51,11 @@ function resolveLocaleFromRequest(request: NextRequest): AppLocale {
  * distinctes selon la zone visitée :
  *
  * - `/app`, `/admin` (privé, pas de préfixe de langue, voir ADR 0002) :
- *   garde d'authentification pure — non connecté → `/connexion?next=...` ;
- *   connecté mais rôle non-staff sur `/admin` → `/app` (§7.1, §17).
+ *   garde d'authentification — non connecté → `/connexion?next=...` ;
+ *   connecté mais rôle non-staff sur `/admin` → `/app` (§7.1, §17). Sur
+ *   `/app` (hors `/app/abonnement`, `/app/parametres`), un artiste sans
+ *   abonnement actif ni forfait Label est redirigé vers `/app/abonnement`
+ *   (§10.1, §5 — paiement avant accès) ; le staff interne passe toujours.
  * - Tout le reste (site public + auth, préfixé par locale) : routing
  *   next-intl inchangé, plus redirection des utilisateurs déjà connectés
  *   qui visitent /connexion ou /inscription vers leur espace.
@@ -72,6 +83,20 @@ export default async function proxy(request: NextRequest) {
       const role = await fetchUserRole(supabase, user.id);
       if (!role || !STAFF_ROLES.includes(role)) {
         return copyCookies(supabaseResponse, NextResponse.redirect(new URL("/app", request.url)));
+      }
+    }
+
+    if (
+      pathname.startsWith("/app") &&
+      !PAYWALL_EXEMPT_APP_PATHS.some((exempt) => pathname.startsWith(exempt))
+    ) {
+      const role = await fetchUserRole(supabase, user.id);
+      const isStaff = !!role && STAFF_ROLES.includes(role);
+      if (!isStaff && !(await hasActiveEntitlement(supabase, user.id))) {
+        return copyCookies(
+          supabaseResponse,
+          NextResponse.redirect(new URL("/app/abonnement", request.url)),
+        );
       }
     }
 

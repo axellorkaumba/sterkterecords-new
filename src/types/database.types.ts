@@ -2,8 +2,9 @@
  * Type `Database` écrit à la main, reflétant
  * `supabase/migrations/20260704140000_auth_profiles_and_roles.sql`,
  * `supabase/migrations/20260704150000_countries_and_currencies.sql`,
- * `supabase/migrations/20260704160000_dashboard_core.sql` et
- * `supabase/migrations/20260704170000_distribution_module.sql`.
+ * `supabase/migrations/20260704160000_dashboard_core.sql`,
+ * `supabase/migrations/20260704170000_distribution_module.sql` et
+ * `supabase/migrations/20260705120000_pricing_and_payments.sql`.
  *
  * Normalement généré par `pnpm supabase:gen:types` contre un vrai projet
  * Supabase (local Docker ou cloud) — indisponible dans cet environnement
@@ -87,18 +88,21 @@ export type Database = {
         Row: {
           code: string;
           default_currency: string;
+          default_payment_provider: Database["public"]["Enums"]["payment_provider"];
           active: boolean;
           sort_order: number;
         };
         Insert: {
           code: string;
           default_currency: string;
+          default_payment_provider?: Database["public"]["Enums"]["payment_provider"];
           active?: boolean;
           sort_order?: number;
         };
         Update: {
           code?: string;
           default_currency?: string;
+          default_payment_provider?: Database["public"]["Enums"]["payment_provider"];
           active?: boolean;
           sort_order?: number;
         };
@@ -109,6 +113,421 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "currencies";
             referencedColumns: ["code"];
+          },
+        ];
+      };
+      plans: {
+        Row: {
+          id: string;
+          self_service: boolean;
+          trial_days: number;
+          active: boolean;
+          sort_order: number;
+        };
+        Insert: {
+          id: string;
+          self_service?: boolean;
+          trial_days?: number;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Update: {
+          id?: string;
+          self_service?: boolean;
+          trial_days?: number;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Relationships: [];
+      };
+      pricing_regions: {
+        Row: {
+          id: string;
+          sort_order: number;
+        };
+        Insert: {
+          id: string;
+          sort_order?: number;
+        };
+        Update: {
+          id?: string;
+          sort_order?: number;
+        };
+        Relationships: [];
+      };
+      pricing_region_countries: {
+        Row: {
+          region_id: string;
+          country_code: string;
+        };
+        Insert: {
+          region_id: string;
+          country_code: string;
+        };
+        Update: {
+          region_id?: string;
+          country_code?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pricing_region_countries_region_id_fkey";
+            columns: ["region_id"];
+            isOneToOne: false;
+            referencedRelation: "pricing_regions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pricing_region_countries_country_code_fkey";
+            columns: ["country_code"];
+            isOneToOne: false;
+            referencedRelation: "countries";
+            referencedColumns: ["code"];
+          },
+        ];
+      };
+      plan_prices: {
+        Row: {
+          id: string;
+          plan_id: string;
+          region_id: string;
+          period: Database["public"]["Enums"]["billing_period"];
+          currency_code: string;
+          amount: number;
+          active: boolean;
+        };
+        Insert: {
+          id?: string;
+          plan_id: string;
+          region_id: string;
+          period: Database["public"]["Enums"]["billing_period"];
+          currency_code: string;
+          amount: number;
+          active?: boolean;
+        };
+        Update: {
+          id?: string;
+          plan_id?: string;
+          region_id?: string;
+          period?: Database["public"]["Enums"]["billing_period"];
+          currency_code?: string;
+          amount?: number;
+          active?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "plan_prices_plan_id_fkey";
+            columns: ["plan_id"];
+            isOneToOne: false;
+            referencedRelation: "plans";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "plan_prices_region_id_fkey";
+            columns: ["region_id"];
+            isOneToOne: false;
+            referencedRelation: "pricing_regions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "plan_prices_currency_code_fkey";
+            columns: ["currency_code"];
+            isOneToOne: false;
+            referencedRelation: "currencies";
+            referencedColumns: ["code"];
+          },
+        ];
+      };
+      plan_features: {
+        Row: {
+          plan_id: string;
+          feature_key: string;
+          enabled: boolean;
+        };
+        Insert: {
+          plan_id: string;
+          feature_key: string;
+          enabled?: boolean;
+        };
+        Update: {
+          plan_id?: string;
+          feature_key?: string;
+          enabled?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "plan_features_plan_id_fkey";
+            columns: ["plan_id"];
+            isOneToOne: false;
+            referencedRelation: "plans";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      addons: {
+        Row: {
+          id: string;
+          billing: string;
+          active: boolean;
+          sort_order: number;
+        };
+        Insert: {
+          id: string;
+          billing?: string;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Update: {
+          id?: string;
+          billing?: string;
+          active?: boolean;
+          sort_order?: number;
+        };
+        Relationships: [];
+      };
+      addon_prices: {
+        Row: {
+          id: string;
+          addon_id: string;
+          region_id: string;
+          currency_code: string;
+          amount: number;
+          active: boolean;
+        };
+        Insert: {
+          id?: string;
+          addon_id: string;
+          region_id: string;
+          currency_code: string;
+          amount: number;
+          active?: boolean;
+        };
+        Update: {
+          id?: string;
+          addon_id?: string;
+          region_id?: string;
+          currency_code?: string;
+          amount?: number;
+          active?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "addon_prices_addon_id_fkey";
+            columns: ["addon_id"];
+            isOneToOne: false;
+            referencedRelation: "addons";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "addon_prices_region_id_fkey";
+            columns: ["region_id"];
+            isOneToOne: false;
+            referencedRelation: "pricing_regions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "addon_prices_currency_code_fkey";
+            columns: ["currency_code"];
+            isOneToOne: false;
+            referencedRelation: "currencies";
+            referencedColumns: ["code"];
+          },
+        ];
+      };
+      coupons: {
+        Row: {
+          id: string;
+          code: string;
+          discount_type: Database["public"]["Enums"]["discount_type"];
+          discount_value: number;
+          plan_id: string | null;
+          max_redemptions: number | null;
+          redemptions_count: number;
+          valid_from: string;
+          valid_until: string | null;
+          active: boolean;
+        };
+        Insert: {
+          id?: string;
+          code: string;
+          discount_type: Database["public"]["Enums"]["discount_type"];
+          discount_value: number;
+          plan_id?: string | null;
+          max_redemptions?: number | null;
+          redemptions_count?: number;
+          valid_from?: string;
+          valid_until?: string | null;
+          active?: boolean;
+        };
+        Update: {
+          id?: string;
+          code?: string;
+          discount_type?: Database["public"]["Enums"]["discount_type"];
+          discount_value?: number;
+          plan_id?: string | null;
+          max_redemptions?: number | null;
+          redemptions_count?: number;
+          valid_from?: string;
+          valid_until?: string | null;
+          active?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "coupons_plan_id_fkey";
+            columns: ["plan_id"];
+            isOneToOne: false;
+            referencedRelation: "plans";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      subscriptions: {
+        Row: {
+          id: string;
+          user_id: string;
+          plan_id: string;
+          period: Database["public"]["Enums"]["billing_period"];
+          status: Database["public"]["Enums"]["subscription_status"];
+          provider: Database["public"]["Enums"]["payment_provider"];
+          external_id: string | null;
+          coupon_id: string | null;
+          trial_ends_at: string | null;
+          current_period_end: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          plan_id: string;
+          period: Database["public"]["Enums"]["billing_period"];
+          status?: Database["public"]["Enums"]["subscription_status"];
+          provider: Database["public"]["Enums"]["payment_provider"];
+          external_id?: string | null;
+          coupon_id?: string | null;
+          trial_ends_at?: string | null;
+          current_period_end?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          plan_id?: string;
+          period?: Database["public"]["Enums"]["billing_period"];
+          status?: Database["public"]["Enums"]["subscription_status"];
+          provider?: Database["public"]["Enums"]["payment_provider"];
+          external_id?: string | null;
+          coupon_id?: string | null;
+          trial_ends_at?: string | null;
+          current_period_end?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey";
+            columns: ["plan_id"];
+            isOneToOne: false;
+            referencedRelation: "plans";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "subscriptions_coupon_id_fkey";
+            columns: ["coupon_id"];
+            isOneToOne: false;
+            referencedRelation: "coupons";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      payments: {
+        Row: {
+          id: string;
+          user_id: string;
+          type: Database["public"]["Enums"]["payment_type"];
+          provider: Database["public"]["Enums"]["payment_provider"];
+          amount: number;
+          currency: string;
+          status: Database["public"]["Enums"]["payment_status"];
+          external_id: string | null;
+          release_id: string | null;
+          addon_id: string | null;
+          coupon_id: string | null;
+          metadata: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          type: Database["public"]["Enums"]["payment_type"];
+          provider: Database["public"]["Enums"]["payment_provider"];
+          amount: number;
+          currency: string;
+          status?: Database["public"]["Enums"]["payment_status"];
+          external_id?: string | null;
+          release_id?: string | null;
+          addon_id?: string | null;
+          coupon_id?: string | null;
+          metadata?: Json;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          type?: Database["public"]["Enums"]["payment_type"];
+          provider?: Database["public"]["Enums"]["payment_provider"];
+          amount?: number;
+          currency?: string;
+          status?: Database["public"]["Enums"]["payment_status"];
+          external_id?: string | null;
+          release_id?: string | null;
+          addon_id?: string | null;
+          coupon_id?: string | null;
+          metadata?: Json;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "payments_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "payments_currency_fkey";
+            columns: ["currency"];
+            isOneToOne: false;
+            referencedRelation: "currencies";
+            referencedColumns: ["code"];
+          },
+          {
+            foreignKeyName: "payments_release_id_fkey";
+            columns: ["release_id"];
+            isOneToOne: false;
+            referencedRelation: "releases";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "payments_addon_id_fkey";
+            columns: ["addon_id"];
+            isOneToOne: false;
+            referencedRelation: "addons";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "payments_coupon_id_fkey";
+            columns: ["coupon_id"];
+            isOneToOne: false;
+            referencedRelation: "coupons";
+            referencedColumns: ["id"];
           },
         ];
       };
@@ -760,6 +1179,17 @@ export type Database = {
         Args: { target_entity_type: string; target_entity_id: string };
         Returns: boolean;
       };
+      validate_coupon: {
+        Args: { coupon_code: string; target_plan_id: string };
+        Returns: {
+          discount_type: Database["public"]["Enums"]["discount_type"];
+          discount_value: number;
+        }[];
+      };
+      increment_coupon_redemption: {
+        Args: { coupon_code: string };
+        Returns: undefined;
+      };
     };
     Enums: {
       user_role:
@@ -793,6 +1223,12 @@ export type Database = {
         | "mastering";
       upload_kind: "audio" | "artwork";
       upload_status: "in_progress" | "completed" | "aborted";
+      billing_period: "monthly" | "annual";
+      discount_type: "percent" | "fixed";
+      payment_provider: "stripe" | "flutterwave";
+      subscription_status: "incomplete" | "active" | "past_due" | "canceled";
+      payment_type: "subscription" | "addon";
+      payment_status: "pending" | "succeeded" | "failed" | "refunded";
     };
     CompositeTypes: Record<string, never>;
   };

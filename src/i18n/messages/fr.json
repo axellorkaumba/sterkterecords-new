@@ -416,39 +416,46 @@
   },
   "Pricing": {
     "tag": "Tarifs",
-    "title": "Un tarif qui grandit avec toi",
-    "description": "Abonnement transparent, sans engagement caché. Tu gardes toujours la majorité de tes revenus, quel que soit ton plan.",
-    "period": "/an",
-    "mostPopular": "Le plus choisi",
-    "ctaFree": "Commencer gratuitement",
-    "ctaPaid": "Choisir ce plan",
-    "plans": {
-      "free": {
-        "name": "Free",
-        "price": "0 €",
-        "split": "70 % des revenus nets",
-        "features": ["Distribution sur 5 DSP majeurs", "1 single par an", "Statistiques de base"]
+    "title": "Un tarif simple, taillé pour ta carrière",
+    "description": "Un abonnement, 100 % de tes royalties. Pas de partage de revenus, pas de paliers cachés — juste le prix qui te permet de distribuer partout.",
+    "perMonth": "/mois",
+    "perYear": "/an",
+    "orAnnual": "ou {price}/an (2 mois offerts)",
+    "solo": {
+      "badge": "International",
+      "name": "Solo",
+      "description": "Le forfait de référence pour distribuer ta musique dans le monde entier.",
+      "features": {
+        "unlimitedReleases": "Sorties illimitées, tous formats (Single, EP, Album)",
+        "allDsps": "150+ plateformes dont Spotify, Apple Music, Deezer, Boomplay",
+        "hundredPercentRoyalties": "100 % de tes royalties, toujours",
+        "monthlyStats": "Statistiques mensuelles détaillées",
+        "emailSupport": "Support par email"
       },
-      "artist": {
-        "name": "Artist",
-        "price": "15 €",
-        "split": "75 % des revenus nets",
-        "features": ["50+ plateformes dont Boomplay", "Sorties illimitées", "Statistiques avancées"]
-      },
-      "pro": {
-        "name": "Pro",
-        "price": "35 €",
-        "split": "80 % des revenus nets",
-        "features": ["Tout Artist", "Pitching éditorial", "YouTube Content ID"]
-      },
-      "label": {
-        "name": "Label",
-        "price": "99 €",
-        "split": "85 % des revenus nets",
-        "features": ["Tout Pro", "Jusqu'à 5 artistes", "Support prioritaire"]
-      }
+      "cta": "Créer un compte artiste",
+      "monthlyPrice": "2,49 €",
+      "annualPrice": "19,99 €"
     },
-    "feesNote": "Le partage de revenus s'applique sur les revenus nets, après déduction des frais techniques (environ 5 %, commissions DSP et agrégateur). Détail complet dans nos CGU, article 8."
+    "africa": {
+      "name": "Afrique",
+      "description": "Le même forfait Solo, à un tarif adapté au pouvoir d'achat de certains marchés africains.",
+      "eligibilityNote": "Tarif réservé aux pays éligibles (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains). L'éligibilité est déterminée automatiquement à l'inscription selon ton pays.",
+      "cta": "Créer un compte artiste",
+      "annualPrice": "9,99 $"
+    },
+    "label": {
+      "name": "Label",
+      "description": "Pour les artistes signés et les labels qui veulent un accompagnement complet, géré par notre équipe.",
+      "pricingNote": "Sur devis — la répartition et les conditions sont définies dans ton contrat.",
+      "features": [
+        "Accompagnement dédié par notre équipe A&R",
+        "Gestion multi-artistes",
+        "Répartition de revenus configurée par contrat",
+        "Support prioritaire"
+      ],
+      "cta": "Nous contacter"
+    },
+    "royaltiesNote": "100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting)."
   },
   "Faq": {
     "tag": "Aide",
@@ -743,9 +750,30 @@
     "subscription": {
       "title": "Abonnement",
       "currentPlanLabel": "Plan actuel",
-      "freePlanName": "Free",
-      "description": "La gestion des abonnements et moyens de paiement arrive avec le module Distribution.",
-      "viewPlansCta": "Voir les tarifs"
+      "labelPlanName": "Label",
+      "labelPlanDescription": "Ton abonnement est géré par l'équipe Sterkte Records dans le cadre de ton contrat label — aucune action de ta part.",
+      "noPlanName": "Aucun abonnement",
+      "noPlanDescription": "Choisis un forfait pour distribuer ta musique.",
+      "choosePlanCta": "Choisir un forfait",
+      "soloPlanName": "Solo",
+      "period": {
+        "monthly": "Mensuel",
+        "annual": "Annuel"
+      },
+      "statusLabels": {
+        "active": "Actif",
+        "past_due": "Paiement en retard",
+        "canceled": "Résilié",
+        "incomplete": "Incomplet"
+      },
+      "renewsOn": "Renouvellement le {date}",
+      "changePlanCta": "Changer de forfait",
+      "cancelButton": "Résilier",
+      "cancelDialogTitle": "Résilier ton abonnement ?",
+      "cancelDialogDescription": "Ton accès au tableau de bord sera immédiatement suspendu. Tes sorties déjà en ligne le restent (voir §14 des CGU) — tu pourras te réabonner à tout moment.",
+      "cancelError": "La résiliation a échoué. Réessaie dans un instant.",
+      "cancelDialogDismiss": "Annuler",
+      "cancelDialogConfirm": "Confirmer la résiliation"
     },
     "danger": {
       "title": "Supprimer mon compte",
@@ -1177,7 +1205,11 @@
       "viewRelease": "Voir ma sortie",
       "errorIncomplete": "Il manque des informations — vérifie les étapes précédentes.",
       "error": "L'envoi a échoué. Réessaie dans un instant.",
-      "back": "Retour"
+      "back": "Retour",
+      "addonPaymentRequired": "L'option Artwork Apple Music est sélectionnée : réglez-la avant d'envoyer votre sortie.",
+      "addonPaymentButton": "Payer l'option et envoyer",
+      "addonPaymentPending": "Redirection vers le paiement…",
+      "addonPaymentError": "Le paiement n'a pas pu être lancé. Réessaie dans un instant."
     },
     "statusLabels": {
       "draft": "Brouillon",
@@ -1221,6 +1253,45 @@
       "takedownRequested": "Le retrait de ta sortie est en cours.",
       "archivedNote": "Cette sortie est archivée.",
       "tracksTitle": "Pistes"
+    }
+  },
+  "SubscriptionPage": {
+    "title": "Choisis ton forfait",
+    "subtitle": "Un abonnement, 100 % de tes royalties. Change ou résilie à tout moment.",
+    "successBanner": "Paiement confirmé — ton abonnement est actif !",
+    "canceledBanner": "Paiement annulé — aucun montant n'a été prélevé.",
+    "alreadyActive": "Tu as déjà un abonnement Solo {period} actif.",
+    "periodUnavailable": "Cette période de facturation n'est pas disponible dans ta région.",
+    "annualOnlyNote": "Facturation annuelle uniquement dans ta région.",
+    "couponLabel": "Code promo (optionnel)",
+    "couponPlaceholder": "CODE",
+    "subscribeCta": "Souscrire",
+    "period": {
+      "monthly": "Mensuel",
+      "annual": "Annuel"
+    },
+    "solo": {
+      "badge": "Recommandé",
+      "name": "Solo",
+      "description": "Distribue ta musique dans le monde entier, sans partage de revenus.",
+      "features": {
+        "unlimitedReleases": "Sorties illimitées, tous formats",
+        "allDsps": "150+ plateformes",
+        "hundredPercentRoyalties": "100 % de tes royalties",
+        "monthlyStats": "Statistiques mensuelles"
+      }
+    },
+    "label": {
+      "name": "Label",
+      "description": "Pour les artistes signés et les labels — accompagnement complet.",
+      "pricingNote": "Sur devis — parle-nous de ton projet.",
+      "cta": "Nous contacter"
+    },
+    "errors": {
+      "unauthenticated": "Session expirée — reconnecte-toi.",
+      "period_unavailable": "Cette période de facturation n'est pas disponible dans ta région.",
+      "invalid_coupon": "Ce code promo n'est pas valide ou a expiré.",
+      "unknown": "Une erreur est survenue. Réessaie dans un instant."
     }
   }
 }

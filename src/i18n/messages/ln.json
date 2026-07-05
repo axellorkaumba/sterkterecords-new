@@ -417,55 +417,46 @@
   },
   "Pricing": {
     "tag": "TODO(ln): Tarifs",
-    "title": "TODO(ln): Un tarif qui grandit avec toi",
-    "description": "TODO(ln): Abonnement transparent, sans engagement caché. Tu gardes toujours la majorité de tes revenus, quel que soit ton plan.",
-    "period": "TODO(ln): /an",
-    "mostPopular": "TODO(ln): Le plus choisi",
-    "ctaFree": "TODO(ln): Commencer gratuitement",
-    "ctaPaid": "TODO(ln): Choisir ce plan",
-    "plans": {
-      "free": {
-        "name": "TODO(ln): Free",
-        "price": "TODO(ln): 0 €",
-        "split": "TODO(ln): 70 % des revenus nets",
-        "features": [
-          "TODO(ln): Distribution sur 5 DSP majeurs",
-          "TODO(ln): 1 single par an",
-          "TODO(ln): Statistiques de base"
-        ]
+    "title": "TODO(ln): Un tarif simple, taillé pour ta carrière",
+    "description": "TODO(ln): Un abonnement, 100 % de tes royalties. Pas de partage de revenus, pas de paliers cachés — juste le prix qui te permet de distribuer partout.",
+    "perMonth": "TODO(ln): /mois",
+    "perYear": "TODO(ln): /an",
+    "orAnnual": "TODO(ln): ou {price}/an (2 mois offerts)",
+    "solo": {
+      "badge": "TODO(ln): International",
+      "name": "TODO(ln): Solo",
+      "description": "TODO(ln): Le forfait de référence pour distribuer ta musique dans le monde entier.",
+      "features": {
+        "unlimitedReleases": "TODO(ln): Sorties illimitées, tous formats (Single, EP, Album)",
+        "allDsps": "TODO(ln): 150+ plateformes dont Spotify, Apple Music, Deezer, Boomplay",
+        "hundredPercentRoyalties": "TODO(ln): 100 % de tes royalties, toujours",
+        "monthlyStats": "TODO(ln): Statistiques mensuelles détaillées",
+        "emailSupport": "TODO(ln): Support par email"
       },
-      "artist": {
-        "name": "TODO(ln): Artist",
-        "price": "TODO(ln): 15 €",
-        "split": "TODO(ln): 75 % des revenus nets",
-        "features": [
-          "TODO(ln): 50+ plateformes dont Boomplay",
-          "TODO(ln): Sorties illimitées",
-          "TODO(ln): Statistiques avancées"
-        ]
-      },
-      "pro": {
-        "name": "TODO(ln): Pro",
-        "price": "TODO(ln): 35 €",
-        "split": "TODO(ln): 80 % des revenus nets",
-        "features": [
-          "TODO(ln): Tout Artist",
-          "TODO(ln): Pitching éditorial",
-          "TODO(ln): YouTube Content ID"
-        ]
-      },
-      "label": {
-        "name": "TODO(ln): Label",
-        "price": "TODO(ln): 99 €",
-        "split": "TODO(ln): 85 % des revenus nets",
-        "features": [
-          "TODO(ln): Tout Pro",
-          "TODO(ln): Jusqu'à 5 artistes",
-          "TODO(ln): Support prioritaire"
-        ]
-      }
+      "cta": "TODO(ln): Créer un compte artiste",
+      "monthlyPrice": "TODO(ln): 2,49 €",
+      "annualPrice": "TODO(ln): 19,99 €"
     },
-    "feesNote": "TODO(ln): Le partage de revenus s'applique sur les revenus nets, après déduction des frais techniques (environ 5 %, commissions DSP et agrégateur). Détail complet dans nos CGU, article 8."
+    "africa": {
+      "name": "TODO(ln): Afrique",
+      "description": "TODO(ln): Le même forfait Solo, à un tarif adapté au pouvoir d'achat de certains marchés africains.",
+      "eligibilityNote": "TODO(ln): Tarif réservé aux pays éligibles (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains). L'éligibilité est déterminée automatiquement à l'inscription selon ton pays.",
+      "cta": "TODO(ln): Créer un compte artiste",
+      "annualPrice": "TODO(ln): 9,99 $"
+    },
+    "label": {
+      "name": "TODO(ln): Label",
+      "description": "TODO(ln): Pour les artistes signés et les labels qui veulent un accompagnement complet, géré par notre équipe.",
+      "pricingNote": "TODO(ln): Sur devis — la répartition et les conditions sont définies dans ton contrat.",
+      "features": [
+        "TODO(ln): Accompagnement dédié par notre équipe A&R",
+        "TODO(ln): Gestion multi-artistes",
+        "TODO(ln): Répartition de revenus configurée par contrat",
+        "TODO(ln): Support prioritaire"
+      ],
+      "cta": "TODO(ln): Nous contacter"
+    },
+    "royaltiesNote": "TODO(ln): 100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting)."
   },
   "Faq": {
     "tag": "TODO(ln): Aide",
@@ -760,9 +751,30 @@
     "subscription": {
       "title": "TODO(ln): Abonnement",
       "currentPlanLabel": "TODO(ln): Plan actuel",
-      "freePlanName": "TODO(ln): Free",
-      "description": "TODO(ln): La gestion des abonnements et moyens de paiement arrive avec le module Distribution.",
-      "viewPlansCta": "TODO(ln): Voir les tarifs"
+      "labelPlanName": "TODO(ln): Label",
+      "labelPlanDescription": "TODO(ln): Ton abonnement est géré par l'équipe Sterkte Records dans le cadre de ton contrat label — aucune action de ta part.",
+      "noPlanName": "TODO(ln): Aucun abonnement",
+      "noPlanDescription": "TODO(ln): Choisis un forfait pour distribuer ta musique.",
+      "choosePlanCta": "TODO(ln): Choisir un forfait",
+      "soloPlanName": "TODO(ln): Solo",
+      "period": {
+        "monthly": "TODO(ln): Mensuel",
+        "annual": "TODO(ln): Annuel"
+      },
+      "statusLabels": {
+        "active": "TODO(ln): Actif",
+        "past_due": "TODO(ln): Paiement en retard",
+        "canceled": "TODO(ln): Résilié",
+        "incomplete": "TODO(ln): Incomplet"
+      },
+      "renewsOn": "TODO(ln): Renouvellement le {date}",
+      "changePlanCta": "TODO(ln): Changer de forfait",
+      "cancelButton": "TODO(ln): Résilier",
+      "cancelDialogTitle": "TODO(ln): Résilier ton abonnement ?",
+      "cancelDialogDescription": "TODO(ln): Ton accès au tableau de bord sera immédiatement suspendu. Tes sorties déjà en ligne le restent — tu pourras te réabonner à tout moment.",
+      "cancelError": "TODO(ln): La résiliation a échoué. Réessaie dans un instant.",
+      "cancelDialogDismiss": "TODO(ln): Annuler",
+      "cancelDialogConfirm": "TODO(ln): Confirmer la résiliation"
     },
     "danger": {
       "title": "TODO(ln): Supprimer mon compte",
@@ -1194,7 +1206,11 @@
       "viewRelease": "TODO(ln): Voir ma sortie",
       "errorIncomplete": "TODO(ln): Il manque des informations — vérifie les étapes précédentes.",
       "error": "TODO(ln): L'envoi a échoué. Réessaie dans un instant.",
-      "back": "TODO(ln): Retour"
+      "back": "TODO(ln): Retour",
+      "addonPaymentRequired": "TODO(ln): L'option Artwork Apple Music est sélectionnée : réglez-la avant d'envoyer votre sortie.",
+      "addonPaymentButton": "TODO(ln): Payer l'option et envoyer",
+      "addonPaymentPending": "TODO(ln): Redirection vers le paiement…",
+      "addonPaymentError": "TODO(ln): Le paiement n'a pas pu être lancé. Réessaie dans un instant."
     },
     "statusLabels": {
       "draft": "TODO(ln): Brouillon",
@@ -1238,6 +1254,45 @@
       "takedownRequested": "TODO(ln): Le retrait de ta sortie est en cours.",
       "archivedNote": "TODO(ln): Cette sortie est archivée.",
       "tracksTitle": "TODO(ln): Pistes"
+    }
+  },
+  "SubscriptionPage": {
+    "title": "TODO(ln): Choisis ton forfait",
+    "subtitle": "TODO(ln): Un abonnement, 100 % de tes royalties. Change ou résilie à tout moment.",
+    "successBanner": "TODO(ln): Paiement confirmé — ton abonnement est actif !",
+    "canceledBanner": "TODO(ln): Paiement annulé — aucun montant n'a été prélevé.",
+    "alreadyActive": "TODO(ln): Tu as déjà un abonnement Solo {period} actif.",
+    "periodUnavailable": "TODO(ln): Cette période de facturation n'est pas disponible dans ta région.",
+    "annualOnlyNote": "TODO(ln): Facturation annuelle uniquement dans ta région.",
+    "couponLabel": "TODO(ln): Code promo (optionnel)",
+    "couponPlaceholder": "CODE",
+    "subscribeCta": "TODO(ln): Souscrire",
+    "period": {
+      "monthly": "TODO(ln): Mensuel",
+      "annual": "TODO(ln): Annuel"
+    },
+    "solo": {
+      "badge": "TODO(ln): Recommandé",
+      "name": "TODO(ln): Solo",
+      "description": "TODO(ln): Distribue ta musique dans le monde entier, sans partage de revenus.",
+      "features": {
+        "unlimitedReleases": "TODO(ln): Sorties illimitées, tous formats",
+        "allDsps": "TODO(ln): 150+ plateformes",
+        "hundredPercentRoyalties": "TODO(ln): 100 % de tes royalties",
+        "monthlyStats": "TODO(ln): Statistiques mensuelles"
+      }
+    },
+    "label": {
+      "name": "TODO(ln): Label",
+      "description": "TODO(ln): Pour les artistes signés et les labels — accompagnement complet.",
+      "pricingNote": "TODO(ln): Sur devis — parle-nous de ton projet.",
+      "cta": "TODO(ln): Nous contacter"
+    },
+    "errors": {
+      "unauthenticated": "TODO(ln): Session expirée — reconnecte-toi.",
+      "period_unavailable": "TODO(ln): Cette période de facturation n'est pas disponible dans ta région.",
+      "invalid_coupon": "TODO(ln): Ce code promo n'est pas valide ou a expiré.",
+      "unknown": "TODO(ln): Une erreur est survenue. Réessaie dans un instant."
     }
   }
 }

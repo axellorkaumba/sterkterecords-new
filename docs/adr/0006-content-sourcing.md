@@ -53,6 +53,14 @@ explicitement avec Axel** — si le modèle CDC §5 est en fait le bon, il
 faudra ré-écrire `/tarifs`, les CGU (Art. 5, 8, 9), et le futur schéma de
 `subscriptions`/`royalty_ledger` en conséquence.
 
+> **Résolu au Sprint 6.** Axel a tranché en faveur du modèle CDC §5, avec
+> une évolution : SOLO (mensuel/annuel) + AFRIQUE (tarif régional, pays
+> éligibles configurables) + LABEL (sur devis), 100 % des royalties
+> reversées à l'artiste, aucune valeur codée en dur (moteur de tarification
+> générique). `/tarifs`, les CGU (Art. 2, 5, 8, 9, 16) et le schéma
+> `subscriptions`/`payments` ont été ré-écrits en conséquence — voir
+> `docs/adr/0010-abonnement-paiements.md`.
+
 ### 2. Année de fondation du label
 
 - **CDC §1** : "fondé en 2021".
