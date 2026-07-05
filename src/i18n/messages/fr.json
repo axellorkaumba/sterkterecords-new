@@ -1293,5 +1293,118 @@
       "invalid_coupon": "Ce code promo n'est pas valide ou a expiré.",
       "unknown": "Une erreur est survenue. Réessaie dans un instant."
     }
+  },
+  "Emails": {
+    "layout": {
+      "brandLabel": "Sterkte Records",
+      "footerRights": "© Sterkte Records SARL — Tous droits réservés · Avenue Mama Yemo, Lubumbashi, RDC",
+      "footerLinktree": "Tous nos réseaux",
+      "footerContact": "Nous contacter"
+    },
+    "confirmEmail": {
+      "ignoreNote": "Si tu n'es pas à l'origine de cette demande, tu peux ignorer cet email.",
+      "signup": {
+        "preview": "Confirme ton adresse email pour activer ton compte Sterkte Records",
+        "heading": "Bienvenue chez Sterkte Records 🎉",
+        "body": "Un dernier clic pour activer ton compte artiste et commencer à distribuer ta musique dans le monde entier.",
+        "cta": "Confirmer mon email"
+      },
+      "invite": {
+        "preview": "Tu as été invité(e) à rejoindre Sterkte Records",
+        "heading": "Tu as été invité(e) sur Sterkte Records",
+        "body": "Clique ci-dessous pour accepter l'invitation et créer ton compte.",
+        "cta": "Accepter l'invitation"
+      },
+      "magiclink": {
+        "preview": "Ton lien de connexion Sterkte Records",
+        "heading": "Connexion à ton compte",
+        "body": "Clique ci-dessous pour te connecter à ton compte Sterkte Records — ce lien est à usage unique.",
+        "cta": "Me connecter"
+      },
+      "email_change": {
+        "preview": "Confirme ton changement d'adresse email",
+        "heading": "Confirme ta nouvelle adresse email",
+        "body": "Tu as demandé à changer l'adresse email associée à ton compte. Clique ci-dessous pour confirmer ce changement.",
+        "cta": "Confirmer le changement"
+      },
+      "reauthentication": {
+        "preview": "Confirme ton identité pour continuer",
+        "heading": "Confirmation d'identité requise",
+        "body": "Pour effectuer cette action sensible, confirme ton identité en cliquant ci-dessous.",
+        "cta": "Confirmer mon identité"
+      }
+    },
+    "passwordReset": {
+      "preview": "Réinitialise ton mot de passe Sterkte Records",
+      "heading": "Réinitialisation de ton mot de passe",
+      "body": "Tu as demandé à réinitialiser ton mot de passe. Clique ci-dessous pour en choisir un nouveau — ce lien expire dans 1 heure.",
+      "cta": "Choisir un nouveau mot de passe",
+      "ignoreNote": "Si tu n'es pas à l'origine de cette demande, ton mot de passe actuel reste inchangé — contacte-nous si tu as un doute."
+    },
+    "securityAlert": {
+      "preview": "Alerte de sécurité sur ton compte Sterkte Records",
+      "heading": "Activité de sécurité sur ton compte",
+      "notYouNote": "Si ce n'est pas toi, contacte-nous immédiatement et change ton mot de passe.",
+      "events": {
+        "password_changed": "Ton mot de passe a été modifié le {date}.",
+        "mfa_enrolled": "La double authentification (2FA) a été activée sur ton compte le {date}.",
+        "mfa_disabled": "La double authentification (2FA) a été désactivée sur ton compte le {date}.",
+        "identity_linked": "Un nouveau compte a été lié à ton profil le {date}.",
+        "identity_unlinked": "Un compte lié a été retiré de ton profil le {date}.",
+        "email_changed": "L'adresse email de ton compte a été modifiée le {date}."
+      }
+    },
+    "paymentReceipt": {
+      "preview": "Ton reçu de paiement Sterkte Records",
+      "descriptionLabel": "Description",
+      "dateLabel": "Date",
+      "totalLabel": "Total payé",
+      "subscription": {
+        "heading": "Abonnement confirmé ✅",
+        "body": "Ton abonnement Sterkte Records est actif. Merci de ta confiance !"
+      },
+      "addon": {
+        "heading": "Paiement confirmé",
+        "body": "Ton option a bien été payée et sera incluse dans ta prochaine sortie."
+      },
+      "descriptions": {
+        "soloMonthly": "Solo — mensuel",
+        "soloAnnual": "Solo — annuel",
+        "soloRenewal": "Solo — renouvellement",
+        "appleMusicArtwork": "Artwork Apple Music"
+      }
+    },
+    "releaseSubmitted": {
+      "preview": "« {title} » est en route vers les plateformes",
+      "heading": "« {title} » est en route vers les plateformes 🎉",
+      "body": "Ta sortie a été transmise à nos plateformes partenaires. Tu recevras une notification à chaque étape.",
+      "cta": "Voir ma sortie"
+    },
+    "releaseStatusUpdate": {
+      "delivered": {
+        "preview": "« {title} » est maintenant disponible partout",
+        "heading": "« {title} » a été distribuée avec succès !",
+        "body": "Ta sortie est désormais disponible sur les plateformes sélectionnées.",
+        "cta": "Voir mes statistiques"
+      },
+      "error": {
+        "preview": "Un problème est survenu avec « {title} »",
+        "heading": "Un problème est survenu avec « {title} »",
+        "body": "Nos plateformes partenaires ont signalé une erreur lors de la livraison de ta sortie. Détail ci-dessous :",
+        "cta": "Corriger ma sortie"
+      }
+    },
+    "releaseCorrectionNeeded": {
+      "preview": "Des corrections sont nécessaires pour « {title} »",
+      "heading": "Des corrections sont nécessaires pour « {title} »",
+      "body": "Avant de pouvoir distribuer ta sortie, merci de corriger les points suivants :",
+      "cta": "Corriger ma sortie"
+    },
+    "takedownConfirmed": {
+      "preview": "Retrait de « {title} » en cours",
+      "heading": "Retrait de « {title} » confirmé",
+      "body": "Ta demande de retrait a été transmise à nos plateformes partenaires. Le retrait effectif peut prendre jusqu'à 30 jours ouvrés selon les plateformes concernées.",
+      "cta": "Voir ma sortie"
+    }
   }
 }

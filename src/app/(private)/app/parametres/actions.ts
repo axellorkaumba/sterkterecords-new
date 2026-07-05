@@ -8,6 +8,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { mapSupabaseErrorCode, type AuthErrorCode } from "@/lib/supabase/auth-errors";
 import { authCallbackUrl } from "@/lib/supabase/callback-url";
+import { sendSecurityAlertEmail } from "@/lib/email/send";
+import type { SecurityEventType } from "@/lib/email/templates/security-alert";
 import { LOCALE_COOKIE_NAME, type AppLocale } from "@/i18n/routing";
 import {
   OAUTH_PROVIDER_IDS,
@@ -55,6 +57,30 @@ async function logAudit(
     .insert({ actor_id: actorId, action, entity, entity_id: entityId ?? null });
 }
 
+/**
+ * Alerte de sécurité (§14, §17) — envoyée directement depuis l'action, en
+ * plus du Send Email Hook Supabase qui gère potentiellement les mêmes
+ * événements via ses types `*_notification` (documentation ambiguë sur le
+ * déclenchement automatique, voir ADR 0011) : redondance volontaire plutôt
+ * que de risquer de ne jamais alerter l'utilisateur.
+ */
+async function sendSecurityAlert(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  email: string | undefined,
+  eventType: SecurityEventType,
+): Promise<void> {
+  if (!email) return;
+  const { data } = await supabase.from("profiles").select("locale").eq("id", userId).single();
+  const locale = (data?.locale as AppLocale | undefined) ?? "fr";
+  await sendSecurityAlertEmail({
+    to: email,
+    locale,
+    eventType,
+    occurredAt: new Date().toLocaleDateString(locale),
+  });
+}
+
 export async function updateProfile(values: UpdateProfileValues): Promise<ActionResult> {
   const parsed = updateProfileSchema.safeParse(values);
   if (!parsed.success) return { error: "unknown" };
@@ -82,6 +108,7 @@ export async function changePassword(values: ChangePasswordValues): Promise<Acti
   if (error) return { error: mapSupabaseErrorCode(error) };
 
   await logAudit(user.id, "password_changed", "profile", user.id);
+  await sendSecurityAlert(supabase, user.id, user.email, "password_changed");
   return { error: null };
 }
 
@@ -117,6 +144,7 @@ export async function verifyMfaEnrollment(values: VerifyMfaValues): Promise<Acti
   if (error) return { error: mapSupabaseErrorCode(error) };
 
   await logAudit(user.id, "mfa_enabled", "profile", user.id);
+  await sendSecurityAlert(supabase, user.id, user.email, "mfa_enrolled");
   revalidatePath("/app/parametres");
   return { error: null };
 }
@@ -128,6 +156,7 @@ export async function disableMfa(factorId: string): Promise<ActionResult> {
   if (error) return { error: mapSupabaseErrorCode(error) };
 
   await logAudit(user.id, "mfa_disabled", "profile", user.id);
+  await sendSecurityAlert(supabase, user.id, user.email, "mfa_disabled");
   revalidatePath("/app/parametres");
   return { error: null };
 }
@@ -241,6 +270,7 @@ export async function unlinkOAuthIdentity(identity: UserIdentity): Promise<Actio
   if (error) return { error: mapSupabaseErrorCode(error) };
 
   await logAudit(user.id, "oauth_identity_unlinked", "profile", user.id);
+  await sendSecurityAlert(supabase, user.id, user.email, "identity_unlinked");
   revalidatePath("/app/parametres");
   return { error: null };
 }

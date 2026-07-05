@@ -51,8 +51,14 @@ const serverEnvSchema = z.object({
   // --- PayPal (paiement secondaire, [V1]) ---
   PAYPAL_CLIENT_SECRET: z.string().min(1).optional(),
 
-  // --- Resend (emails transactionnels) ---
+  // --- Resend (emails transactionnels, §14) ---
   RESEND_API_KEY: z.string().min(1).optional(),
+  // Adresse d'expédition — nécessite un domaine vérifié dans Resend.
+  RESEND_FROM_EMAIL: z.string().min(1).default("Sterkte Records <no-reply@sterkterecords.com>"),
+
+  // --- Supabase Auth Hook "Send Email" (§14 — emails d'auth rebrandés
+  // Resend/React Email plutôt que le template par défaut Supabase) ---
+  SUPABASE_AUTH_SEND_EMAIL_HOOK_SECRET: z.string().min(1).optional(),
 
   // --- LabelGrid (rail de distribution DSP — doc API en attente, §13.1) ---
   LABELGRID_API_BASE_URL: z.string().url().optional(),

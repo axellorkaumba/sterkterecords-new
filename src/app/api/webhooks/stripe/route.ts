@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { getStripeClient } from "@/lib/payments/stripe/client";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireEnv } from "@/lib/env";
+import { sendPaymentReceiptForUser } from "@/lib/email/receipt";
 import type { Database, Json } from "@/types/database.types";
 
 type SubscriptionStatus = Database["public"]["Enums"]["subscription_status"];
@@ -110,8 +111,24 @@ export async function POST(request: NextRequest) {
         }
 
         await notify(admin, payment.user_id, "subscription_active", { planId: metadata.planId });
+        await sendPaymentReceiptForUser(
+          admin,
+          payment.user_id,
+          "subscription",
+          metadata.period === "annual" ? "soloAnnual" : "soloMonthly",
+          payment.amount,
+          payment.currency,
+        );
       } else if (session.mode === "payment") {
         await notify(admin, payment.user_id, "addon_paid", { paymentId });
+        await sendPaymentReceiptForUser(
+          admin,
+          payment.user_id,
+          "addon",
+          "appleMusicArtwork",
+          payment.amount,
+          payment.currency,
+        );
       }
       break;
     }
@@ -139,16 +156,26 @@ export async function POST(request: NextRequest) {
         .eq("id", subscription.id);
 
       if (invoice.billing_reason === "subscription_cycle") {
+        const amount = invoice.amount_paid / 100;
+        const currency = invoice.currency.toUpperCase();
         await admin.from("payments").insert({
           user_id: subscription.user_id,
           type: "subscription",
           provider: "stripe",
-          amount: invoice.amount_paid / 100,
-          currency: invoice.currency.toUpperCase(),
+          amount,
+          currency,
           status: "succeeded",
           external_id: invoice.id,
         });
         await notify(admin, subscription.user_id, "subscription_renewed", {});
+        await sendPaymentReceiptForUser(
+          admin,
+          subscription.user_id,
+          "subscription",
+          "soloRenewal",
+          amount,
+          currency,
+        );
       }
       break;
     }

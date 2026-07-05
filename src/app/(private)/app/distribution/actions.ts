@@ -13,6 +13,7 @@ import {
   resolveRegionForCountry,
   resolveProviderForCountry,
 } from "@/lib/payments";
+import { sendReleaseSubmittedEmail, sendTakedownConfirmedEmail } from "@/lib/email/send";
 import type { Database } from "@/types/database.types";
 import {
   releaseTypeSchema,
@@ -47,6 +48,15 @@ async function requireArtist() {
 
   if (!artist) throw new Error("[distribution] Aucun profil artiste.");
   return { supabase, user, artistId: artist.id };
+}
+
+/** Langue du destinataire pour les emails transactionnels (§14) — déjà accessible via la session RLS, pas besoin du client admin ici. */
+async function getRecipientLocale(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+): Promise<"fr" | "en" | "ln"> {
+  const { data } = await supabase.from("profiles").select("locale").eq("id", userId).single();
+  return (data?.locale as "fr" | "en" | "ln" | undefined) ?? "fr";
 }
 
 async function logAudit(actorId: string, action: string, entityId: string) {
@@ -391,9 +401,8 @@ export async function hasAddonBeenPaid(releaseId: string): Promise<boolean> {
  * Soumission finale (§11.4 étape 9) : génère UPC/ISRC manquants, envoie à
  * LabelGrid (mock tant que l'intégration réelle n'est pas branchée, voir
  * ADR 0003), crée la ligne `labelgrid_sync`, journalise, passe le statut à
- * `delivering`. Email de confirmation différé (voir docs/adr/0009 —
- * Resend nécessite une adresse expéditeur vérifiée, non configurée ici).
- * Bloque tant que l'add-on Apple Music, si choisi, n'est pas payé (§5.3).
+ * `delivering`, envoie l'email de confirmation (§14, voir ADR 0011). Bloque
+ * tant que l'add-on Apple Music, si choisi, n'est pas payé (§5.3).
  */
 export async function submitRelease(releaseId: string): Promise<ActionResult> {
   const { supabase, user, artistId } = await requireArtist();
@@ -456,6 +465,15 @@ export async function submitRelease(releaseId: string): Promise<ActionResult> {
 
   await logAudit(user.id, "release_submitted", releaseId);
 
+  if (user.email) {
+    await sendReleaseSubmittedEmail({
+      to: user.email,
+      locale: await getRecipientLocale(supabase, user.id),
+      releaseTitle: release.title,
+      dashboardUrl: `${clientEnv.NEXT_PUBLIC_SITE_URL}/app/distribution/${releaseId}`,
+    });
+  }
+
   revalidatePath("/app/distribution");
   revalidatePath(`/app/distribution/${releaseId}`);
   return { error: null };
@@ -496,13 +514,16 @@ export async function requestModification(
 export async function requestTakedown(releaseId: string, reason: string): Promise<ActionResult> {
   const { supabase, user } = await requireArtist();
 
-  const { data: sync } = await supabase
-    .from("labelgrid_sync")
-    .select("external_id")
-    .eq("release_id", releaseId)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  const [{ data: sync }, { data: release }] = await Promise.all([
+    supabase
+      .from("labelgrid_sync")
+      .select("external_id")
+      .eq("release_id", releaseId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    supabase.from("releases").select("title").eq("id", releaseId).single(),
+  ]);
 
   if (sync?.external_id) {
     const labelgrid = getLabelGridClient();
@@ -517,6 +538,15 @@ export async function requestTakedown(releaseId: string, reason: string): Promis
   if (error) return { error: "unknown" };
 
   await logAudit(user.id, "release_takedown_requested", releaseId);
+
+  if (user.email && release) {
+    await sendTakedownConfirmedEmail({
+      to: user.email,
+      locale: await getRecipientLocale(supabase, user.id),
+      releaseTitle: release.title,
+      dashboardUrl: `${clientEnv.NEXT_PUBLIC_SITE_URL}/app/distribution/${releaseId}`,
+    });
+  }
 
   revalidatePath("/app/distribution");
   revalidatePath(`/app/distribution/${releaseId}`);

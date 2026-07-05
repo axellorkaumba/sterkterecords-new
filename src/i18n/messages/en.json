@@ -1293,5 +1293,118 @@
       "invalid_coupon": "This promo code is invalid or expired.",
       "unknown": "Something went wrong. Please try again in a moment."
     }
+  },
+  "Emails": {
+    "layout": {
+      "brandLabel": "Sterkte Records",
+      "footerRights": "© Sterkte Records SARL — All rights reserved · Avenue Mama Yemo, Lubumbashi, DRC",
+      "footerLinktree": "All our socials",
+      "footerContact": "Contact us"
+    },
+    "confirmEmail": {
+      "ignoreNote": "If you didn't request this, you can safely ignore this email.",
+      "signup": {
+        "preview": "Confirm your email to activate your Sterkte Records account",
+        "heading": "Welcome to Sterkte Records 🎉",
+        "body": "One last click to activate your artist account and start distributing your music worldwide.",
+        "cta": "Confirm my email"
+      },
+      "invite": {
+        "preview": "You've been invited to join Sterkte Records",
+        "heading": "You've been invited to Sterkte Records",
+        "body": "Click below to accept the invitation and create your account.",
+        "cta": "Accept invitation"
+      },
+      "magiclink": {
+        "preview": "Your Sterkte Records sign-in link",
+        "heading": "Sign in to your account",
+        "body": "Click below to sign in to your Sterkte Records account — this link can only be used once.",
+        "cta": "Sign me in"
+      },
+      "email_change": {
+        "preview": "Confirm your email address change",
+        "heading": "Confirm your new email address",
+        "body": "You requested to change the email address linked to your account. Click below to confirm this change.",
+        "cta": "Confirm change"
+      },
+      "reauthentication": {
+        "preview": "Confirm your identity to continue",
+        "heading": "Identity confirmation required",
+        "body": "To perform this sensitive action, confirm your identity by clicking below.",
+        "cta": "Confirm my identity"
+      }
+    },
+    "passwordReset": {
+      "preview": "Reset your Sterkte Records password",
+      "heading": "Reset your password",
+      "body": "You requested a password reset. Click below to choose a new one — this link expires in 1 hour.",
+      "cta": "Choose a new password",
+      "ignoreNote": "If you didn't request this, your current password stays unchanged — contact us if in doubt."
+    },
+    "securityAlert": {
+      "preview": "Security alert on your Sterkte Records account",
+      "heading": "Security activity on your account",
+      "notYouNote": "If this wasn't you, contact us immediately and change your password.",
+      "events": {
+        "password_changed": "Your password was changed on {date}.",
+        "mfa_enrolled": "Two-factor authentication (2FA) was enabled on your account on {date}.",
+        "mfa_disabled": "Two-factor authentication (2FA) was disabled on your account on {date}.",
+        "identity_linked": "A new account was linked to your profile on {date}.",
+        "identity_unlinked": "A linked account was removed from your profile on {date}.",
+        "email_changed": "Your account's email address was changed on {date}."
+      }
+    },
+    "paymentReceipt": {
+      "preview": "Your Sterkte Records payment receipt",
+      "descriptionLabel": "Description",
+      "dateLabel": "Date",
+      "totalLabel": "Total paid",
+      "subscription": {
+        "heading": "Subscription confirmed ✅",
+        "body": "Your Sterkte Records subscription is active. Thank you for your trust!"
+      },
+      "addon": {
+        "heading": "Payment confirmed",
+        "body": "Your option has been paid and will be included in your upcoming release."
+      },
+      "descriptions": {
+        "soloMonthly": "Solo — monthly",
+        "soloAnnual": "Solo — annual",
+        "soloRenewal": "Solo — renewal",
+        "appleMusicArtwork": "Apple Music Artwork"
+      }
+    },
+    "releaseSubmitted": {
+      "preview": "“{title}” is on its way to platforms",
+      "heading": "“{title}” is on its way to platforms 🎉",
+      "body": "Your release has been submitted to our partner platforms. You'll get a notification at every step.",
+      "cta": "View my release"
+    },
+    "releaseStatusUpdate": {
+      "delivered": {
+        "preview": "“{title}” is now live everywhere",
+        "heading": "“{title}” was successfully distributed!",
+        "body": "Your release is now available on the selected platforms.",
+        "cta": "View my stats"
+      },
+      "error": {
+        "preview": "An issue occurred with “{title}”",
+        "heading": "An issue occurred with “{title}”",
+        "body": "Our partner platforms reported an error while delivering your release. Details below:",
+        "cta": "Fix my release"
+      }
+    },
+    "releaseCorrectionNeeded": {
+      "preview": "Corrections needed for “{title}”",
+      "heading": "Corrections needed for “{title}”",
+      "body": "Before we can distribute your release, please fix the following:",
+      "cta": "Fix my release"
+    },
+    "takedownConfirmed": {
+      "preview": "Takedown of “{title}” in progress",
+      "heading": "Takedown of “{title}” confirmed",
+      "body": "Your takedown request has been sent to our partner platforms. Full takedown can take up to 30 business days depending on the platform.",
+      "cta": "View my release"
+    }
   }
 }

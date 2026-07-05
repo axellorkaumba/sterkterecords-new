@@ -1294,5 +1294,118 @@
       "invalid_coupon": "TODO(ln): Ce code promo n'est pas valide ou a expiré.",
       "unknown": "TODO(ln): Une erreur est survenue. Réessaie dans un instant."
     }
+  },
+  "Emails": {
+    "layout": {
+      "brandLabel": "TODO(ln): Sterkte Records",
+      "footerRights": "TODO(ln): © Sterkte Records SARL — Tous droits réservés · Avenue Mama Yemo, Lubumbashi, RDC",
+      "footerLinktree": "TODO(ln): Tous nos réseaux",
+      "footerContact": "TODO(ln): Nous contacter"
+    },
+    "confirmEmail": {
+      "ignoreNote": "TODO(ln): Si tu n'es pas à l'origine de cette demande, tu peux ignorer cet email.",
+      "signup": {
+        "preview": "TODO(ln): Confirme ton adresse email pour activer ton compte Sterkte Records",
+        "heading": "TODO(ln): Bienvenue chez Sterkte Records 🎉",
+        "body": "TODO(ln): Un dernier clic pour activer ton compte artiste et commencer à distribuer ta musique dans le monde entier.",
+        "cta": "TODO(ln): Confirmer mon email"
+      },
+      "invite": {
+        "preview": "TODO(ln): Tu as été invité(e) à rejoindre Sterkte Records",
+        "heading": "TODO(ln): Tu as été invité(e) sur Sterkte Records",
+        "body": "TODO(ln): Clique ci-dessous pour accepter l'invitation et créer ton compte.",
+        "cta": "TODO(ln): Accepter l'invitation"
+      },
+      "magiclink": {
+        "preview": "TODO(ln): Ton lien de connexion Sterkte Records",
+        "heading": "TODO(ln): Connexion à ton compte",
+        "body": "TODO(ln): Clique ci-dessous pour te connecter à ton compte Sterkte Records — ce lien est à usage unique.",
+        "cta": "TODO(ln): Me connecter"
+      },
+      "email_change": {
+        "preview": "TODO(ln): Confirme ton changement d'adresse email",
+        "heading": "TODO(ln): Confirme ta nouvelle adresse email",
+        "body": "TODO(ln): Tu as demandé à changer l'adresse email associée à ton compte. Clique ci-dessous pour confirmer ce changement.",
+        "cta": "TODO(ln): Confirmer le changement"
+      },
+      "reauthentication": {
+        "preview": "TODO(ln): Confirme ton identité pour continuer",
+        "heading": "TODO(ln): Confirmation d'identité requise",
+        "body": "TODO(ln): Pour effectuer cette action sensible, confirme ton identité en cliquant ci-dessous.",
+        "cta": "TODO(ln): Confirmer mon identité"
+      }
+    },
+    "passwordReset": {
+      "preview": "TODO(ln): Réinitialise ton mot de passe Sterkte Records",
+      "heading": "TODO(ln): Réinitialisation de ton mot de passe",
+      "body": "TODO(ln): Tu as demandé à réinitialiser ton mot de passe. Clique ci-dessous pour en choisir un nouveau — ce lien expire dans 1 heure.",
+      "cta": "TODO(ln): Choisir un nouveau mot de passe",
+      "ignoreNote": "TODO(ln): Si tu n'es pas à l'origine de cette demande, ton mot de passe actuel reste inchangé — contacte-nous si tu as un doute."
+    },
+    "securityAlert": {
+      "preview": "TODO(ln): Alerte de sécurité sur ton compte Sterkte Records",
+      "heading": "TODO(ln): Activité de sécurité sur ton compte",
+      "notYouNote": "TODO(ln): Si ce n'est pas toi, contacte-nous immédiatement et change ton mot de passe.",
+      "events": {
+        "password_changed": "TODO(ln): Ton mot de passe a été modifié le {date}.",
+        "mfa_enrolled": "TODO(ln): La double authentification (2FA) a été activée sur ton compte le {date}.",
+        "mfa_disabled": "TODO(ln): La double authentification (2FA) a été désactivée sur ton compte le {date}.",
+        "identity_linked": "TODO(ln): Un nouveau compte a été lié à ton profil le {date}.",
+        "identity_unlinked": "TODO(ln): Un compte lié a été retiré de ton profil le {date}.",
+        "email_changed": "TODO(ln): L'adresse email de ton compte a été modifiée le {date}."
+      }
+    },
+    "paymentReceipt": {
+      "preview": "TODO(ln): Ton reçu de paiement Sterkte Records",
+      "descriptionLabel": "TODO(ln): Description",
+      "dateLabel": "TODO(ln): Date",
+      "totalLabel": "TODO(ln): Total payé",
+      "subscription": {
+        "heading": "TODO(ln): Abonnement confirmé ✅",
+        "body": "TODO(ln): Ton abonnement Sterkte Records est actif. Merci de ta confiance !"
+      },
+      "addon": {
+        "heading": "TODO(ln): Paiement confirmé",
+        "body": "TODO(ln): Ton option a bien été payée et sera incluse dans ta prochaine sortie."
+      },
+      "descriptions": {
+        "soloMonthly": "TODO(ln): Solo — mensuel",
+        "soloAnnual": "TODO(ln): Solo — annuel",
+        "soloRenewal": "TODO(ln): Solo — renouvellement",
+        "appleMusicArtwork": "TODO(ln): Artwork Apple Music"
+      }
+    },
+    "releaseSubmitted": {
+      "preview": "TODO(ln): « {title} » est en route vers les plateformes",
+      "heading": "TODO(ln): « {title} » est en route vers les plateformes 🎉",
+      "body": "TODO(ln): Ta sortie a été transmise à nos plateformes partenaires. Tu recevras une notification à chaque étape.",
+      "cta": "TODO(ln): Voir ma sortie"
+    },
+    "releaseStatusUpdate": {
+      "delivered": {
+        "preview": "TODO(ln): « {title} » est maintenant disponible partout",
+        "heading": "TODO(ln): « {title} » a été distribuée avec succès !",
+        "body": "TODO(ln): Ta sortie est désormais disponible sur les plateformes sélectionnées.",
+        "cta": "TODO(ln): Voir mes statistiques"
+      },
+      "error": {
+        "preview": "TODO(ln): Un problème est survenu avec « {title} »",
+        "heading": "TODO(ln): Un problème est survenu avec « {title} »",
+        "body": "TODO(ln): Nos plateformes partenaires ont signalé une erreur lors de la livraison de ta sortie. Détail ci-dessous :",
+        "cta": "TODO(ln): Corriger ma sortie"
+      }
+    },
+    "releaseCorrectionNeeded": {
+      "preview": "TODO(ln): Des corrections sont nécessaires pour « {title} »",
+      "heading": "TODO(ln): Des corrections sont nécessaires pour « {title} »",
+      "body": "TODO(ln): Avant de pouvoir distribuer ta sortie, merci de corriger les points suivants :",
+      "cta": "TODO(ln): Corriger ma sortie"
+    },
+    "takedownConfirmed": {
+      "preview": "TODO(ln): Retrait de « {title} » en cours",
+      "heading": "TODO(ln): Retrait de « {title} » confirmé",
+      "body": "TODO(ln): Ta demande de retrait a été transmise à nos plateformes partenaires. Le retrait effectif peut prendre jusqu'à 30 jours ouvrés selon les plateformes concernées.",
+      "cta": "TODO(ln): Voir ma sortie"
+    }
   }
 }

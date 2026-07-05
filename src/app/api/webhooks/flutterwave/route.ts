@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { verifyFlutterwaveTransaction } from "@/lib/payments/flutterwave-provider";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireEnv } from "@/lib/env";
+import { sendPaymentReceiptForUser } from "@/lib/email/receipt";
 import type { Json } from "@/types/database.types";
 
 interface FlutterwaveWebhookPayload {
@@ -96,8 +97,24 @@ export async function POST(request: NextRequest) {
     }
 
     await notify(admin, payment.user_id, "subscription_active", { planId: meta.planId });
+    await sendPaymentReceiptForUser(
+      admin,
+      payment.user_id,
+      "subscription",
+      period === "annual" ? "soloAnnual" : "soloMonthly",
+      payment.amount,
+      payment.currency,
+    );
   } else if (meta.kind === "addon") {
     await notify(admin, payment.user_id, "addon_paid", { paymentId });
+    await sendPaymentReceiptForUser(
+      admin,
+      payment.user_id,
+      "addon",
+      "appleMusicArtwork",
+      payment.amount,
+      payment.currency,
+    );
   }
 
   return NextResponse.json({ received: true });

@@ -4,21 +4,20 @@ Plateforme SaaS de distribution musicale — Sterkte Records SARL
 (Lubumbashi/RDC · Agadir/Maroc). Source de vérité produit : le cahier des
 charges (`CDC_Sterkte_Records_Distributor.md`, fourni hors repo).
 
-**Statut : Sprint 6 — Abonnement & Paiements.** Authentification (Sprint 3) +
-dashboard artiste (Sprint 4) + tunnel de distribution à 9 étapes (Sprint 5)
-
-- abonnement/paiements (§5, §11.2, §13.2, MVP) : moteur de tarification
-  générique (plans/régions/devises/remises/essais/options, sans valeur codée
-  en dur), forfait SOLO (mensuel/annuel) + tarif régional AFRIQUE + LABEL sur
-  devis, 100 % des royalties à l'artiste, paywall bloquant, checkout réel
-  Stripe (international) et Flutterwave (Mobile Money Afrique), add-on
-  Artwork Apple Music payant. **Aucun projet Supabase, bucket R2, compte
-  Stripe/Flutterwave réels ne sont encore branchés** : tout est vérifié par
-  `typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel
-  Supabase/R2/PSP — voir `docs/adr/0007-auth-architecture.md`,
-  `docs/adr/0008-dashboard-artiste.md`, `docs/adr/0009-distribution-module.md`
-  et `docs/adr/0010-abonnement-paiements.md`. Le portefeuille de royalties et
-  les retraits (§11.5, reste du V1) restent à construire.
+**Statut : Sprint 7 — Emails transactionnels.** Authentification (Sprint 3),
+dashboard artiste (Sprint 4), tunnel de distribution à 9 étapes (Sprint 5),
+abonnement/paiements SOLO/AFRIQUE/LABEL (Sprint 6), et désormais les emails
+transactionnels (§14) : vérification/bienvenue, réinitialisation mot de
+passe et alertes sécurité (via le Send Email Hook Supabase), reçus de
+paiement, sortie soumise, retrait confirmé — tous en React Email/Resend,
+trilingues. **Aucun projet Supabase, bucket R2, compte Stripe/Flutterwave/
+Resend réels ne sont encore branchés** : tout est vérifié par
+`typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel
+Supabase/R2/PSP/Resend — voir `docs/adr/0007-auth-architecture.md`,
+`docs/adr/0008-dashboard-artiste.md`, `docs/adr/0009-distribution-module.md`,
+`docs/adr/0010-abonnement-paiements.md` et
+`docs/adr/0011-emails-transactionnels.md`. Le portefeuille de royalties, les
+retraits (§11.5) et le back-office (§11.10) restent à construire.
 
 ## Stack
 
@@ -252,6 +251,41 @@ Mobile Money, paywall bloquant) :
   §18) ne doit pas dépendre d'un appel Supabase au build — voir ADR 0010,
   décision 2. `/app/abonnement` reste, lui, entièrement piloté par la DB.
 
+## Emails transactionnels (Sprint 7)
+
+Gabarits React Email + Resend (§14) — voir
+`docs/adr/0011-emails-transactionnels.md` pour le détail des décisions :
+
+- **Emails d'authentification via le Supabase Auth "Send Email Hook"**
+  (`src/app/api/auth/email-hook/route.ts`) : vérification, bienvenue, lien
+  magique, invitation, changement d'email, réinitialisation mot de passe —
+  interceptés depuis l'envoi natif de Supabase Auth (vérifié avec
+  `standardwebhooks`), zéro changement dans les Server Actions d'auth
+  existantes (Sprint 3). Prérequis externe non automatisable depuis ce
+  repo : activer le hook dans _Authentication > Hooks_ du dashboard
+  Supabase une fois qu'un projet réel existe.
+- **Alertes de sécurité** (mot de passe changé, 2FA activée/désactivée,
+  compte lié/délié) : envoyées à la fois par le hook (si Supabase les
+  déclenche automatiquement — documentation ambiguë) et directement depuis
+  `src/app/(private)/app/parametres/actions.ts`, en redondance volontaire.
+- **Reçus de paiement** (abonnement confirmé/renouvelé, add-on payé) :
+  envoyés depuis les webhooks Stripe/Flutterwave (Sprint 6).
+- **Sortie soumise / retrait confirmé** : envoyés depuis
+  `src/app/(private)/app/distribution/actions.ts` (`submitRelease`,
+  `requestTakedown`).
+- **Gabarits prêts mais non déclenchés** : "sortie livrée"/mise à jour de
+  statut (aucun job ne fait encore transiter `releases.status`, §13.1) et
+  "sortie à corriger" (workflow de validation qualité back-office, §11.10,
+  pas encore construit) — activables sans changement de gabarit dès que ces
+  modules existent.
+- **Échec d'envoi non bloquant** : un email transactionnel qui échoue
+  (Resend non configuré, erreur API) est journalisé mais ne fait jamais
+  échouer l'action métier (soumission de sortie, paiement, changement de
+  mot de passe...).
+- **Aucun compte Resend, domaine d'expédition vérifié, ni Send Email Hook
+  configuré dans cet environnement** : vérifié par `typecheck`/`lint`/
+  `build` uniquement.
+
 ## Démarrage
 
 Prérequis : Node ≥ 20.9, pnpm (`corepack enable` ou `npm i -g pnpm`).
@@ -321,6 +355,7 @@ src/
 │   │   └── admin/           Back-office (Sprint 4+)
 │   ├── api/
 │   │   ├── auth/callback/    Échange PKCE unique (tout provider OAuth, confirmation, reset — Sprint 3)
+│   │   ├── auth/email-hook/  Supabase Auth "Send Email Hook" — emails d'auth rebrandés (Sprint 7)
 │   │   ├── webhooks/         Webhooks Stripe/Flutterwave, client service_role (Sprint 6)
 │   │   └── health/           Endpoint de santé (uptime monitoring, §25)
 │   └── globals.css          Tailwind v4 + design tokens Sterkte Records (§9)
@@ -345,7 +380,11 @@ src/
 │   │   ├── pricing.ts          Résolution région/prix/coupon depuis la config DB (Sprint 6, voir ADR 0010)
 │   │   └── index.ts            getPaymentProvider() — point d'entrée unique
 │   ├── subscriptions/gate.ts Éligibilité paywall (plan Label ou abonnement actif) — proxy.ts + Server Components
-│   ├── email/resend.ts       Client Resend
+│   ├── email/                Emails transactionnels (§14, Sprint 7 — voir ADR 0011)
+│   │   ├── resend.ts           Client Resend (Sprint 0)
+│   │   ├── send.tsx            Fonctions d'envoi typées, une par gabarit
+│   │   ├── receipt.ts          Reçu de paiement partagé (webhooks Stripe/Flutterwave)
+│   │   └── templates/          8 gabarits React Email (layout commun, boutons CTA)
 │   ├── labelgrid/            Contrat + mock (voir ADR 0003 ; +requestTakedown au Sprint 5)
 │   ├── whatsapp/             Client WhatsApp Cloud API
 │   ├── documenso/            Client Documenso
@@ -389,7 +428,8 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - **Sprint 3 :** Authentification — voir ci-dessus.
 - **Sprint 4 :** Dashboard artiste — voir ci-dessus.
 - **Sprint 5 :** Module Distribution — voir ci-dessus.
-- **Sprint 6 (ce commit) :** Abonnement & Paiements — voir ci-dessus.
+- **Sprint 6 :** Abonnement & Paiements — voir ci-dessus.
+- **Sprint 7 (ce commit) :** Emails transactionnels — voir ci-dessus.
 
 ## Décisions d'architecture
 
@@ -403,6 +443,7 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - `docs/adr/0008-dashboard-artiste.md` — nav `/app` complète avec badges "Bientôt disponible" (validé par Axel), onboarding artiste avant paiement/forfait (pas encore construits), schéma releases/tracks minimal complété par le futur tunnel Distribution, "Streams (30j)" interprété comme dernier mois rapporté (données mensuelles par construction), wallet en lecture seule côté client
 - `docs/adr/0009-distribution-module.md` — upload multipart résumable complet et moteur de validation modulaire "premium évolutif" (validés explicitement par Axel), règles réelles (parsing WAV/FLAC/MP3, Web Audio API, JPEG SOF, checksum UPC-A) documentées avec leurs approximations assumées (niveau sonore, VBR MP3), règles IA/OCR non construites mais architecture prête, DSP sans logos officiels reproduits, gestion post-sortie sans workflow d'approbation automatisé
 - `docs/adr/0010-abonnement-paiements.md` — moteur de tarification générique sans valeur codée en dur (plans/régions/devises/remises/essais/coupons, validé explicitement par Axel), incohérence de tarification héritée du Sprint 2 tranchée (SOLO/AFRIQUE/LABEL, 100 % des royalties, `/tarifs` et CGU corrigés), Flutterwave retenu comme rail Mobile Money, Flutterwave sans abonnement natif (paiement à l'acte, renouvellement automatique différé au job planifié), paywall bloquant, résiliation immédiate (pas de report à la fin de période), webhooks en client `service_role`
+- `docs/adr/0011-emails-transactionnels.md` — emails d'auth via le Supabase Auth Send Email Hook (zéro changement des Server Actions existantes), alertes sécurité en redondance volontaire hook + appel direct (documentation Supabase ambiguë sur le déclenchement automatique), tableau des emails réellement câblés vs gabarits prêts mais non déclenchés (sortie livrée/à corriger — modules dépendants pas encore construits), échec d'envoi non bloquant pour l'action métier
 
 ## Notes importantes
 
@@ -550,3 +591,36 @@ réel n'est committé ; `.env.local` est ignoré par git.
   une de ces règles plus tard = ajouter un objet à `ARTWORK_RULES`, sans
   toucher au moteur. En attendant, l'artiste auto-déclare ces points à
   l'étape pochette (case à cocher par règle).
+- **Emails d'authentification sans changement des Server Actions
+  existantes (Sprint 7)** : `signUp`/`resetPasswordForEmail`/`resend`
+  (Sprint 3) appellent toujours les méthodes Supabase Auth standard — c'est
+  le Supabase Auth "Send Email Hook" (`src/app/api/auth/email-hook/
+route.ts`), une fois activé côté dashboard, qui redirige l'envoi vers nos
+  gabarits React Email/Resend plutôt que le template Supabase par défaut.
+  Prérequis externe non automatisable depuis ce repo : activer le hook dans
+  _Authentication > Hooks_ une fois qu'un projet réel existe — voir ADR 0011.
+- **Emails de sécurité en redondance volontaire** : la documentation
+  Supabase ne confirme pas si les hooks `*_notification` (mot de passe
+  changé, 2FA, comptes liés/déliés) se déclenchent automatiquement à chaque
+  appel `updateUser`/`mfa.enroll`/`unlinkIdentity`. Plutôt que de parier sur
+  un comportement non confirmé pour une fonctionnalité de sécurité, ces
+  alertes sont envoyées à la fois par le hook et directement depuis
+  `parametres/actions.ts` — risque accepté d'un envoi en double, jamais
+  d'un envoi manqué.
+- **Emails "sortie livrée" et "sortie à corriger" : gabarits prêts, non
+  déclenchés (Sprint 7).** Aucun job ne fait encore transiter
+  `releases.status` de `delivering` à `delivered`/`error` (§13.1, même
+  lacune que le suivi de statut documenté dans ADR 0009), et le workflow de
+  validation qualité back-office (§11.10) n'existe pas encore. Les fonctions
+  d'envoi (`sendReleaseStatusUpdateEmail`, `sendReleaseCorrectionNeededEmail`)
+  sont prêtes à être appelées dès que ces modules existent — voir ADR 0011.
+- **Échec d'envoi email non bloquant** : `src/lib/email/send.tsx` capture
+  toute erreur (Resend non configuré, erreur API) et la journalise
+  (`console.error`) sans jamais la propager — un email transactionnel raté
+  ne doit jamais faire échouer l'action métier réelle (soumission de
+  sortie, paiement confirmé, changement de mot de passe...).
+- **Aucun compte Resend, domaine d'expédition vérifié, ni Send Email Hook
+  configuré dans cet environnement (Sprint 7)** : le hook Supabase, les
+  gabarits et les fonctions d'envoi sont vérifiés par
+  `typecheck`/`lint`/`build` uniquement — voir ADR 0011, section
+  "Contrainte d'environnement".
