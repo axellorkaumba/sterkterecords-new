@@ -4,14 +4,14 @@ Plateforme SaaS de distribution musicale — Sterkte Records SARL
 (Lubumbashi/RDC · Agadir/Maroc). Source de vérité produit : le cahier des
 charges (`CDC_Sterkte_Records_Distributor.md`, fourni hors repo).
 
-**Statut : Sprint 8 — Back-office minimal.** Authentification (Sprint 3),
-dashboard artiste (Sprint 4), tunnel de distribution à 9 étapes (Sprint 5),
-abonnement/paiements SOLO/AFRIQUE/LABEL (Sprint 6), emails transactionnels
-(Sprint 7), et désormais le back-office minimal du MVP (§11.10, §3.1) :
-file de validation qualité des sorties (approuver / renvoyer avec motif —
-la sortie ne part vers LabelGrid qu'après approbation staff, revu depuis le
-Sprint 5) et gestion des artistes Label vs Solo. Ceci clôt le socle MVP du
-CDC (§3.1). **Aucun projet Supabase, bucket R2, compte Stripe/Flutterwave/
+**Statut : socle MVP livré (Sprints 0-8), recette finale partielle
+réalisée.** Site public trilingue, authentification, abonnement/paiements
+SOLO/AFRIQUE/LABEL, module Distribution, emails transactionnels, et
+back-office minimal (file de validation qualité, gestion des artistes
+Label vs Solo) — voir `docs/recette-mvp.md` pour le détail des 10 critères
+d'acceptation du §26 du CDC (A1-A10) : ce qui a été vérifié en navigateur
+dans cet environnement, et ce qui reste bloqué en attendant un projet
+Supabase et des comptes tiers réels. **Aucun projet Supabase, bucket R2, compte Stripe/Flutterwave/
 Resend réels ne sont encore branchés** : tout est vérifié par
 `typecheck`/`lint`/tests navigateur jusqu'à la frontière de l'appel
 Supabase/R2/PSP/Resend — voir `docs/adr/0007-auth-architecture.md`,
@@ -469,7 +469,8 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - **Sprint 5 :** Module Distribution — voir ci-dessus.
 - **Sprint 6 :** Abonnement & Paiements — voir ci-dessus.
 - **Sprint 7 :** Emails transactionnels — voir ci-dessus.
-- **Sprint 8 (ce commit) :** Back-office minimal — voir ci-dessus. Clôt le socle MVP du CDC (§3.1).
+- **Sprint 8 :** Back-office minimal — voir ci-dessus. Clôt le socle MVP du CDC (§3.1).
+- **Recette finale MVP (ce commit) :** voir `docs/recette-mvp.md` — critères A1-A10 du §26, vérifiés en navigateur dans les limites de cet environnement.
 
 ## Décisions d'architecture
 
