@@ -12,8 +12,8 @@ export function StructuredData() {
         "@id": "https://www.sterkterecords.com/#organization",
         name: "Sterkte Records",
         url: "https://www.sterkterecords.com",
-        logo: "https://www.sterkterecords.com/logo.png",
-        foundingDate: "2020",
+        logo: "https://www.sterkterecords.com/brand/icon-mark-light.png",
+        foundingDate: "2021",
         founder: {
           "@type": "Person",
           name: "Axel l'or Kaumba",

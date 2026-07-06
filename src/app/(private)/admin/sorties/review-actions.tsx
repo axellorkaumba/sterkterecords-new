@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +15,15 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { approveRelease, rejectRelease } from "../actions";
 
-export function ReviewActions({ releaseId }: { releaseId: string }) {
+interface ReviewActionsProps {
+  releaseId: string;
+  /** Déclenche le flash de statut + le rafraîchissement différé (cf. release-row.tsx). */
+  onApproved: () => void;
+  onRejected: () => void;
+}
+
+export function ReviewActions({ releaseId, onApproved, onRejected }: ReviewActionsProps) {
   const t = useTranslations("Admin.releases");
-  const router = useRouter();
   const [rejectOpen, setRejectOpen] = useState(false);
   const [reason, setReason] = useState("");
   const [pending, startTransition] = useTransition();
@@ -32,7 +37,7 @@ export function ReviewActions({ releaseId }: { releaseId: string }) {
         setError(result.error);
         return;
       }
-      router.refresh();
+      onApproved();
     });
   }
 
@@ -45,7 +50,7 @@ export function ReviewActions({ releaseId }: { releaseId: string }) {
         return;
       }
       setRejectOpen(false);
-      router.refresh();
+      onRejected();
     });
   }
 

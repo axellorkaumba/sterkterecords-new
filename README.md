@@ -18,9 +18,19 @@ Supabase/R2/PSP/Resend — voir `docs/adr/0007-auth-architecture.md`,
 `docs/adr/0008-dashboard-artiste.md`, `docs/adr/0009-distribution-module.md`,
 `docs/adr/0010-abonnement-paiements.md`,
 `docs/adr/0011-emails-transactionnels.md` et
-`docs/adr/0012-back-office-minimal.md`. Le portefeuille de royalties/
-retraits, Studio/Booking/Featuring/Consulting et le reste du back-office
-(§11.5-§11.11) relèvent du V1.
+`docs/adr/0012-back-office-minimal.md`.
+
+**Refonte artistique complète du site public + dashboards** — neuf pages/
+zones retravaillées (Home, Distribution, Studio, Booking, Tarifs, À propos,
+Contact, Dashboard Artiste, Dashboard Label/Admin) plus une passe de
+consolidation du design system, puis un approfondissement (transitions
+continues entre sections, section "Nos partenaires", À propos enrichie avec
+du contenu réel repris d'une version de référence, vrai logo intégré au
+chrome du site puis remplaçant entièrement le texte de marque) — voir
+`docs/adr/0013-redesign-home-artistique.md` à
+`docs/adr/0024-logo-wordmark-header-footer.md` (quatorze ADR, un par étape).
+Le portefeuille de royalties/retraits, Studio/Booking/Featuring/Consulting
+et le reste du back-office (§11.5-§11.11) relèvent du V1.
 
 ## Stack
 
@@ -318,6 +328,121 @@ artistes label") — voir `docs/adr/0012-back-office-minimal.md` :
   Consulting, Support, Contenus, Paramètres — hors périmètre du minimal
   MVP.
 
+## Refonte artistique de l'accueil
+
+Direction artistique de la Home retravaillée à la demande d'Axel (structure
+et copie inchangées) — voir `docs/adr/0013-redesign-home-artistique.md` :
+
+- **Fond vivant** (`ambient-background.tsx`) : halos animés (transform/
+  opacity uniquement, GPU) + grain cinématique statique (SVG), scopé à la
+  Home.
+- **Composition "Music Ecosystem"** (`hero-visual.tsx`) : smartphone façon
+  Spotify, composition éditoriale de vraies pochettes (`cover-composition.tsx`,
+  cf. ADR 0014 — remplace le dégradé générique initial), carte "Sortie
+  approuvée", carte de streams, timeline de distribution, logos de
+  plateformes flottants en arrière-plan.
+- **Section "Notre catalogue"** (`catalogue-showcase.tsx`, ADR 0014) :
+  carrousel scroll-snap des 13 vraies sorties de `IMAGES/COVERS/` (extraites
+  en AVIF optimisé via `pnpm covers:extract` — voir
+  `scripts/extract-covers.mjs`), entre le bandeau de plateformes et les
+  services.
+- **Compteur animé** (`animated-counter.tsx`) : progressif au scroll, une
+  seule fois, respecte `prefers-reduced-motion`.
+- **Bandeau de plateformes réel** (`platform-marquee.tsx`) : logos officiels
+  via `@icons-pack/react-simple-icons` (14/18 plateformes demandées ; Amazon
+  Music/Boomplay/Claro Música/Anghami en pastille de repli, faute de marque
+  disponible dans la librairie), rendu monochrome, défilement CSS pur, pause
+  au survol.
+- **Bouton `premium`** (`ui/button.tsx`) : nouvelle variante CVA (dégradé +
+  glow au survol), réservée au CTA principal du Hero — n'affecte pas le
+  bouton `default` utilisé ailleurs dans l'app.
+- **Nav** : glassmorphism variable + ombre au scroll + animation d'entrée
+  (sitewide, `navbar.tsx`).
+- **`ScrollReveal`** : reveal générique au scroll, une seule fois par
+  élément.
+
+**Non vérifié visuellement dans cet environnement** : l'outil de preview a
+cessé de produire des captures d'écran pendant cette session (panne
+indépendante du code, cf. ADR 0013) — à revérifier en navigateur (Lighthouse
+mobile compris) après un premier déploiement réel.
+
+## Refonte artistique de la page Distribution
+
+Voir `docs/adr/0015-redesign-distribution.md` :
+
+- **`DistributionHero`** : collage de 7 vraies pochettes (positions/
+  rotations déterministes), halo cerise unique (fond propre à cette page,
+  distinct de la Home), logos de plateformes flottants, statistiques
+  animées, parallaxe discret au scroll.
+- **`ReleasePipeline`** (moment signature) : parcours Upload → Validation →
+  Distribution → Streaming → Royalties, point lumineux animé en boucle
+  portant une vraie pochette — déplacement en `transform` calculé en pixels
+  (`ResizeObserver`), jamais en `left` pourcentage (contrainte GPU).
+  Réutilisable tel quel pour le Dashboard Artiste plus tard.
+- **`StatStrip`** et **`FullBleedImage`** : nouveaux composants génériques
+  de la bibliothèque premium, réutilisables sur les pages suivantes.
+- **Photo réelle** : `scripts/optimize-image.mjs` (nouveau, générique) a
+  optimisé `IMAGES/13 A LA PROD.jpg` vers `public/studio/13-a-la-prod.avif`.
+
+## Refonte artistique de la page Studio
+
+Voir `docs/adr/0016-redesign-studio.md` :
+
+- **`StudioHero`** : aucune photo `IMAGES/` n'étant au format large, Hero
+  asymétrique (texte + vraie photo verticale de la console de mixage)
+  plutôt qu'un plein-cadre horizontal recadré agressivement. Effet Ken
+  Burns (zoom lent, `transform` sur un enfant dédié) + accent "ondes
+  sonores" animé (barres en `scaleY`).
+- **`PhotoMasonry`** : galerie de 6 vraies photos de séances en CSS
+  multi-colonnes natif (`columns-*` + `break-inside-avoid`) — les photos
+  gardent leur ratio d'origine, pas de grille uniforme forcée. Composant
+  générique, réutilisable sur Booking/À propos.
+- **`ScrollSnapRow`** : généralisation du carrousel scroll-snap déjà
+  éprouvé sur la Home (`catalogue-showcase.tsx`) en composant réutilisable
+  générique — les 3 formules tarifaires (contenu inchangé) passent d'une
+  grille de cartes à ce carrousel, pour ne pas répéter le gabarit de grille
+  déjà utilisé par les services de la Home.
+- **Fond retouché** (retour d'Axel après livraison) : halos or/cerise +
+  `GrainOverlay` ajoutés derrière le split hero — plus de fond plat.
+
+## Refonte artistique de la page Booking
+
+Voir `docs/adr/0017-redesign-booking-grain-overlay.md` :
+
+- **Constat honnête** : aucune photo de concert/scène dans `IMAGES/` —
+  uniquement des photos de studio. Pas de recours à des photos de stock.
+- **`GrainOverlay`** (nouveau, partagé) : texture de grain extraite de
+  `ambient-background.tsx` (Home), réutilisée par Studio et Booking — même
+  technique sur tout le site, couleurs de halo différentes par page.
+- **`BookingHero`** : la photo de séance studio la plus cinématographique
+  disponible sert de texture d'arrière-plan désaturée à faible opacité
+  (jamais présentée comme une vraie photo de concert), sous deux faisceaux
+  lumineux diagonaux + deux halos + grain — composition la plus dense du
+  site, à dessein, mais toujours dans la palette cerise/or/noir (aucune
+  couleur hors charte).
+- **Section "Nos artistes"** : carrousel (`ScrollSnapRow`) des 5 photos
+  d'artistes réelles restantes — aperçu léger avant le futur chantier "Nos
+  artistes" complet (bios, réseaux, etc.).
+
+## Transitions continues, Partenaires, À propos enrichie
+
+Voir `docs/adr/0021-seamless-transitions-partners-about.md` :
+
+- **`AmbientSection`** (nouveau, réutilisable) : enveloppe plusieurs
+  sections dans un fond vivant partagé (halo + grain) au lieu d'un
+  traitement isolé par section — corrige l'effet "bloc qui commence, bloc
+  qui finit" après un Hero. Appliqué à la Home (Services + CTA final) et à
+  À propos (Écosystème + Équipe).
+- **`PartnerGrid`** (nouveau) : section institutionnelle "Nos partenaires"
+  (bande sombre dédiée, `mix-blend-mode: screen`, statique — jamais de
+  carrousel). 7 vrais logos extraits de `IMAGES/`
+  (`scripts/extract-partner-logos.mjs`) : Mwezi Partners (le logo "MP" —
+  retrouvé en lisant le raster embarqué, il portait bien ce nom), Reservo,
+  Reed Signature, Sofari Vizuri, Arteast, Inseme Farm, GC. Placée sur À
+  propos ; le bandeau DSP de la Home reste inchangé.
+- **À propos enrichie** : section "Écosystème" (4 piliers visuels) + CTA de
+  clôture ("rejoindre le label") — sans jalons historiques inventés.
+
 ## Démarrage
 
 Prérequis : Node ≥ 20.9, pnpm (`corepack enable` ou `npm i -g pnpm`).
@@ -470,7 +595,19 @@ réel n'est committé ; `.env.local` est ignoré par git.
 - **Sprint 6 :** Abonnement & Paiements — voir ci-dessus.
 - **Sprint 7 :** Emails transactionnels — voir ci-dessus.
 - **Sprint 8 :** Back-office minimal — voir ci-dessus. Clôt le socle MVP du CDC (§3.1).
-- **Recette finale MVP (ce commit) :** voir `docs/recette-mvp.md` — critères A1-A10 du §26, vérifiés en navigateur dans les limites de cet environnement.
+- **Recette finale MVP :** voir `docs/recette-mvp.md` — critères A1-A10 du §26, vérifiés en navigateur dans les limites de cet environnement.
+- **Refonte artistique de l'accueil :** voir ci-dessus et `docs/adr/0013-redesign-home-artistique.md`.
+- **Vraies pochettes + "Notre catalogue" :** voir ci-dessus et `docs/adr/0014-catalogue-reel-home.md`. Première étape de la refonte artistique complète du site, cadrée page par page avec validation d'Axel à chaque étape.
+- **Refonte de la page Distribution :** voir ci-dessus et `docs/adr/0015-redesign-distribution.md`. Deuxième étape de la refonte artistique complète du site.
+- **Refonte de la page Studio :** voir ci-dessus et `docs/adr/0016-redesign-studio.md`. Troisième étape de la refonte artistique complète du site.
+- **Refonte de la page Booking + `GrainOverlay` partagé :** voir ci-dessus et `docs/adr/0017-redesign-booking-grain-overlay.md`. Quatrième étape de la refonte artistique complète du site.
+- **Refonte Tarifs, À propos, Contact :** voir ci-dessus et `docs/adr/0018-redesign-tarifs-apropos-contact.md`. Cinquième, sixième et septième étapes de la refonte artistique complète du site.
+- **Refonte des Dashboards Artiste et Label/Admin :** voir `docs/adr/0019-redesign-dashboards.md`. Huitième et neuvième étapes de la refonte artistique complète du site.
+- **Passe Design System :** voir `docs/adr/0020-design-system-pass.md`. Dixième étape.
+- **Transitions continues, section Partenaires :** voir `docs/adr/0021-seamless-transitions-partners-about.md`. Onzième étape — `AmbientSection` (fond partagé entre sections), section "Nos partenaires" (7 vrais logos, dont Mwezi Partners retrouvé), CTA de clôture sur À propos.
+- **À propos : contenu réel repris d'une référence :** voir `docs/adr/0022-about-page-reference-content.md`. Douzième étape — statistiques, valeurs, timeline 2021-2025 et année de fondation corrigée (2020 → 2021), transcrits depuis une version de référence partagée par Axel.
+- **Intégration du vrai logo :** voir `docs/adr/0023-logo-mark-integration.md`. Treizième étape — médaillon extrait de `IMAGES/Logo SR 1|2.svg` (détourage circulaire par masque alpha), affiché à côté du texte "Sterkte Records" dans la navbar/footer/en-têtes privé et auth, bascule automatique clair/sombre, favicon (`src/app/icon.png`) et JSON-LD `Organization` corrigés.
+- **Logo complet remplace le texte de marque (ce commit) :** voir `docs/adr/0024-logo-wordmark-header-footer.md`. Quatorzième étape — lockup horizontal extrait de `IMAGES/logo.header.svg` (masquage par luminance reproduit à la main, `scripts/extract-header-logo.mjs`), remplace entièrement le texte "Sterkte Records" (et le médaillon de l'ADR 0023) dans la navbar/footer/en-têtes privé et auth, bascule automatique clair/sombre.
 
 ## Décisions d'architecture
 

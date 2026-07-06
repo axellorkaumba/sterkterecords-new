@@ -1,17 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { UsersIcon } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { listAllArtists } from "../actions";
-import { PlanToggleButton } from "./plan-toggle-button";
+import { ArtistRow } from "./artist-row";
 
 export async function generateMetadata() {
   const t = await getTranslations("Admin.artists");
@@ -49,19 +41,7 @@ export default async function AdminArtistsPage() {
           </TableHeader>
           <TableBody>
             {artists.map((artist) => (
-              <TableRow key={artist.id}>
-                <TableCell>{artist.name}</TableCell>
-                <TableCell>
-                  <Badge variant={artist.plan === "label" ? "gold" : "outline"}>
-                    {t(`plans.${artist.plan}`)}
-                  </Badge>
-                </TableCell>
-                <TableCell>{artist.releases?.[0]?.count ?? 0}</TableCell>
-                <TableCell>{new Date(artist.created_at).toLocaleDateString()}</TableCell>
-                <TableCell>
-                  <PlanToggleButton artistId={artist.id} currentPlan={artist.plan} />
-                </TableCell>
-              </TableRow>
+              <ArtistRow key={artist.id} artist={artist} />
             ))}
           </TableBody>
         </Table>

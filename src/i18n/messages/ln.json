@@ -110,11 +110,33 @@
     "heroSubtitle": "TODO(ln): Production, distribution digitale, management et booking — un accompagnement complet pour faire rayonner votre musique et toucher vos fans partout dans le monde.",
     "ctaPrimary": "TODO(ln): Créer un compte artiste",
     "ctaSecondary": "TODO(ln): Distribuer un titre",
+    "heroVisual": {
+      "nowPlaying": "TODO(ln): En cours de lecture",
+      "trackTitle": "TODO(ln): Nouvelle sortie",
+      "artistName": "TODO(ln): Artiste Sterkte Records",
+      "releaseApproved": "TODO(ln): Sortie approuvée",
+      "streamsLabel": "TODO(ln): Streams cumulés",
+      "timeline": {
+        "upload": "TODO(ln): Envoi",
+        "validation": "TODO(ln): Validation",
+        "distribution": "TODO(ln): Distribution",
+        "live": "TODO(ln): En ligne"
+      }
+    },
     "stats": {
       "platforms": "TODO(ln): Plateformes",
       "artists": "TODO(ln): Artistes",
       "streams": "TODO(ln): Streams",
       "countries": "TODO(ln): Pays"
+    },
+    "platformsAriaLabel": "TODO(ln): Plateformes de distribution partenaires",
+    "catalogue": {
+      "tag": "TODO(ln): Notre catalogue",
+      "title": "TODO(ln): Des artistes qui nous font confiance",
+      "description": "TODO(ln): Un aperçu des sorties déjà distribuées par Sterkte Records — de vraies pochettes, de vrais artistes.",
+      "scrollPrev": "TODO(ln): Sortie précédente",
+      "scrollNext": "TODO(ln): Sortie suivante",
+      "compilationBadge": "TODO(ln): Compilation"
     },
     "servicesTag": "TODO(ln): Nos services",
     "servicesTitle": "TODO(ln): Tout pour votre carrière musicale",
@@ -154,12 +176,74 @@
   "About": {
     "tag": "TODO(ln): À propos",
     "title": "TODO(ln): Qui sommes-<gold>nous</gold> ?",
-    "intro": "TODO(ln): Sterkte Records est né de la passion pour la musique authentique et la volonté d'accompagner les artistes dans un univers en constante évolution.",
+    "intro": "TODO(ln): Sterkte Records est né en 2021 de la passion pour la musique authentique et de la volonté d'accompagner les artistes africains vers le monde entier. Depuis notre création à Lubumbashi, nous avons grandi pour devenir un acteur incontournable de la distribution musicale indépendante en Afrique centrale et dans la diaspora, avec une présence croissante au Maroc et en Europe.",
+    "introParagraphs": [
+      "TODO(ln): Sterkte Records est un label musical indépendant fondé à Lubumbashi, en République Démocratique du Congo. Notre mission est simple mais ambitieuse : donner aux artistes africains les outils, les ressources et le réseau nécessaires pour exister sur la scène mondiale, sans sacrifier leur authenticité artistique.",
+      "TODO(ln): Nous croyons que la richesse musicale du Congo, de l'Afrique centrale et du continent tout entier mérite d'être entendue partout. C'est pourquoi nous proposons une distribution sur plus de 150 plateformes digitales mondiales, un accompagnement personnalisé, un studio professionnel, des services de booking et de management, et bien plus encore.",
+      "TODO(ln): Notre équipe pluridisciplinaire combine expertise musicale, maîtrise du marketing digital et passion pour les artistes. Nous ne sommes pas seulement un intermédiaire : nous sommes des partenaires de carrière engagés dans votre réussite à long terme."
+    ],
+    "stats": {
+      "founded": "TODO(ln): Année de création",
+      "platforms": "TODO(ln): Plateformes",
+      "streams": "TODO(ln): Streams générés",
+      "countries": "TODO(ln): Pays atteints"
+    },
     "visionLabel": "TODO(ln): Notre vision",
-    "visionText": "TODO(ln): Créer un pont entre la créativité des artistes et un public mondial grâce à des stratégies personnalisées, une distribution digitale optimale, et un management transparent. Fondé en 2020, notre label mise sur l'innovation, l'excellence et la proximité avec nos talents.",
+    "visionParagraphs": [
+      "TODO(ln): Créer un pont solide entre la créativité débordante des artistes africains et un public mondial avide de sons nouveaux. Nous croyons que la musique de Lubumbashi, de Kinshasa, de tout le continent, a le potentiel de toucher des millions d'âmes à travers le monde.",
+      "TODO(ln): Notre ambition : faire de Sterkte Records la référence incontournable pour tout artiste africain souhaitant bâtir une carrière internationale durable, éthique et profitable."
+    ],
     "missionLabel": "TODO(ln): Notre mission",
-    "missionText": "TODO(ln): Accompagner chaque artiste, quel que soit son style ou son parcours, pour révéler son potentiel et le propulser au-delà des frontières. De la composition au succès, Sterkte Records vous guide à chaque étape.",
+    "missionParagraphs": [
+      "TODO(ln): Accompagner chaque artiste signé chez nous avec des outils professionnels, une équipe dédiée et une distribution sur plus de 150 plateformes mondiales. Nous gérons l'aspect technique, administratif et stratégique pour que l'artiste se concentre sur l'essentiel : créer.",
+      "TODO(ln): Transparence, excellence et passion sont nos trois piliers. Chaque décision que nous prenons sert d'abord les intérêts de l'artiste."
+    ],
+    "values": {
+      "title": "TODO(ln): Nos valeurs fondamentales",
+      "items": {
+        "integrity": {
+          "title": "TODO(ln): Intégrité",
+          "description": "TODO(ln): Honnêteté totale sur les chiffres, les contrats et les décisions. Pas de zones grises."
+        },
+        "excellence": {
+          "title": "TODO(ln): Excellence",
+          "description": "TODO(ln): Production de qualité internationale, quel que soit le budget ou le niveau de l'artiste."
+        },
+        "openness": {
+          "title": "TODO(ln): Ouverture",
+          "description": "TODO(ln): Tous les genres, toutes les cultures africaines. Notre roster est un reflet de la diversité du continent."
+        },
+        "innovation": {
+          "title": "TODO(ln): Innovation",
+          "description": "TODO(ln): Toujours à la pointe des nouvelles technologies musicales, des plateformes émergentes et des tendances mondiales."
+        }
+      }
+    },
+    "history": {
+      "tag": "TODO(ln): Notre histoire",
+      "2021": {
+        "title": "TODO(ln): Naissance de Sterkte Records",
+        "description": "TODO(ln): Fondation du label à Lubumbashi par Axel l'or Kaumba. Signature des premiers artistes en distribution : Mr. Freez, Feyme, et démarrage de collaborations externes. Une aventure musicale commence, portée par une vision claire : propulser la musique congolaise sur les scènes mondiales."
+      },
+      "2022": {
+        "title": "TODO(ln): Premiers pas et chiffres",
+        "description": "TODO(ln): Lancement officiel sur Spotify, Apple Music, Deezer et les grandes plateformes. Les premières sorties franchissent rapidement les 50 000 streams. Le label pose ses bases solides et commence à construire sa crédibilité dans l'écosystème de la musique indépendante africaine."
+      },
+      "2023": {
+        "title": "TODO(ln): Expansion du roster",
+        "description": "TODO(ln): Accueil de KBG Gad pour le gospel, intégration de beatmakers talentueux et élargissement de l'équipe créative. Le catalogue s'enrichit de nouvelles sonorités et genres. Le réseau s'étend à Kinshasa, Brazzaville et Abidjan."
+      },
+      "2024": {
+        "title": "TODO(ln): Cap sur le demi-million de streams",
+        "description": "TODO(ln): Objectif ambitieux : atteindre les 500K streams cumulés. Lancement du studio mobile à Lubumbashi, puis à Agadir au Maroc, et dans d'autres villes. Cette innovation permet d'enregistrer les artistes là où ils se trouvent, sans contrainte géographique."
+      },
+      "2025": {
+        "title": "TODO(ln): Rayonnement international",
+        "description": "TODO(ln): Présence établie sur plus de 20 pays. Partenariats avec des labels étrangers dont Lghorfa Music et Arteast Music au Maroc, ainsi que d'autres structures en Europe et en Afrique. Sterkte Records s'impose comme un pont entre l'Afrique et le monde, avec une empreinte digitale toujours plus forte."
+      }
+    },
     "teamLabel": "TODO(ln): L'équipe dirigeante",
+    "teamSubtitle": "TODO(ln): Des professionnels passionnés au service de votre talent.",
     "team": {
       "axel": {
         "name": "Axel l'or Kaumba",
@@ -176,55 +260,63 @@
         "role": "TODO(ln): Manager Artistique",
         "description": "TODO(ln): Accompagnement personnalisé des artistes pour le développement de carrière et gestion de projet."
       }
+    },
+    "partners": {
+      "tag": "TODO(ln): Ils nous font confiance",
+      "title": "TODO(ln): Nos partenaires"
+    },
+    "cta": {
+      "title": "TODO(ln): Envie d'écrire la suite avec nous ?",
+      "description": "TODO(ln): Rejoignez Sterkte Records et faites partie d'un écosystème pensé pour faire grandir votre carrière.",
+      "primary": "TODO(ln): Créer un compte artiste",
+      "secondary": "TODO(ln): Nous contacter"
     }
   },
   "Distribution": {
     "tag": "TODO(ln): Distribution",
     "title": "TODO(ln): Distribuez votre musique <gold>partout</gold>",
     "description": "TODO(ln): Mettez vos titres à disposition sur toutes les plateformes majeures : Spotify, Apple Music, Deezer, YouTube Music, et bien plus.",
-    "steps": {
-      "step1": {
-        "title": "TODO(ln): Créez votre compte artiste",
-        "description": "TODO(ln): Inscrivez-vous et complétez votre profil avec vos informations personnelles et professionnelles."
-      },
-      "step2": {
-        "title": "TODO(ln): Téléchargez vos morceaux",
-        "description": "TODO(ln): Uploadez vos titres en haute qualité (WAV, FLAC, MP3) avec le visuel de couverture."
-      },
-      "step3": {
-        "title": "TODO(ln): Renseignez les métadonnées",
-        "description": "TODO(ln): Titre, auteurs, genre, date de sortie souhaitée et contributeurs."
-      },
-      "step4": {
-        "title": "TODO(ln): Validation et mise en ligne",
-        "description": "TODO(ln): Notre équipe valide votre soumission et distribue sur 150+ plateformes. Suivez en temps réel."
+    "stats": {
+      "platforms": "TODO(ln): Plateformes",
+      "speed": "TODO(ln): Mise en ligne"
+    },
+    "pipeline": {
+      "tag": "TODO(ln): Le parcours d'une sortie",
+      "title": "TODO(ln): De l'envoi aux royalties, en toute transparence",
+      "stages": {
+        "upload": "TODO(ln): Envoi",
+        "validation": "TODO(ln): Validation",
+        "distribution": "TODO(ln): Distribution",
+        "streaming": "TODO(ln): Streaming",
+        "royalties": "TODO(ln): Royalties"
       }
     },
-    "features": {
-      "reports": {
-        "title": "TODO(ln): Rapports détaillés",
-        "description": "TODO(ln): Statistiques de streams et revenus en temps réel sur votre dashboard."
-      },
-      "royalties": {
-        "title": "TODO(ln): Gestion des royalties",
-        "description": "TODO(ln): Suivi transparent de vos revenus avec rapports mensuels détaillés."
-      },
-      "platforms": {
-        "title": "TODO(ln): 150+ plateformes",
-        "description": "TODO(ln): Spotify, Apple Music, Deezer, YouTube Music, Tidal, Amazon Music et plus."
-      },
-      "speed": {
-        "title": "TODO(ln): Mise en ligne rapide",
-        "description": "TODO(ln): Votre musique disponible en quelques jours sur toutes les plateformes."
-      }
+    "proof": {
+      "platforms": "TODO(ln): Plateformes",
+      "speed": "TODO(ln): Mise en ligne",
+      "royalties": "TODO(ln): Reversé à l'artiste",
+      "streams": "TODO(ln): Streams cumulés"
     },
-    "ctaLoggedIn": "TODO(ln): Accéder au dashboard pour distribuer",
+    "storySection": {
+      "imageAlt": "TODO(ln): Séance de production en studio chez Sterkte Records",
+      "caption": "TODO(ln): Chaque sortie commence dans un vrai studio, avec de vrais artistes."
+    },
+    "ctaFinalTitle": "TODO(ln): Prêt à distribuer votre prochain titre ?",
+    "ctaFinalDescription": "TODO(ln): Rejoignez les artistes déjà distribués par Sterkte Records et faites entendre votre musique partout dans le monde.",
     "ctaLoggedOut": "TODO(ln): Créer un compte pour distribuer"
   },
   "Studio": {
     "tag": "TODO(ln): Studio",
     "title": "TODO(ln): Votre son, notre <gold>expertise</gold>",
     "description": "TODO(ln): Studio d'enregistrement professionnel équipé des dernières technologies. Enregistrement, mixage, mastering.",
+    "heroImageAlt": "TODO(ln): Console de mixage du studio Sterkte Records",
+    "gallery": {
+      "tag": "TODO(ln): En studio",
+      "title": "TODO(ln): De vraies séances, de vrais artistes"
+    },
+    "pricingTag": "TODO(ln): Nos formules",
+    "pricingScrollPrev": "TODO(ln): Formule précédente",
+    "pricingScrollNext": "TODO(ln): Formule suivante",
     "plans": {
       "recording": {
         "title": "TODO(ln): Enregistrement",
@@ -278,6 +370,14 @@
     "tag": "TODO(ln): Booking",
     "title": "TODO(ln): Réservez vos <gold>événements</gold>",
     "description": "TODO(ln): Réservez nos artistes pour concerts, festivals, événements privés et corporate, ou trouvez le lieu idéal pour votre événement.",
+    "reserveButton": "TODO(ln): Faire une demande",
+    "formTitle": "TODO(ln): Faire une demande de réservation",
+    "artistsSection": {
+      "tag": "TODO(ln): Nos artistes",
+      "title": "TODO(ln): Réservez l'un de nos artistes"
+    },
+    "artistsScrollPrev": "TODO(ln): Artiste précédent",
+    "artistsScrollNext": "TODO(ln): Artiste suivant",
     "tabs": {
       "artist": "TODO(ln): Réserver un artiste",
       "venue": "TODO(ln): Réserver un lieu"
@@ -456,7 +556,28 @@
       ],
       "cta": "TODO(ln): Nous contacter"
     },
-    "royaltiesNote": "TODO(ln): 100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting)."
+    "royaltiesNote": "TODO(ln): 100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting).",
+    "faq": {
+      "title": "TODO(ln): Questions sur les tarifs",
+      "items": {
+        "change": {
+          "question": "TODO(ln): Puis-je changer de forfait à tout moment ?",
+          "answer": "TODO(ln): Oui, tu peux passer du mensuel à l'annuel (ou inversement) à tout moment depuis ton espace artiste. Le changement prend effet à la prochaine échéance."
+        },
+        "africaEligibility": {
+          "question": "TODO(ln): Comment savoir si je suis éligible au tarif Afrique ?",
+          "answer": "TODO(ln): L'éligibilité est déterminée automatiquement à l'inscription selon ton pays de résidence (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains)."
+        },
+        "labelPricing": {
+          "question": "TODO(ln): Pourquoi le forfait Label n'a-t-il pas de prix public ?",
+          "answer": "TODO(ln): Le forfait Label est sur mesure : accompagnement dédié, gestion multi-artistes et conditions définies contractuellement. Contacte notre équipe pour en discuter."
+        },
+        "cancel": {
+          "question": "TODO(ln): Puis-je annuler mon abonnement quand je veux ?",
+          "answer": "TODO(ln): Oui, sans engagement ni frais cachés. Ton catalogue et ton historique de streams restent à toi si tu pars."
+        }
+      }
+    }
   },
   "Faq": {
     "tag": "TODO(ln): Aide",
@@ -620,6 +741,12 @@
     "greeting": "TODO(ln): Bonjour, {name}",
     "reportingNote": "TODO(ln): Données à jour au {date}",
     "noReportYet": "TODO(ln): Aucun rapport LabelGrid pour l'instant — les statistiques apparaîtront après ta première remontée mensuelle.",
+    "releasesBanner": {
+      "title": "TODO(ln): Vos sorties en ligne",
+      "emptyTitle": "TODO(ln): Aucune sortie publiée pour l'instant",
+      "emptyDescription": "TODO(ln): Distribuez votre première sortie pour la voir apparaître ici.",
+      "cta": "TODO(ln): Distribuer un titre"
+    },
     "streams": {
       "title": "TODO(ln): Streams",
       "period": "TODO(ln): Dernier mois rapporté",

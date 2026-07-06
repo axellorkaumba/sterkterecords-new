@@ -20,9 +20,11 @@ type ArtistPlan = Database["public"]["Enums"]["artist_plan"];
 export function PlanToggleButton({
   artistId,
   currentPlan,
+  onToggled,
 }: {
   artistId: string;
   currentPlan: ArtistPlan;
+  onToggled?: () => void;
 }) {
   const t = useTranslations("Admin.artists");
   const [open, setOpen] = useState(false);
@@ -39,6 +41,7 @@ export function PlanToggleButton({
         return;
       }
       setOpen(false);
+      onToggled?.();
     });
   }
 

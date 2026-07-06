@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { motion, useReducedMotion } from "motion/react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
+import { LogoWordmark } from "@/components/marketing/logo-wordmark";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MenuIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -29,12 +31,29 @@ export function Navbar() {
   const t = useTranslations("Nav");
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="border-border bg-background/80 sticky top-0 z-40 border-b backdrop-blur">
+    <motion.header
+      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className={cn(
+        "border-border sticky top-0 z-40 border-b backdrop-blur transition-[background-color,box-shadow] duration-300",
+        scrolled ? "bg-background/90 shadow-card" : "bg-background/60 shadow-none",
+      )}
+    >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="text-h3 font-display font-semibold">
-          Sterkte <span className="text-primary">Records</span>
+        <Link href="/" className="flex items-center">
+          <LogoWordmark height={28} />
         </Link>
 
         <ul className="hidden items-center gap-6 lg:flex">
@@ -122,6 +141,6 @@ export function Navbar() {
           </Sheet>
         </div>
       </nav>
-    </header>
+    </motion.header>
   );
 }

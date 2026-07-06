@@ -37,6 +37,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# exports bruts des outils de design (45+ Mo, non optimisés) — les dérivés
+# réellement utilisés par le site sont déjà commités sous public/
+/IMAGES
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

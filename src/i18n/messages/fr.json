@@ -109,11 +109,33 @@
     "heroSubtitle": "Production, distribution digitale, management et booking — un accompagnement complet pour faire rayonner votre musique et toucher vos fans partout dans le monde.",
     "ctaPrimary": "Créer un compte artiste",
     "ctaSecondary": "Distribuer un titre",
+    "heroVisual": {
+      "nowPlaying": "En cours de lecture",
+      "trackTitle": "Nouvelle sortie",
+      "artistName": "Artiste Sterkte Records",
+      "releaseApproved": "Sortie approuvée",
+      "streamsLabel": "Streams cumulés",
+      "timeline": {
+        "upload": "Envoi",
+        "validation": "Validation",
+        "distribution": "Distribution",
+        "live": "En ligne"
+      }
+    },
     "stats": {
       "platforms": "Plateformes",
       "artists": "Artistes",
       "streams": "Streams",
       "countries": "Pays"
+    },
+    "platformsAriaLabel": "Plateformes de distribution partenaires",
+    "catalogue": {
+      "tag": "Notre catalogue",
+      "title": "Des artistes qui nous font confiance",
+      "description": "Un aperçu des sorties déjà distribuées par Sterkte Records — de vraies pochettes, de vrais artistes.",
+      "scrollPrev": "Sortie précédente",
+      "scrollNext": "Sortie suivante",
+      "compilationBadge": "Compilation"
     },
     "servicesTag": "Nos services",
     "servicesTitle": "Tout pour votre carrière musicale",
@@ -153,12 +175,74 @@
   "About": {
     "tag": "À propos",
     "title": "Qui sommes-<gold>nous</gold> ?",
-    "intro": "Sterkte Records est né de la passion pour la musique authentique et la volonté d'accompagner les artistes dans un univers en constante évolution.",
+    "intro": "Sterkte Records est né en 2021 de la passion pour la musique authentique et de la volonté d'accompagner les artistes africains vers le monde entier. Depuis notre création à Lubumbashi, nous avons grandi pour devenir un acteur incontournable de la distribution musicale indépendante en Afrique centrale et dans la diaspora, avec une présence croissante au Maroc et en Europe.",
+    "introParagraphs": [
+      "Sterkte Records est un label musical indépendant fondé à Lubumbashi, en République Démocratique du Congo. Notre mission est simple mais ambitieuse : donner aux artistes africains les outils, les ressources et le réseau nécessaires pour exister sur la scène mondiale, sans sacrifier leur authenticité artistique.",
+      "Nous croyons que la richesse musicale du Congo, de l'Afrique centrale et du continent tout entier mérite d'être entendue partout. C'est pourquoi nous proposons une distribution sur plus de 150 plateformes digitales mondiales, un accompagnement personnalisé, un studio professionnel, des services de booking et de management, et bien plus encore.",
+      "Notre équipe pluridisciplinaire combine expertise musicale, maîtrise du marketing digital et passion pour les artistes. Nous ne sommes pas seulement un intermédiaire : nous sommes des partenaires de carrière engagés dans votre réussite à long terme."
+    ],
+    "stats": {
+      "founded": "Année de création",
+      "platforms": "Plateformes",
+      "streams": "Streams générés",
+      "countries": "Pays atteints"
+    },
     "visionLabel": "Notre vision",
-    "visionText": "Créer un pont entre la créativité des artistes et un public mondial grâce à des stratégies personnalisées, une distribution digitale optimale, et un management transparent. Fondé en 2020, notre label mise sur l'innovation, l'excellence et la proximité avec nos talents.",
+    "visionParagraphs": [
+      "Créer un pont solide entre la créativité débordante des artistes africains et un public mondial avide de sons nouveaux. Nous croyons que la musique de Lubumbashi, de Kinshasa, de tout le continent, a le potentiel de toucher des millions d'âmes à travers le monde.",
+      "Notre ambition : faire de Sterkte Records la référence incontournable pour tout artiste africain souhaitant bâtir une carrière internationale durable, éthique et profitable."
+    ],
     "missionLabel": "Notre mission",
-    "missionText": "Accompagner chaque artiste, quel que soit son style ou son parcours, pour révéler son potentiel et le propulser au-delà des frontières. De la composition au succès, Sterkte Records vous guide à chaque étape.",
+    "missionParagraphs": [
+      "Accompagner chaque artiste signé chez nous avec des outils professionnels, une équipe dédiée et une distribution sur plus de 150 plateformes mondiales. Nous gérons l'aspect technique, administratif et stratégique pour que l'artiste se concentre sur l'essentiel : créer.",
+      "Transparence, excellence et passion sont nos trois piliers. Chaque décision que nous prenons sert d'abord les intérêts de l'artiste."
+    ],
+    "values": {
+      "title": "Nos valeurs fondamentales",
+      "items": {
+        "integrity": {
+          "title": "Intégrité",
+          "description": "Honnêteté totale sur les chiffres, les contrats et les décisions. Pas de zones grises."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "Production de qualité internationale, quel que soit le budget ou le niveau de l'artiste."
+        },
+        "openness": {
+          "title": "Ouverture",
+          "description": "Tous les genres, toutes les cultures africaines. Notre roster est un reflet de la diversité du continent."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "Toujours à la pointe des nouvelles technologies musicales, des plateformes émergentes et des tendances mondiales."
+        }
+      }
+    },
+    "history": {
+      "tag": "Notre histoire",
+      "2021": {
+        "title": "Naissance de Sterkte Records",
+        "description": "Fondation du label à Lubumbashi par Axel l'or Kaumba. Signature des premiers artistes en distribution : Mr. Freez, Feyme, et démarrage de collaborations externes. Une aventure musicale commence, portée par une vision claire : propulser la musique congolaise sur les scènes mondiales."
+      },
+      "2022": {
+        "title": "Premiers pas et chiffres",
+        "description": "Lancement officiel sur Spotify, Apple Music, Deezer et les grandes plateformes. Les premières sorties franchissent rapidement les 50 000 streams. Le label pose ses bases solides et commence à construire sa crédibilité dans l'écosystème de la musique indépendante africaine."
+      },
+      "2023": {
+        "title": "Expansion du roster",
+        "description": "Accueil de KBG Gad pour le gospel, intégration de beatmakers talentueux et élargissement de l'équipe créative. Le catalogue s'enrichit de nouvelles sonorités et genres. Le réseau s'étend à Kinshasa, Brazzaville et Abidjan."
+      },
+      "2024": {
+        "title": "Cap sur le demi-million de streams",
+        "description": "Objectif ambitieux : atteindre les 500K streams cumulés. Lancement du studio mobile à Lubumbashi, puis à Agadir au Maroc, et dans d'autres villes. Cette innovation permet d'enregistrer les artistes là où ils se trouvent, sans contrainte géographique."
+      },
+      "2025": {
+        "title": "Rayonnement international",
+        "description": "Présence établie sur plus de 20 pays. Partenariats avec des labels étrangers dont Lghorfa Music et Arteast Music au Maroc, ainsi que d'autres structures en Europe et en Afrique. Sterkte Records s'impose comme un pont entre l'Afrique et le monde, avec une empreinte digitale toujours plus forte."
+      }
+    },
     "teamLabel": "L'équipe dirigeante",
+    "teamSubtitle": "Des professionnels passionnés au service de votre talent.",
     "team": {
       "axel": {
         "name": "Axel l'or Kaumba",
@@ -175,55 +259,63 @@
         "role": "Manager Artistique",
         "description": "Accompagnement personnalisé des artistes pour le développement de carrière et gestion de projet."
       }
+    },
+    "partners": {
+      "tag": "Ils nous font confiance",
+      "title": "Nos partenaires"
+    },
+    "cta": {
+      "title": "Envie d'écrire la suite avec nous ?",
+      "description": "Rejoignez Sterkte Records et faites partie d'un écosystème pensé pour faire grandir votre carrière.",
+      "primary": "Créer un compte artiste",
+      "secondary": "Nous contacter"
     }
   },
   "Distribution": {
     "tag": "Distribution",
     "title": "Distribuez votre musique <gold>partout</gold>",
     "description": "Mettez vos titres à disposition sur toutes les plateformes majeures : Spotify, Apple Music, Deezer, YouTube Music, et bien plus.",
-    "steps": {
-      "step1": {
-        "title": "Créez votre compte artiste",
-        "description": "Inscrivez-vous et complétez votre profil avec vos informations personnelles et professionnelles."
-      },
-      "step2": {
-        "title": "Téléchargez vos morceaux",
-        "description": "Uploadez vos titres en haute qualité (WAV, FLAC, MP3) avec le visuel de couverture."
-      },
-      "step3": {
-        "title": "Renseignez les métadonnées",
-        "description": "Titre, auteurs, genre, date de sortie souhaitée et contributeurs."
-      },
-      "step4": {
-        "title": "Validation et mise en ligne",
-        "description": "Notre équipe valide votre soumission et distribue sur 150+ plateformes. Suivez en temps réel."
+    "stats": {
+      "platforms": "Plateformes",
+      "speed": "Mise en ligne"
+    },
+    "pipeline": {
+      "tag": "Le parcours d'une sortie",
+      "title": "De l'envoi aux royalties, en toute transparence",
+      "stages": {
+        "upload": "Envoi",
+        "validation": "Validation",
+        "distribution": "Distribution",
+        "streaming": "Streaming",
+        "royalties": "Royalties"
       }
     },
-    "features": {
-      "reports": {
-        "title": "Rapports détaillés",
-        "description": "Statistiques de streams et revenus en temps réel sur votre dashboard."
-      },
-      "royalties": {
-        "title": "Gestion des royalties",
-        "description": "Suivi transparent de vos revenus avec rapports mensuels détaillés."
-      },
-      "platforms": {
-        "title": "150+ plateformes",
-        "description": "Spotify, Apple Music, Deezer, YouTube Music, Tidal, Amazon Music et plus."
-      },
-      "speed": {
-        "title": "Mise en ligne rapide",
-        "description": "Votre musique disponible en quelques jours sur toutes les plateformes."
-      }
+    "proof": {
+      "platforms": "Plateformes",
+      "speed": "Mise en ligne",
+      "royalties": "Reversé à l'artiste",
+      "streams": "Streams cumulés"
     },
-    "ctaLoggedIn": "Accéder au dashboard pour distribuer",
+    "storySection": {
+      "imageAlt": "Séance de production en studio chez Sterkte Records",
+      "caption": "Chaque sortie commence dans un vrai studio, avec de vrais artistes."
+    },
+    "ctaFinalTitle": "Prêt à distribuer votre prochain titre ?",
+    "ctaFinalDescription": "Rejoignez les artistes déjà distribués par Sterkte Records et faites entendre votre musique partout dans le monde.",
     "ctaLoggedOut": "Créer un compte pour distribuer"
   },
   "Studio": {
     "tag": "Studio",
     "title": "Votre son, notre <gold>expertise</gold>",
     "description": "Studio d'enregistrement professionnel équipé des dernières technologies. Enregistrement, mixage, mastering.",
+    "heroImageAlt": "Console de mixage du studio Sterkte Records",
+    "gallery": {
+      "tag": "En studio",
+      "title": "De vraies séances, de vrais artistes"
+    },
+    "pricingTag": "Nos formules",
+    "pricingScrollPrev": "Formule précédente",
+    "pricingScrollNext": "Formule suivante",
     "plans": {
       "recording": {
         "title": "Enregistrement",
@@ -277,6 +369,14 @@
     "tag": "Booking",
     "title": "Réservez vos <gold>événements</gold>",
     "description": "Réservez nos artistes pour concerts, festivals, événements privés et corporate, ou trouvez le lieu idéal pour votre événement.",
+    "reserveButton": "Faire une demande",
+    "formTitle": "Faire une demande de réservation",
+    "artistsSection": {
+      "tag": "Nos artistes",
+      "title": "Réservez l'un de nos artistes"
+    },
+    "artistsScrollPrev": "Artiste précédent",
+    "artistsScrollNext": "Artiste suivant",
     "tabs": {
       "artist": "Réserver un artiste",
       "venue": "Réserver un lieu"
@@ -455,7 +555,28 @@
       ],
       "cta": "Nous contacter"
     },
-    "royaltiesNote": "100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting)."
+    "royaltiesNote": "100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting).",
+    "faq": {
+      "title": "Questions sur les tarifs",
+      "items": {
+        "change": {
+          "question": "Puis-je changer de forfait à tout moment ?",
+          "answer": "Oui, tu peux passer du mensuel à l'annuel (ou inversement) à tout moment depuis ton espace artiste. Le changement prend effet à la prochaine échéance."
+        },
+        "africaEligibility": {
+          "question": "Comment savoir si je suis éligible au tarif Afrique ?",
+          "answer": "L'éligibilité est déterminée automatiquement à l'inscription selon ton pays de résidence (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains)."
+        },
+        "labelPricing": {
+          "question": "Pourquoi le forfait Label n'a-t-il pas de prix public ?",
+          "answer": "Le forfait Label est sur mesure : accompagnement dédié, gestion multi-artistes et conditions définies contractuellement. Contacte notre équipe pour en discuter."
+        },
+        "cancel": {
+          "question": "Puis-je annuler mon abonnement quand je veux ?",
+          "answer": "Oui, sans engagement ni frais cachés. Ton catalogue et ton historique de streams restent à toi si tu pars."
+        }
+      }
+    }
   },
   "Faq": {
     "tag": "Aide",
@@ -619,6 +740,12 @@
     "greeting": "Bonjour, {name}",
     "reportingNote": "Données à jour au {date}",
     "noReportYet": "Aucun rapport LabelGrid pour l'instant — les statistiques apparaîtront après ta première remontée mensuelle.",
+    "releasesBanner": {
+      "title": "Vos sorties en ligne",
+      "emptyTitle": "Aucune sortie publiée pour l'instant",
+      "emptyDescription": "Distribuez votre première sortie pour la voir apparaître ici.",
+      "cta": "Distribuer un titre"
+    },
     "streams": {
       "title": "Streams",
       "period": "Dernier mois rapporté",

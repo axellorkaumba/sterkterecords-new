@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
+import { LogoWordmark } from "@/components/marketing/logo-wordmark";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 /**
@@ -27,8 +28,8 @@ export default async function AuthLayout({
   return (
     <div className="flex flex-1 flex-col">
       <header className="flex h-16 items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="text-h3 font-display font-semibold">
-          Sterkte <span className="text-primary">Records</span>
+        <Link href="/" className="flex items-center">
+          <LogoWordmark height={28} />
         </Link>
         <div className="flex items-center gap-1">
           <LocaleSwitcher />

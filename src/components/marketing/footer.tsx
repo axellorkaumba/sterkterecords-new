@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { LogoWordmark } from "@/components/marketing/logo-wordmark";
 
 const SERVICE_LINKS = [
   { href: "/distribution" as const, key: "distribution" as const },
@@ -23,9 +24,7 @@ export function Footer() {
     <footer className="border-border border-t">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div className="flex flex-col gap-3">
-          <p className="text-h3 font-display font-semibold">
-            Sterkte <span className="text-primary">Records</span>
-          </p>
+          <LogoWordmark height={28} />
           <p className="text-small text-muted-foreground">{t("brandDescription")}</p>
         </div>
 

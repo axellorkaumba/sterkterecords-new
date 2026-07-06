@@ -1,20 +1,28 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { BarChart3, Coins, Globe2, Zap } from "lucide-react";
-import { PageHero } from "@/components/marketing/page-hero";
+import { BarChart3Icon, CoinsIcon, Globe2Icon, ZapIcon } from "lucide-react";
+import { createSeoMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { createSeoMetadata } from "@/lib/seo";
+import { DistributionHero } from "@/components/marketing/distribution-hero";
+import { ReleasePipeline } from "@/components/marketing/release-pipeline";
+import { StatStrip, type StatStripItem } from "@/components/marketing/stat-strip";
+import { FullBleedImage } from "@/components/marketing/full-bleed-image";
+import { ScrollReveal } from "@/components/marketing/scroll-reveal";
 
 export const generateMetadata = createSeoMetadata("Seo.distribution");
 
-const STEP_KEYS = ["step1", "step2", "step3", "step4"] as const;
-const FEATURES = [
-  { key: "reports" as const, icon: BarChart3 },
-  { key: "royalties" as const, icon: Coins },
-  { key: "platforms" as const, icon: Globe2 },
-  { key: "speed" as const, icon: Zap },
-];
-
+/**
+ * Page Distribution (§11.1 du CDC) — refonte artistique (brief validé par
+ * Axel, cadre : plan de refonte complète). Remplace la liste numérotée +
+ * grille d'icônes générique par une expérience visuelle : collage de
+ * vraies pochettes + statistiques flottantes dans le Hero
+ * (`distribution-hero.tsx`), parcours interactif d'une sortie
+ * (`release-pipeline.tsx`, moment "wow" signature de cette page), bande de
+ * preuve chiffrée (`stat-strip.tsx`), grande photo réelle plein cadre
+ * (`full-bleed-image.tsx`) reliant la distribution à un artiste réel, puis
+ * CTA. Rythme volontairement non répétitif (jamais deux sections du même
+ * type à la suite).
+ */
 export default async function DistributionPage({
   params,
 }: {
@@ -24,52 +32,50 @@ export default async function DistributionPage({
   setRequestLocale(locale);
   const t = await getTranslations("Distribution");
 
+  const proofStats: StatStripItem[] = [
+    { icon: Globe2Icon, value: 150, display: "150+", label: t("proof.platforms") },
+    { icon: ZapIcon, value: 48, display: "48h", label: t("proof.speed") },
+    { icon: CoinsIcon, value: 100, display: "100%", label: t("proof.royalties") },
+    { icon: BarChart3Icon, value: 1_000_000, display: "1M+", label: t("proof.streams") },
+  ];
+
   return (
     <>
-      <PageHero
-        tag={t("tag")}
-        description={t("description")}
-        renderTitle={(tags) => t.rich("title", tags)}
-      />
+      <DistributionHero platformsValue={150} platformsDisplay="150+" deliverySpeed="48h" />
 
       <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-        <ol className="flex flex-col gap-8">
-          {STEP_KEYS.map((key, index) => (
-            <li key={key} className="flex gap-4">
-              <span className="bg-primary/10 font-display text-body text-primary flex size-9 shrink-0 items-center justify-center rounded-full font-semibold">
-                {index + 1}
-              </span>
-              <div>
-                <h3 className="text-h3 font-display">{t(`steps.${key}.title`)}</h3>
-                <p className="text-small text-muted-foreground mt-1">
-                  {t(`steps.${key}.description`)}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <ScrollReveal className="mx-auto mb-10 max-w-xl text-center">
+          <p className="text-caption text-primary font-medium tracking-wide uppercase">
+            {t("pipeline.tag")}
+          </p>
+          <h2 className="text-h1 font-display mt-2">{t("pipeline.title")}</h2>
+        </ScrollReveal>
+        <ReleasePipeline />
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURES.map(({ key, icon: Icon }) => (
-            <div key={key} className="border-border rounded-lg border p-5">
-              <Icon className="text-primary size-5" aria-hidden="true" />
-              <h3 className="text-foreground mt-3 font-medium">{t(`features.${key}.title`)}</h3>
-              <p className="text-small text-muted-foreground mt-1">
-                {t(`features.${key}.description`)}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <StatStrip items={proofStats} />
 
-      <section className="mx-auto max-w-4xl px-4 pb-20 sm:px-6">
-        <Button
-          size="lg"
-          variant="gold"
-          render={<Link href="/inscription">{t("ctaLoggedOut")}</Link>}
+      <section className="py-16">
+        <FullBleedImage
+          src="/studio/13-a-la-prod.avif"
+          alt={t("storySection.imageAlt")}
+          caption={t("storySection.caption")}
         />
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 pb-20 text-center sm:px-6">
+        <ScrollReveal>
+          <h2 className="text-h1 font-display">{t("ctaFinalTitle")}</h2>
+          <p className="text-body text-muted-foreground mt-3">{t("ctaFinalDescription")}</p>
+          <div className="mt-6">
+            <Button
+              variant="premium"
+              size="lg"
+              render={<Link href="/inscription">{t("ctaLoggedOut")}</Link>}
+              nativeButton={false}
+            />
+          </div>
+        </ScrollReveal>
       </section>
     </>
   );

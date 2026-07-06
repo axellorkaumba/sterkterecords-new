@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { OnboardingForm } from "./onboarding-form";
 import { OverviewHeader } from "./overview-header";
+import { ReleasesBanner } from "./releases-banner";
 import { StreamsCard, RevenueCard, ReleasesCard } from "./stat-cards";
 import { TopTracksCard, type TopTrack } from "./top-tracks-card";
 import { StreamsChartCard, type MonthlyStreams } from "./streams-chart-card";
@@ -38,7 +39,7 @@ export default async function ArtistDashboardPage() {
 
   const [{ data: releases }, { data: statsRows }, { data: wallet }, { data: notifications }] =
     await Promise.all([
-      supabase.from("releases").select("status").eq("artist_id", artist.id),
+      supabase.from("releases").select("id, title, artwork_url, status").eq("artist_id", artist.id),
       supabase
         .from("stats_monthly")
         .select("period, streams, revenue, track_id, tracks(title)")
@@ -99,6 +100,8 @@ export default async function ArtistDashboardPage() {
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-8">
       <OverviewHeader artist={artist} latestPeriod={latestPeriod} />
+
+      <ReleasesBanner releases={releases ?? []} />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StreamsCard currentStreams={currentStreams} previousStreams={previousStreams} />

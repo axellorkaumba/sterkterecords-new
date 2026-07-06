@@ -1,16 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { ClipboardCheckIcon } from "lucide-react";
 import { EmptyState } from "@/components/ui/empty-state";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { listReleasesForReview } from "../actions";
-import { ReviewActions } from "./review-actions";
+import { ReleaseRow } from "./release-row";
 
 export async function generateMetadata() {
   const t = await getTranslations("Admin.releases");
@@ -48,17 +41,7 @@ export default async function AdminReleasesReviewPage() {
           </TableHeader>
           <TableBody>
             {releases.map((release) => (
-              <TableRow key={release.id}>
-                <TableCell>{release.title || "—"}</TableCell>
-                <TableCell>{release.artists?.name ?? "—"}</TableCell>
-                <TableCell className="capitalize">{release.type}</TableCell>
-                <TableCell>
-                  {release.submitted_at ? new Date(release.submitted_at).toLocaleDateString() : "—"}
-                </TableCell>
-                <TableCell>
-                  <ReviewActions releaseId={release.id} />
-                </TableCell>
-              </TableRow>
+              <ReleaseRow key={release.id} release={release} />
             ))}
           </TableBody>
         </Table>

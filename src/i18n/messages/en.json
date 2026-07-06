@@ -109,11 +109,33 @@
     "heroSubtitle": "Production, digital distribution, management and booking — full support to make your music shine and reach your fans everywhere.",
     "ctaPrimary": "Create an artist account",
     "ctaSecondary": "Distribute a track",
+    "heroVisual": {
+      "nowPlaying": "Now playing",
+      "trackTitle": "New release",
+      "artistName": "Sterkte Records artist",
+      "releaseApproved": "Release approved",
+      "streamsLabel": "Total streams",
+      "timeline": {
+        "upload": "Upload",
+        "validation": "Validation",
+        "distribution": "Distribution",
+        "live": "Live"
+      }
+    },
     "stats": {
       "platforms": "Platforms",
       "artists": "Artists",
       "streams": "Streams",
       "countries": "Countries"
+    },
+    "platformsAriaLabel": "Partner distribution platforms",
+    "catalogue": {
+      "tag": "Our catalogue",
+      "title": "Artists who trust us",
+      "description": "A glimpse of the releases already distributed by Sterkte Records — real covers, real artists.",
+      "scrollPrev": "Previous release",
+      "scrollNext": "Next release",
+      "compilationBadge": "Compilation"
     },
     "servicesTag": "Our services",
     "servicesTitle": "Everything for your music career",
@@ -153,12 +175,74 @@
   "About": {
     "tag": "About",
     "title": "Who <gold>we are</gold>",
-    "intro": "Sterkte Records was born from a passion for authentic music and a commitment to supporting artists in a constantly evolving industry.",
+    "intro": "Sterkte Records was born in 2021 from a passion for authentic music and a commitment to bringing African artists to the whole world. Since our founding in Lubumbashi, we've grown into a leading independent music distributor across Central Africa and the diaspora, with a growing presence in Morocco and Europe.",
+    "introParagraphs": [
+      "Sterkte Records is an independent music label founded in Lubumbashi, Democratic Republic of Congo. Our mission is simple but ambitious: give African artists the tools, resources, and network they need to compete on the world stage, without sacrificing their artistic authenticity.",
+      "We believe the musical richness of Congo, Central Africa, and the whole continent deserves to be heard everywhere. That's why we offer distribution to 150+ global digital platforms, personalized support, a professional studio, booking and management services, and much more.",
+      "Our multidisciplinary team combines music expertise, digital marketing mastery, and passion for artists. We're not just a middleman — we're career partners committed to your long-term success."
+    ],
+    "stats": {
+      "founded": "Year founded",
+      "platforms": "Platforms",
+      "streams": "Streams generated",
+      "countries": "Countries reached"
+    },
     "visionLabel": "Our vision",
-    "visionText": "Build a bridge between artists' creativity and a global audience through personalized strategies, optimal digital distribution, and transparent management. Founded in 2020, our label is built on innovation, excellence and closeness with our talents.",
+    "visionParagraphs": [
+      "Build a solid bridge between the boundless creativity of African artists and a global audience hungry for new sounds. We believe the music of Lubumbashi, of Kinshasa, of the whole continent, has the potential to touch millions of souls around the world.",
+      "Our ambition: make Sterkte Records the go-to reference for any African artist looking to build a lasting, ethical, and profitable international career."
+    ],
     "missionLabel": "Our mission",
-    "missionText": "Support every artist, whatever their style or background, to reveal their potential and take them beyond borders. From composition to success, Sterkte Records guides you every step of the way.",
+    "missionParagraphs": [
+      "Support every signed artist with professional tools, a dedicated team, and distribution to 150+ global platforms. We handle the technical, administrative, and strategic side so the artist can focus on what matters most: creating.",
+      "Transparency, excellence, and passion are our three pillars. Every decision we make puts the artist's interests first."
+    ],
+    "values": {
+      "title": "Our core values",
+      "items": {
+        "integrity": {
+          "title": "Integrity",
+          "description": "Total honesty about numbers, contracts, and decisions. No grey areas."
+        },
+        "excellence": {
+          "title": "Excellence",
+          "description": "International-quality production, regardless of budget or the artist's level."
+        },
+        "openness": {
+          "title": "Openness",
+          "description": "Every genre, every African culture. Our roster reflects the continent's diversity."
+        },
+        "innovation": {
+          "title": "Innovation",
+          "description": "Always ahead of new music technology, emerging platforms, and global trends."
+        }
+      }
+    },
+    "history": {
+      "tag": "Our story",
+      "2021": {
+        "title": "Sterkte Records is born",
+        "description": "The label is founded in Lubumbashi by Axel l'or Kaumba. First artists signed for distribution: Mr. Freez, Feyme, and the start of outside collaborations. A musical adventure begins, driven by a clear vision: propel Congolese music onto world stages."
+      },
+      "2022": {
+        "title": "First steps and numbers",
+        "description": "Official launch on Spotify, Apple Music, Deezer, and the major platforms. The first releases quickly pass 50,000 streams. The label lays solid foundations and starts building credibility in the African independent music ecosystem."
+      },
+      "2023": {
+        "title": "Roster expansion",
+        "description": "KBG Gad joins for gospel, talented beatmakers come on board, and the creative team grows. The catalogue gains new sounds and genres. The network extends to Kinshasa, Brazzaville, and Abidjan."
+      },
+      "2024": {
+        "title": "Aiming for half a million streams",
+        "description": "An ambitious goal: reach 500K cumulative streams. Launch of the mobile studio in Lubumbashi, then in Agadir, Morocco, and other cities. This innovation lets us record artists wherever they are, with no geographic constraint."
+      },
+      "2025": {
+        "title": "Going international",
+        "description": "Established presence in 20+ countries. Partnerships with foreign labels including Lghorfa Music and Arteast Music in Morocco, as well as other structures in Europe and Africa. Sterkte Records establishes itself as a bridge between Africa and the world, with an ever-growing digital footprint."
+      }
+    },
     "teamLabel": "Leadership team",
+    "teamSubtitle": "Passionate professionals dedicated to your talent.",
     "team": {
       "axel": {
         "name": "Axel l'or Kaumba",
@@ -175,55 +259,63 @@
         "role": "Artist Manager",
         "description": "Personalized support for artists on career development and project management."
       }
+    },
+    "partners": {
+      "tag": "Trusted by",
+      "title": "Our partners"
+    },
+    "cta": {
+      "title": "Ready to write the next chapter with us?",
+      "description": "Join Sterkte Records and become part of an ecosystem built to grow your career.",
+      "primary": "Create an artist account",
+      "secondary": "Contact us"
     }
   },
   "Distribution": {
     "tag": "Distribution",
     "title": "Distribute your music <gold>everywhere</gold>",
     "description": "Make your tracks available on all major platforms: Spotify, Apple Music, Deezer, YouTube Music, and more.",
-    "steps": {
-      "step1": {
-        "title": "Create your artist account",
-        "description": "Sign up and complete your profile with your personal and professional information."
-      },
-      "step2": {
-        "title": "Upload your tracks",
-        "description": "Upload your tracks in high quality (WAV, FLAC, MP3) with the cover artwork."
-      },
-      "step3": {
-        "title": "Fill in the metadata",
-        "description": "Title, writers, genre, desired release date and contributors."
-      },
-      "step4": {
-        "title": "Validation and release",
-        "description": "Our team validates your submission and distributes it to 150+ platforms. Track it in real time."
+    "stats": {
+      "platforms": "Platforms",
+      "speed": "Live in"
+    },
+    "pipeline": {
+      "tag": "The journey of a release",
+      "title": "From upload to royalties, fully transparent",
+      "stages": {
+        "upload": "Upload",
+        "validation": "Validation",
+        "distribution": "Distribution",
+        "streaming": "Streaming",
+        "royalties": "Royalties"
       }
     },
-    "features": {
-      "reports": {
-        "title": "Detailed reports",
-        "description": "Real-time streaming and revenue statistics on your dashboard."
-      },
-      "royalties": {
-        "title": "Royalty management",
-        "description": "Transparent revenue tracking with detailed monthly reports."
-      },
-      "platforms": {
-        "title": "150+ platforms",
-        "description": "Spotify, Apple Music, Deezer, YouTube Music, Tidal, Amazon Music and more."
-      },
-      "speed": {
-        "title": "Fast release",
-        "description": "Your music available within days on every platform."
-      }
+    "proof": {
+      "platforms": "Platforms",
+      "speed": "Live in",
+      "royalties": "Paid to the artist",
+      "streams": "Total streams"
     },
-    "ctaLoggedIn": "Go to your dashboard to distribute",
+    "storySection": {
+      "imageAlt": "A production session in Sterkte Records' studio",
+      "caption": "Every release starts in a real studio, with real artists."
+    },
+    "ctaFinalTitle": "Ready to distribute your next track?",
+    "ctaFinalDescription": "Join the artists already distributed by Sterkte Records and get your music heard everywhere.",
     "ctaLoggedOut": "Create an account to distribute"
   },
   "Studio": {
     "tag": "Studio",
     "title": "Your sound, our <gold>expertise</gold>",
     "description": "Professional recording studio equipped with the latest technology. Recording, mixing, mastering.",
+    "heroImageAlt": "Mixing console at the Sterkte Records studio",
+    "gallery": {
+      "tag": "In the studio",
+      "title": "Real sessions, real artists"
+    },
+    "pricingTag": "Our packages",
+    "pricingScrollPrev": "Previous package",
+    "pricingScrollNext": "Next package",
     "plans": {
       "recording": {
         "title": "Recording",
@@ -277,6 +369,14 @@
     "tag": "Booking",
     "title": "Book your <gold>events</gold>",
     "description": "Book our artists for concerts, festivals, private and corporate events, or find the ideal venue for your event.",
+    "reserveButton": "Make a request",
+    "formTitle": "Submit a booking request",
+    "artistsSection": {
+      "tag": "Our artists",
+      "title": "Book one of our artists"
+    },
+    "artistsScrollPrev": "Previous artist",
+    "artistsScrollNext": "Next artist",
     "tabs": {
       "artist": "Book an artist",
       "venue": "Book a venue"
@@ -455,7 +555,28 @@
       ],
       "cta": "Contact us"
     },
-    "royaltiesNote": "100% of the royalties generated by your streams come back to you. Sterkte Records takes no commission on your DSP revenue — our business model relies on subscriptions, add-ons, and our services (studio, booking, consulting)."
+    "royaltiesNote": "100% of the royalties generated by your streams come back to you. Sterkte Records takes no commission on your DSP revenue — our business model relies on subscriptions, add-ons, and our services (studio, booking, consulting).",
+    "faq": {
+      "title": "Pricing questions",
+      "items": {
+        "change": {
+          "question": "Can I change my plan at any time?",
+          "answer": "Yes, you can switch between monthly and annual billing at any time from your artist space. The change takes effect at the next billing cycle."
+        },
+        "africaEligibility": {
+          "question": "How do I know if I'm eligible for the Africa rate?",
+          "answer": "Eligibility is determined automatically at signup based on your country of residence (DRC, Cameroon, Ivory Coast, Senegal, and other African markets)."
+        },
+        "labelPricing": {
+          "question": "Why doesn't the Label plan have a public price?",
+          "answer": "The Label plan is custom: dedicated support, multi-artist management, and terms defined by contract. Contact our team to discuss it."
+        },
+        "cancel": {
+          "question": "Can I cancel my subscription whenever I want?",
+          "answer": "Yes, no commitment and no hidden fees. Your catalogue and streaming history stay yours if you leave."
+        }
+      }
+    }
   },
   "Faq": {
     "tag": "Help",
@@ -619,6 +740,12 @@
     "greeting": "Hello, {name}",
     "reportingNote": "Data up to date as of {date}",
     "noReportYet": "No LabelGrid report yet — statistics will appear after your first monthly report.",
+    "releasesBanner": {
+      "title": "Your live releases",
+      "emptyTitle": "No release published yet",
+      "emptyDescription": "Distribute your first release to see it appear here.",
+      "cta": "Distribute a track"
+    },
     "streams": {
       "title": "Streams",
       "period": "Latest reported month",

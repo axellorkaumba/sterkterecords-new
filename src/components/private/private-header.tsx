@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { LogoWordmark } from "@/components/marketing/logo-wordmark";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/(private)/actions";
@@ -22,8 +23,8 @@ export async function PrivateHeader() {
 
   return (
     <header className="border-border flex h-14 items-center justify-between border-b px-4 sm:px-6">
-      <Link href="/app" className="text-body font-display font-semibold">
-        Sterkte <span className="text-primary">Records</span>
+      <Link href="/app" className="flex items-center">
+        <LogoWordmark height={22} />
       </Link>
       <div className="flex items-center gap-2">
         {user?.email ? (

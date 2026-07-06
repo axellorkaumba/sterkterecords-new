@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MusicIcon, PlusIcon } from "lucide-react";
+import { MusicIcon, PlusIcon, Globe2Icon, ZapIcon, CoinsIcon, BarChart3Icon } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import { Button } from "@/components/ui/button";
@@ -58,6 +58,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Stepper } from "@/components/ui/stepper";
 import { EmptyState } from "@/components/ui/empty-state";
+import { AnimatedCounter } from "@/components/marketing/animated-counter";
+import { StatStrip } from "@/components/marketing/stat-strip";
+import { PhotoMasonry } from "@/components/marketing/photo-masonry";
+import { GrainOverlay } from "@/components/marketing/grain-overlay";
 import { FileUploader, type UploaderFile } from "@/components/ui/file-uploader";
 import {
   ChartContainer,
@@ -180,6 +184,7 @@ export default function DesignSystemPage() {
           <Button variant="gold">
             Gold <Badge variant="gold">Pro</Badge>
           </Button>
+          <Button variant="premium">Premium</Button>
           <Button loading>Chargement</Button>
           <Button disabled>Désactivé</Button>
         </div>
@@ -441,6 +446,50 @@ export default function DesignSystemPage() {
               <Bar dataKey="streams" fill="var(--color-streams)" radius={4} />
             </BarChart>
           </ChartContainer>
+        </div>
+      </section>
+
+      {/* --- Composants premium (refonte artistique, cf. ADR 0013-0019) --- */}
+      <section className="flex flex-col gap-6">
+        <h2 className="text-h2">Composants premium (refonte artistique)</h2>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="text-body font-medium">Compteur animé</h3>
+          <p className="font-display text-h2 tabular-nums">
+            <AnimatedCounter value={150} display="150+" />
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="text-body font-medium">Bande de statistiques (StatStrip)</h3>
+          <StatStrip
+            items={[
+              { icon: Globe2Icon, value: 150, display: "150+", label: "Plateformes" },
+              { icon: ZapIcon, value: 48, display: "48h", label: "Mise en ligne" },
+              { icon: CoinsIcon, value: 100, display: "100%", label: "Reversé à l'artiste" },
+              { icon: BarChart3Icon, value: 1_000_000, display: "1M+", label: "Streams cumulés" },
+            ]}
+          />
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="text-body font-medium">Galerie masonry</h3>
+          <div className="max-w-md">
+            <PhotoMasonry
+              items={[
+                { src: "/studio/bush.avif", alt: "Bush en séance", caption: "Bush" },
+                { src: "/studio/pc-mix.avif", alt: "Console de mixage" },
+                { src: "/studio/sam-kaya.avif", alt: "Sam Kaya en studio", caption: "Sam Kaya" },
+              ]}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="text-body font-medium">Texture de grain (GrainOverlay)</h3>
+          <div className="bg-noir-900 relative h-24 w-full max-w-md overflow-hidden rounded-lg">
+            <GrainOverlay opacity={0.15} />
+          </div>
         </div>
       </section>
 
