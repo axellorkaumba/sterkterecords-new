@@ -3,6 +3,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { clientEnv } from "@/lib/env";
 import { fontVariables } from "@/lib/fonts";
 import { Providers } from "@/components/providers";
 import { StructuredData } from "@/components/marketing/structured-data";
@@ -26,7 +27,7 @@ export async function generateMetadata({
       template: `%s — ${t("siteName")}`,
     },
     description: t("defaultDescription"),
-    metadataBase: new URL("https://www.sterkterecords.com"),
+    metadataBase: new URL(clientEnv.NEXT_PUBLIC_SITE_URL),
     alternates: {
       languages: Object.fromEntries(routing.locales.map((l) => [l, `/${l}`])),
     },

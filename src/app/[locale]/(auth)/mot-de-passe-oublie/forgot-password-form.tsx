@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
+import { unstable_rethrow } from "next/navigation";
 import { MailCheckIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -32,12 +33,17 @@ export function ForgotPasswordForm({ locale }: { locale: AppLocale }) {
 
   async function onSubmit(values: ForgotPasswordValues) {
     setServerError(null);
-    const result = await requestPasswordReset(values);
-    if (result?.error) {
-      setServerError(t(`errors.${result.error}`));
-      return;
+    try {
+      const result = await requestPasswordReset(values);
+      if (result?.error) {
+        setServerError(t(`errors.${result.error}`));
+        return;
+      }
+      setSentTo(values.email);
+    } catch (err) {
+      unstable_rethrow(err);
+      setServerError(t("errors.unknown"));
     }
-    setSentTo(values.email);
   }
 
   if (sentTo) {

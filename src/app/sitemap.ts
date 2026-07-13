@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getPathname } from "@/i18n/navigation";
+import { clientEnv } from "@/lib/env";
 
-const SITE_URL = "https://www.sterkterecords.com";
+const SITE_URL = clientEnv.NEXT_PUBLIC_SITE_URL;
 
 /**
  * Chemins internes déclarés dans `routing.pathnames` (src/i18n/routing.ts).

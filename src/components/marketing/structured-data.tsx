@@ -1,18 +1,21 @@
+import { clientEnv } from "@/lib/env";
+
 /**
  * Données structurées JSON-LD (§19 du CDC — Organization + MusicGroup).
  * Rendues une fois dans la racine de layout public : elles décrivent le
  * label dans son ensemble, pas une page en particulier.
  */
 export function StructuredData() {
+  const siteUrl = clientEnv.NEXT_PUBLIC_SITE_URL;
   const data = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://www.sterkterecords.com/#organization",
+        "@id": `${siteUrl}/#organization`,
         name: "Sterkte Records",
-        url: "https://www.sterkterecords.com",
-        logo: "https://www.sterkterecords.com/brand/icon-mark-light.png",
+        url: siteUrl,
+        logo: `${siteUrl}/brand/icon-mark-light.png`,
         foundingDate: "2021",
         founder: {
           "@type": "Person",
@@ -30,12 +33,12 @@ export function StructuredData() {
       },
       {
         "@type": "MusicGroup",
-        "@id": "https://www.sterkterecords.com/#label",
+        "@id": `${siteUrl}/#label`,
         name: "Sterkte Records",
         description:
           "Label musical indépendant et distributeur numérique basé à Lubumbashi (RDC) et Agadir (Maroc).",
         genre: ["Afrobeat", "Ndombolo", "R&B", "Gospel", "Amapiano", "Rap"],
-        url: "https://www.sterkterecords.com",
+        url: siteUrl,
       },
     ],
   };

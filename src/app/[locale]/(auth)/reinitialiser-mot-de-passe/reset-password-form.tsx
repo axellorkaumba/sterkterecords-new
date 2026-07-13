@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
+import { unstable_rethrow } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,9 +29,14 @@ export function ResetPasswordForm() {
 
   async function onSubmit(values: UpdatePasswordValues) {
     setServerError(null);
-    const result = await updatePasswordAfterRecovery(values);
-    if (result?.error) {
-      setServerError(t(`errors.${result.error}`));
+    try {
+      const result = await updatePasswordAfterRecovery(values);
+      if (result?.error) {
+        setServerError(t(`errors.${result.error}`));
+      }
+    } catch (err) {
+      unstable_rethrow(err);
+      setServerError(t("errors.unknown"));
     }
   }
 

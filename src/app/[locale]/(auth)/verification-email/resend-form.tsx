@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
+import { unstable_rethrow } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,12 +32,17 @@ export function ResendForm({ locale }: { locale: AppLocale }) {
   async function onSubmit(values: ResendValues) {
     setServerError(null);
     setSuccess(false);
-    const result = await resendVerificationEmail(values);
-    if (result?.error) {
-      setServerError(t(`errors.${result.error}`));
-      return;
+    try {
+      const result = await resendVerificationEmail(values);
+      if (result?.error) {
+        setServerError(t(`errors.${result.error}`));
+        return;
+      }
+      setSuccess(true);
+    } catch (err) {
+      unstable_rethrow(err);
+      setServerError(t("errors.unknown"));
     }
-    setSuccess(true);
   }
 
   return (

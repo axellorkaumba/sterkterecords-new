@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { clientEnv } from "@/lib/env";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -12,6 +13,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/app", "/admin"],
       },
     ],
-    sitemap: "https://www.sterkterecords.com/sitemap.xml",
+    sitemap: `${clientEnv.NEXT_PUBLIC_SITE_URL}/sitemap.xml`,
   };
 }

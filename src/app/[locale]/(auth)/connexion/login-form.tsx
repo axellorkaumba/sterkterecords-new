@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
+import { unstable_rethrow } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,9 +30,14 @@ export function LoginForm({ next }: { next?: string }) {
 
   async function onSubmit(values: SignInValues) {
     setServerError(null);
-    const result = await signIn(values, next);
-    if (result?.error) {
-      setServerError(t(`errors.${result.error}`));
+    try {
+      const result = await signIn(values, next);
+      if (result?.error) {
+        setServerError(t(`errors.${result.error}`));
+      }
+    } catch (err) {
+      unstable_rethrow(err);
+      setServerError(t("errors.unknown"));
     }
   }
 
