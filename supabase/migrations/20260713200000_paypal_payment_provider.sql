@@ -1,0 +1,17 @@
+-- Ajout de PayPal comme rail de paiement (§13.2). `payment_provider` avait
+-- déjà anticipé PayPal comme extension "[V1]" côté variables d'env
+-- (PAYPAL_CLIENT_SECRET, voir src/lib/env.ts) mais pas encore côté schéma.
+--
+-- Motif de l'accélération : Stripe ET Flutterwave se sont révélés
+-- indisponibles pour RECEVOIR des paiements dans les deux marchés réels du
+-- label (RDC, Maroc) — voir docs/adr/0025-paypal-payment-provider.md pour
+-- le détail. PayPal Business fonctionne pour recevoir au Maroc ; la RDC
+-- reste un problème non résolu (PayPal n'y accepte que l'envoi, pas la
+-- réception) — `countries.default_payment_provider` pour 'CD' n'est donc
+-- volontairement pas touché ici.
+--
+-- `ALTER TYPE ... ADD VALUE` ne peut pas être utilisé dans la même
+-- transaction que l'utilisation de cette nouvelle valeur (restriction
+-- Postgres) — c'est pourquoi la mise à jour de `countries` pour le Maroc
+-- est dans une migration séparée (fichier suivant), pas celle-ci.
+alter type public.payment_provider add value if not exists 'paypal';

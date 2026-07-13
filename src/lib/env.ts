@@ -48,8 +48,15 @@ const serverEnvSchema = z.object({
   // --- Paystack (cartes + Mobile Money Afrique, secondaire) ---
   PAYSTACK_SECRET_KEY: z.string().min(1).optional(),
 
-  // --- PayPal (paiement secondaire, [V1]) ---
+  // --- PayPal (rail Maroc/international — Stripe et Flutterwave ne
+  // permettent pas de recevoir de paiements en RDC/Maroc, voir ADR 0025) ---
+  PAYPAL_CLIENT_ID: z.string().min(1).optional(),
   PAYPAL_CLIENT_SECRET: z.string().min(1).optional(),
+  PAYPAL_WEBHOOK_ID: z.string().min(1).optional(),
+  // Deux hôtes API distincts sandbox/live (contrairement à Stripe/Flutterwave
+  // qui distinguent test/live par le type de clé, même hôte) — sandbox par
+  // défaut, passage en live = un changement de variable, jamais de code.
+  PAYPAL_API_BASE_URL: z.string().url().default("https://api-m.sandbox.paypal.com"),
 
   // --- Resend (emails transactionnels, §14) ---
   RESEND_API_KEY: z.string().min(1).optional(),

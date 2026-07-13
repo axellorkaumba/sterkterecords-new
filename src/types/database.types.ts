@@ -1225,7 +1225,7 @@ export type Database = {
       upload_status: "in_progress" | "completed" | "aborted";
       billing_period: "monthly" | "annual";
       discount_type: "percent" | "fixed";
-      payment_provider: "stripe" | "flutterwave";
+      payment_provider: "stripe" | "flutterwave" | "paypal";
       subscription_status: "incomplete" | "active" | "past_due" | "canceled";
       payment_type: "subscription" | "addon";
       payment_status: "pending" | "succeeded" | "failed" | "refunded";
