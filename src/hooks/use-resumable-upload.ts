@@ -116,27 +116,27 @@ export function useResumableUpload(kind: UploadKind) {
         return null;
       }
 
-      const session = await startUploadSession({
-        fileName: file.name,
-        fileSize: file.size,
-        mimeType: file.type || "application/octet-stream",
-        kind,
-        sha256Hash,
-      });
-
-      setState((current) => ({ ...current, status: "uploading", sessionId: session.sessionId }));
-
-      const completedPartNumbers = new Set(session.completedParts.map((p) => p.partNumber));
-      let uploadedBytes = 0;
-      for (const partNumber of completedPartNumbers) {
-        const isLastPart = partNumber === session.totalParts;
-        uploadedBytes += isLastPart
-          ? file.size - (partNumber - 1) * session.partSize
-          : session.partSize;
-      }
-      const startTime = Date.now();
-
       try {
+        const session = await startUploadSession({
+          fileName: file.name,
+          fileSize: file.size,
+          mimeType: file.type || "application/octet-stream",
+          kind,
+          sha256Hash,
+        });
+
+        setState((current) => ({ ...current, status: "uploading", sessionId: session.sessionId }));
+
+        const completedPartNumbers = new Set(session.completedParts.map((p) => p.partNumber));
+        let uploadedBytes = 0;
+        for (const partNumber of completedPartNumbers) {
+          const isLastPart = partNumber === session.totalParts;
+          uploadedBytes += isLastPart
+            ? file.size - (partNumber - 1) * session.partSize
+            : session.partSize;
+        }
+        const startTime = Date.now();
+
         for (let partNumber = 1; partNumber <= session.totalParts; partNumber += 1) {
           if (cancelledRef.current) {
             setState((current) => ({ ...current, status: "aborted" }));

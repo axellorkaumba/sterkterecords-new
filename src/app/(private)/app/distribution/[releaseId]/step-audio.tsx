@@ -16,6 +16,7 @@ import { addTrack, removeTrack, reorderTracks } from "../actions";
 import { TRACK_COUNT_RANGE } from "../schemas";
 import type { CatalogFingerprint, TunnelTrack } from "./types";
 import type { Database } from "@/types/database.types";
+import { cn } from "@/lib/utils";
 
 type ReleaseType = Database["public"]["Enums"]["release_type"];
 
@@ -185,14 +186,21 @@ export function StepAudio({
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="text-small truncate font-medium">{item.fileName}</span>
-                <span className="text-caption text-muted-foreground">
+                <span
+                  className={cn(
+                    "text-caption",
+                    item.status === "error" ? "text-destructive" : "text-muted-foreground",
+                  )}
+                >
                   {item.status === "validating"
                     ? t("analyzing")
                     : item.status === "uploading"
                       ? uploadState.status === "hashing"
                         ? t("analyzing")
                         : t("uploading")
-                      : null}
+                      : item.status === "error"
+                        ? t("defaultErrorMessage")
+                        : null}
                 </span>
               </div>
               {item.status === "uploading" && uploadingItem?.clientId === item.clientId ? (
