@@ -1052,21 +1052,6 @@
           "suggestion": "Check that the right file was selected and try again."
         }
       },
-      "silenceStart": {
-        "message": "There are {seconds} seconds of silence at the very start of the track.",
-        "explanation": "A long silence at the start can disrupt playlist or shuffle listening.",
-        "suggestion": "Trim the extra silence at the start of your file before re-uploading."
-      },
-      "silenceEnd": {
-        "message": "There are {seconds} seconds of silence at the very end of the track.",
-        "explanation": "A long silence at the end can disrupt the transition to the next track.",
-        "suggestion": "Trim the extra silence at the end of your file before re-uploading."
-      },
-      "clipping": {
-        "message": "Clipping detected on {percent}% of the signal.",
-        "explanation": "Clipping happens when the volume exceeds the maximum possible level, damaging the sound.",
-        "suggestion": "Lower the overall level slightly during mastering and re-export your track."
-      },
       "abnormalPeaks": {
         "message": "{count} abnormal sound peak(s) detected.",
         "explanation": "An isolated peak much louder than the rest of the signal can be a click, a crackle, or a recording issue.",

@@ -1,18 +1,10 @@
 import type { ValidationIssue, ValidationRule } from "../types";
 import type { AudioValidationContext } from "./context";
-import {
-  detectLeadingSilenceSeconds,
-  detectTrailingSilenceSeconds,
-  detectClipping,
-  detectAbnormalPeaks,
-  estimateLoudness,
-} from "./signal-analysis";
+import { detectAbnormalPeaks, estimateLoudness } from "./signal-analysis";
 
 const ACCEPTED_FORMATS = new Set(["wav", "flac", "mp3"]);
 const MIN_RECOMMENDED_SAMPLE_RATE_HZ = 44100;
 const MIN_RECOMMENDED_BIT_DEPTH = 16;
-const MAX_LEADING_SILENCE_SECONDS = 1.5;
-const MAX_TRAILING_SILENCE_SECONDS = 1.5;
 const MIN_DURATION_SECONDS = 1;
 const DURATION_CONSISTENCY_TOLERANCE_SECONDS = 2;
 
@@ -44,7 +36,7 @@ export const AUDIO_RULES: Array<ValidationRule<AudioValidationContext>> = [
     return [
       {
         ruleId: "audio.codec",
-        severity: "error",
+        severity: "warning",
         messageKey: "audio.codec.message",
         explanationKey: "audio.codec.explanation",
         suggestionKey: "audio.codec.suggestion",
@@ -97,54 +89,6 @@ export const AUDIO_RULES: Array<ValidationRule<AudioValidationContext>> = [
       ];
     }
     return [];
-  }),
-
-  rule("audio.silenceStart", (ctx) => {
-    if (!ctx.samples || !ctx.sampleRateHz) return [];
-    const silenceSeconds = detectLeadingSilenceSeconds(ctx.samples, ctx.sampleRateHz);
-    if (silenceSeconds < MAX_LEADING_SILENCE_SECONDS) return [];
-    return [
-      {
-        ruleId: "audio.silenceStart",
-        severity: "warning",
-        messageKey: "audio.silenceStart.message",
-        messageValues: { seconds: silenceSeconds.toFixed(1) },
-        explanationKey: "audio.silenceStart.explanation",
-        suggestionKey: "audio.silenceStart.suggestion",
-      },
-    ];
-  }),
-
-  rule("audio.silenceEnd", (ctx) => {
-    if (!ctx.samples || !ctx.sampleRateHz) return [];
-    const silenceSeconds = detectTrailingSilenceSeconds(ctx.samples, ctx.sampleRateHz);
-    if (silenceSeconds < MAX_TRAILING_SILENCE_SECONDS) return [];
-    return [
-      {
-        ruleId: "audio.silenceEnd",
-        severity: "warning",
-        messageKey: "audio.silenceEnd.message",
-        messageValues: { seconds: silenceSeconds.toFixed(1) },
-        explanationKey: "audio.silenceEnd.explanation",
-        suggestionKey: "audio.silenceEnd.suggestion",
-      },
-    ];
-  }),
-
-  rule("audio.clipping", (ctx) => {
-    if (!ctx.samples) return [];
-    const { clippedSampleCount, clippedPercent } = detectClipping(ctx.samples);
-    if (clippedSampleCount === 0) return [];
-    return [
-      {
-        ruleId: "audio.clipping",
-        severity: clippedPercent > 0.1 ? "error" : "warning",
-        messageKey: "audio.clipping.message",
-        messageValues: { percent: clippedPercent.toFixed(3) },
-        explanationKey: "audio.clipping.explanation",
-        suggestionKey: "audio.clipping.suggestion",
-      },
-    ];
   }),
 
   rule("audio.abnormalPeaks", (ctx) => {

@@ -1052,21 +1052,6 @@
           "suggestion": "Vérifie que le bon fichier a été sélectionné et réessaie."
         }
       },
-      "silenceStart": {
-        "message": "Il y a {seconds} secondes de silence au tout début de la piste.",
-        "explanation": "Un long silence en début de piste peut gêner l'écoute en playlist ou en lecture aléatoire.",
-        "suggestion": "Coupe le silence en trop au début de ton fichier avant de le réenvoyer."
-      },
-      "silenceEnd": {
-        "message": "Il y a {seconds} secondes de silence à la toute fin de la piste.",
-        "explanation": "Un long silence en fin de piste peut gêner l'enchaînement avec le titre suivant.",
-        "suggestion": "Coupe le silence en trop à la fin de ton fichier avant de le réenvoyer."
-      },
-      "clipping": {
-        "message": "Écrêtage détecté sur {percent} % du signal.",
-        "explanation": "L'écrêtage (clipping) se produit quand le volume dépasse le maximum possible, ce qui abîme le son.",
-        "suggestion": "Baisse légèrement le volume général au mastering et réexporte ta piste."
-      },
       "abnormalPeaks": {
         "message": "{count} pic(s) sonore(s) anormal(aux) détecté(s).",
         "explanation": "Un pic isolé bien plus fort que le reste du signal peut être un clic, un craquement ou un problème d'enregistrement.",
