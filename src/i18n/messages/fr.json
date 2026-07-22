@@ -520,40 +520,49 @@
     "description": "Un abonnement, 100 % de tes royalties. Pas de partage de revenus, pas de paliers cachés — juste le prix qui te permet de distribuer partout.",
     "perMonth": "/mois",
     "perYear": "/an",
-    "orAnnual": "ou {price}/an (2 mois offerts)",
-    "solo": {
-      "badge": "International",
-      "name": "Solo",
-      "description": "Le forfait de référence pour distribuer ta musique dans le monde entier.",
-      "features": {
-        "unlimitedReleases": "Sorties illimitées, tous formats (Single, EP, Album)",
-        "allDsps": "150+ plateformes dont Spotify, Apple Music, Deezer, Boomplay",
-        "hundredPercentRoyalties": "100 % de tes royalties, toujours",
-        "monthlyStats": "Statistiques mensuelles détaillées",
-        "emailSupport": "Support par email"
+    "africaNote": "Tarif Afrique éligible : {price}/an",
+    "africaEligibilityNote": "Tarif Afrique réservé aux pays éligibles (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains) — déterminé automatiquement à l'inscription selon ton pays.",
+    "period": {
+      "monthly": "Mensuel",
+      "annual": "Annuel"
+    },
+    "plans": {
+      "solo": {
+        "badge": "Pour démarrer",
+        "name": "Solo",
+        "description": "Le forfait de référence pour distribuer ta musique dans le monde entier.",
+        "monthlyPrice": "2,49 €",
+        "annualPrice": "19,99 €",
+        "africaAnnualPrice": "9,99 $",
+        "cta": "Créer un compte artiste"
       },
-      "cta": "Créer un compte artiste",
-      "monthlyPrice": "2,49 €",
-      "annualPrice": "19,99 €"
+      "pro": {
+        "badge": "Populaire",
+        "name": "Pro",
+        "description": "Pour l'artiste qui sort régulièrement — mêmes avantages, un cran au-dessus.",
+        "monthlyPrice": "4,49 €",
+        "annualPrice": "34,99 €",
+        "africaAnnualPrice": "17,49 $",
+        "cta": "Créer un compte artiste"
+      },
+      "label": {
+        "badge": "Jusqu'à 5 artistes",
+        "name": "Label",
+        "description": "Pour les artistes signés et les petits labels — plusieurs artistes, un seul compte.",
+        "monthlyPrice": "7,49 €",
+        "annualPrice": "59,99 €",
+        "africaAnnualPrice": "29,99 $",
+        "cta": "Créer un compte artiste"
+      }
     },
-    "africa": {
-      "name": "Afrique",
-      "description": "Le même forfait Solo, à un tarif adapté au pouvoir d'achat de certains marchés africains.",
-      "eligibilityNote": "Tarif réservé aux pays éligibles (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains). L'éligibilité est déterminée automatiquement à l'inscription selon ton pays.",
-      "cta": "Créer un compte artiste",
-      "annualPrice": "9,99 $"
-    },
-    "label": {
-      "name": "Label",
-      "description": "Pour les artistes signés et les labels qui veulent un accompagnement complet, géré par notre équipe.",
-      "pricingNote": "Sur devis — la répartition et les conditions sont définies dans ton contrat.",
-      "features": [
-        "Accompagnement dédié par notre équipe A&R",
-        "Gestion multi-artistes",
-        "Répartition de revenus configurée par contrat",
-        "Support prioritaire"
-      ],
-      "cta": "Nous contacter"
+    "features": {
+      "unlimitedReleases": "Sorties illimitées, tous formats (Single, EP, Album)",
+      "allDsps": "150+ plateformes dont Spotify, Apple Music, Deezer, Boomplay",
+      "hundredPercentRoyalties": "100 % de tes royalties, toujours",
+      "monthlyStats": "Statistiques mensuelles détaillées",
+      "emailSupport": "Support par email",
+      "multiArtist": "Jusqu'à 5 artistes sur un seul compte",
+      "prioritySupport": "Support prioritaire"
     },
     "royaltiesNote": "100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting).",
     "faq": {
@@ -561,15 +570,15 @@
       "items": {
         "change": {
           "question": "Puis-je changer de forfait à tout moment ?",
-          "answer": "Oui, tu peux passer du mensuel à l'annuel (ou inversement) à tout moment depuis ton espace artiste. Le changement prend effet à la prochaine échéance."
+          "answer": "Oui, tu peux passer d'un forfait à l'autre ou du mensuel à l'annuel à tout moment depuis ton espace artiste. Le changement prend effet à la prochaine échéance."
         },
         "africaEligibility": {
           "question": "Comment savoir si je suis éligible au tarif Afrique ?",
           "answer": "L'éligibilité est déterminée automatiquement à l'inscription selon ton pays de résidence (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains)."
         },
-        "labelPricing": {
-          "question": "Pourquoi le forfait Label n'a-t-il pas de prix public ?",
-          "answer": "Le forfait Label est sur mesure : accompagnement dédié, gestion multi-artistes et conditions définies contractuellement. Contacte notre équipe pour en discuter."
+        "labelPlan": {
+          "question": "Qu'est-ce que le forfait Label change par rapport à Solo/Pro ?",
+          "answer": "Le forfait Label permet de gérer jusqu'à 5 profils artistes depuis un seul compte — pratique pour un label ou un manager qui distribue plusieurs artistes. Le reste (100 % des royalties, toutes les plateformes) est identique."
         },
         "cancel": {
           "question": "Puis-je annuler mon abonnement quand je veux ?",

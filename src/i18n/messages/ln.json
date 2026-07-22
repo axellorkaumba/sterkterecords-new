@@ -521,40 +521,49 @@
     "description": "TODO(ln): Un abonnement, 100 % de tes royalties. Pas de partage de revenus, pas de paliers cachés — juste le prix qui te permet de distribuer partout.",
     "perMonth": "TODO(ln): /mois",
     "perYear": "TODO(ln): /an",
-    "orAnnual": "TODO(ln): ou {price}/an (2 mois offerts)",
-    "solo": {
-      "badge": "TODO(ln): International",
-      "name": "TODO(ln): Solo",
-      "description": "TODO(ln): Le forfait de référence pour distribuer ta musique dans le monde entier.",
-      "features": {
-        "unlimitedReleases": "TODO(ln): Sorties illimitées, tous formats (Single, EP, Album)",
-        "allDsps": "TODO(ln): 150+ plateformes dont Spotify, Apple Music, Deezer, Boomplay",
-        "hundredPercentRoyalties": "TODO(ln): 100 % de tes royalties, toujours",
-        "monthlyStats": "TODO(ln): Statistiques mensuelles détaillées",
-        "emailSupport": "TODO(ln): Support par email"
+    "africaNote": "TODO(ln): Tarif Afrique éligible : {price}/an",
+    "africaEligibilityNote": "TODO(ln): Tarif Afrique réservé aux pays éligibles (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains) — déterminé automatiquement à l'inscription selon ton pays.",
+    "period": {
+      "monthly": "TODO(ln): Mensuel",
+      "annual": "TODO(ln): Annuel"
+    },
+    "plans": {
+      "solo": {
+        "badge": "TODO(ln): Pour démarrer",
+        "name": "TODO(ln): Solo",
+        "description": "TODO(ln): Le forfait de référence pour distribuer ta musique dans le monde entier.",
+        "monthlyPrice": "TODO(ln): 2,49 €",
+        "annualPrice": "TODO(ln): 19,99 €",
+        "africaAnnualPrice": "TODO(ln): 9,99 $",
+        "cta": "TODO(ln): Créer un compte artiste"
       },
-      "cta": "TODO(ln): Créer un compte artiste",
-      "monthlyPrice": "TODO(ln): 2,49 €",
-      "annualPrice": "TODO(ln): 19,99 €"
+      "pro": {
+        "badge": "TODO(ln): Populaire",
+        "name": "TODO(ln): Pro",
+        "description": "TODO(ln): Pour l'artiste qui sort régulièrement — mêmes avantages, un cran au-dessus.",
+        "monthlyPrice": "TODO(ln): 4,49 €",
+        "annualPrice": "TODO(ln): 34,99 €",
+        "africaAnnualPrice": "TODO(ln): 17,49 $",
+        "cta": "TODO(ln): Créer un compte artiste"
+      },
+      "label": {
+        "badge": "TODO(ln): Jusqu'à 5 artistes",
+        "name": "TODO(ln): Label",
+        "description": "TODO(ln): Pour les artistes signés et les petits labels — plusieurs artistes, un seul compte.",
+        "monthlyPrice": "TODO(ln): 7,49 €",
+        "annualPrice": "TODO(ln): 59,99 €",
+        "africaAnnualPrice": "TODO(ln): 29,99 $",
+        "cta": "TODO(ln): Créer un compte artiste"
+      }
     },
-    "africa": {
-      "name": "TODO(ln): Afrique",
-      "description": "TODO(ln): Le même forfait Solo, à un tarif adapté au pouvoir d'achat de certains marchés africains.",
-      "eligibilityNote": "TODO(ln): Tarif réservé aux pays éligibles (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains). L'éligibilité est déterminée automatiquement à l'inscription selon ton pays.",
-      "cta": "TODO(ln): Créer un compte artiste",
-      "annualPrice": "TODO(ln): 9,99 $"
-    },
-    "label": {
-      "name": "TODO(ln): Label",
-      "description": "TODO(ln): Pour les artistes signés et les labels qui veulent un accompagnement complet, géré par notre équipe.",
-      "pricingNote": "TODO(ln): Sur devis — la répartition et les conditions sont définies dans ton contrat.",
-      "features": [
-        "TODO(ln): Accompagnement dédié par notre équipe A&R",
-        "TODO(ln): Gestion multi-artistes",
-        "TODO(ln): Répartition de revenus configurée par contrat",
-        "TODO(ln): Support prioritaire"
-      ],
-      "cta": "TODO(ln): Nous contacter"
+    "features": {
+      "unlimitedReleases": "TODO(ln): Sorties illimitées, tous formats (Single, EP, Album)",
+      "allDsps": "TODO(ln): 150+ plateformes dont Spotify, Apple Music, Deezer, Boomplay",
+      "hundredPercentRoyalties": "TODO(ln): 100 % de tes royalties, toujours",
+      "monthlyStats": "TODO(ln): Statistiques mensuelles détaillées",
+      "emailSupport": "TODO(ln): Support par email",
+      "multiArtist": "TODO(ln): Jusqu'à 5 artistes sur un seul compte",
+      "prioritySupport": "TODO(ln): Support prioritaire"
     },
     "royaltiesNote": "TODO(ln): 100 % des royalties générées par tes streams te reviennent. Sterkte Records ne prélève aucune commission sur tes revenus DSP — notre modèle repose sur les abonnements, les options additionnelles et nos prestations (studio, booking, consulting).",
     "faq": {
@@ -562,15 +571,15 @@
       "items": {
         "change": {
           "question": "TODO(ln): Puis-je changer de forfait à tout moment ?",
-          "answer": "TODO(ln): Oui, tu peux passer du mensuel à l'annuel (ou inversement) à tout moment depuis ton espace artiste. Le changement prend effet à la prochaine échéance."
+          "answer": "TODO(ln): Oui, tu peux passer d'un forfait à l'autre ou du mensuel à l'annuel à tout moment depuis ton espace artiste. Le changement prend effet à la prochaine échéance."
         },
         "africaEligibility": {
           "question": "TODO(ln): Comment savoir si je suis éligible au tarif Afrique ?",
           "answer": "TODO(ln): L'éligibilité est déterminée automatiquement à l'inscription selon ton pays de résidence (RDC, Cameroun, Côte d'Ivoire, Sénégal et d'autres marchés africains)."
         },
-        "labelPricing": {
-          "question": "TODO(ln): Pourquoi le forfait Label n'a-t-il pas de prix public ?",
-          "answer": "TODO(ln): Le forfait Label est sur mesure : accompagnement dédié, gestion multi-artistes et conditions définies contractuellement. Contacte notre équipe pour en discuter."
+        "labelPlan": {
+          "question": "TODO(ln): Qu'est-ce que le forfait Label change par rapport à Solo/Pro ?",
+          "answer": "TODO(ln): Le forfait Label permet de gérer jusqu'à 5 profils artistes depuis un seul compte — pratique pour un label ou un manager qui distribue plusieurs artistes. Le reste (100 % des royalties, toutes les plateformes) est identique."
         },
         "cancel": {
           "question": "TODO(ln): Puis-je annuler mon abonnement quand je veux ?",
