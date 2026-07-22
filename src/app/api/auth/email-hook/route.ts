@@ -107,8 +107,14 @@ export async function POST(request: NextRequest) {
   const securityEventType = SECURITY_EVENT_TYPES[actionType];
 
   if (confirmType) {
+    // `token_hash_new` n'est pertinent que pour `email_change` (confirmer la
+    // NOUVELLE adresse) — Supabase l'envoie quand même comme chaîne vide
+    // `""` pour les autres types (signup, magiclink...). `??` ne retombe que
+    // sur `null`/`undefined`, jamais sur `""` : pour un signup, le token
+    // restait donc vide (`token=` sans valeur dans l'URL, constaté en prod).
+    // `||` traite `""` comme absent, ce qui est le comportement voulu ici.
     const confirmUrl = buildVerifyUrl(
-      emailData.token_hash_new ?? emailData.token_hash,
+      emailData.token_hash_new || emailData.token_hash,
       actionType,
       emailData.redirect_to,
     );
