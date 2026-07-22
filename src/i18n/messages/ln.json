@@ -220,7 +220,6 @@
       }
     },
     "history": {
-      "tag": "TODO(ln): Notre histoire",
       "2021": {
         "title": "TODO(ln): Naissance de Sterkte Records",
         "description": "TODO(ln): Fondation du label à Lubumbashi par Axel l'or Kaumba. Signature des premiers artistes en distribution : Mr. Freez, Feyme, et démarrage de collaborations externes. Une aventure musicale commence, portée par une vision claire : propulser la musique congolaise sur les scènes mondiales."
@@ -240,7 +239,8 @@
       "2025": {
         "title": "TODO(ln): Rayonnement international",
         "description": "TODO(ln): Présence établie sur plus de 20 pays. Partenariats avec des labels étrangers dont Lghorfa Music et Arteast Music au Maroc, ainsi que d'autres structures en Europe et en Afrique. Sterkte Records s'impose comme un pont entre l'Afrique et le monde, avec une empreinte digitale toujours plus forte."
-      }
+      },
+      "tag": "TODO(ln): Notre histoire"
     },
     "teamLabel": "TODO(ln): L'équipe dirigeante",
     "teamSubtitle": "TODO(ln): Des professionnels passionnés au service de votre talent.",
@@ -1017,7 +1017,8 @@
     "spotifyLabel": "TODO(ln): Spotify",
     "submit": "TODO(ln): Créer mon profil",
     "submitting": "TODO(ln): Création…",
-    "error": "TODO(ln): Une erreur est survenue. Réessaie."
+    "error": "TODO(ln): Une erreur est survenue. Réessaie.",
+    "errorLimitReached": "TODO(ln): Tu as atteint le nombre maximum d'artistes pour ton forfait actuel."
   },
   "Validation": {
     "status": {
@@ -1389,7 +1390,10 @@
       "addonPaymentRequired": "TODO(ln): L'option Artwork Apple Music est sélectionnée : réglez-la avant d'envoyer votre sortie.",
       "addonPaymentButton": "TODO(ln): Payer l'option et envoyer",
       "addonPaymentPending": "TODO(ln): Redirection vers le paiement…",
-      "addonPaymentError": "TODO(ln): Le paiement n'a pas pu être lancé. Réessaie dans un instant."
+      "addonPaymentError": "TODO(ln): Le paiement n'a pas pu être lancé. Réessaie dans un instant.",
+      "accountNotValidatedTitle": "TODO(ln): Ton compte n'est pas encore validé",
+      "accountNotValidatedDescription": "TODO(ln): Valide ton paiement pour pouvoir envoyer cette sortie à notre équipe — tu peux continuer à la préparer en attendant.",
+      "accountNotValidatedCta": "TODO(ln): Valider mon paiement"
     },
     "statusLabels": {
       "draft": "TODO(ln): Brouillon",
@@ -1440,32 +1444,60 @@
     "subtitle": "TODO(ln): Un abonnement, 100 % de tes royalties. Change ou résilie à tout moment.",
     "successBanner": "TODO(ln): Paiement confirmé — ton abonnement est actif !",
     "canceledBanner": "TODO(ln): Paiement annulé — aucun montant n'a été prélevé.",
-    "alreadyActive": "TODO(ln): Tu as déjà un abonnement Solo {period} actif.",
+    "alreadyActive": "TODO(ln): Tu as déjà un abonnement {plan} {period} actif.",
     "periodUnavailable": "TODO(ln): Cette période de facturation n'est pas disponible dans ta région.",
     "annualOnlyNote": "TODO(ln): Facturation annuelle uniquement dans ta région.",
     "couponLabel": "TODO(ln): Code promo (optionnel)",
-    "couponPlaceholder": "CODE",
+    "couponPlaceholder": "TODO(ln): CODE",
     "subscribeCta": "TODO(ln): Souscrire",
+    "automatedPaymentTitle": "TODO(ln): Paiement immédiat (carte, PayPal)",
     "period": {
       "monthly": "TODO(ln): Mensuel",
       "annual": "TODO(ln): Annuel"
     },
-    "solo": {
-      "badge": "TODO(ln): Recommandé",
-      "name": "TODO(ln): Solo",
-      "description": "TODO(ln): Distribue ta musique dans le monde entier, sans partage de revenus.",
-      "features": {
-        "unlimitedReleases": "TODO(ln): Sorties illimitées, tous formats",
-        "allDsps": "TODO(ln): 150+ plateformes",
-        "hundredPercentRoyalties": "TODO(ln): 100 % de tes royalties",
-        "monthlyStats": "TODO(ln): Statistiques mensuelles"
+    "plans": {
+      "solo": {
+        "badge": "TODO(ln): Pour démarrer",
+        "name": "TODO(ln): Solo",
+        "description": "TODO(ln): Distribue ta musique dans le monde entier, sans partage de revenus."
+      },
+      "pro": {
+        "badge": "TODO(ln): Populaire",
+        "name": "TODO(ln): Pro",
+        "description": "TODO(ln): Pour l'artiste qui sort régulièrement — mêmes avantages, un cran au-dessus."
+      },
+      "label": {
+        "badge": "TODO(ln): Jusqu'à 5 artistes",
+        "name": "TODO(ln): Label",
+        "description": "TODO(ln): Pour les artistes signés et les petits labels — plusieurs artistes, un seul compte."
       }
     },
-    "label": {
-      "name": "TODO(ln): Label",
-      "description": "TODO(ln): Pour les artistes signés et les labels — accompagnement complet.",
-      "pricingNote": "TODO(ln): Sur devis — parle-nous de ton projet.",
-      "cta": "TODO(ln): Nous contacter"
+    "features": {
+      "unlimitedReleases": "TODO(ln): Sorties illimitées, tous formats",
+      "allDsps": "TODO(ln): 150+ plateformes",
+      "hundredPercentRoyalties": "TODO(ln): 100 % de tes royalties",
+      "monthlyStats": "TODO(ln): Statistiques mensuelles",
+      "multiArtist": "TODO(ln): Jusqu'à 5 artistes sur un seul compte"
+    },
+    "manualPayment": {
+      "title": "TODO(ln): J'ai déjà payé",
+      "description": "TODO(ln): Envoie ton paiement par mobile money ou PayPal, puis dépose une capture de la confirmation. Notre équipe valide ton compte manuellement, généralement sous 24 h.",
+      "paypalLabel": "TODO(ln): PayPal",
+      "paypalHint": "TODO(ln): Paiement manuel",
+      "dropzoneLabel": "TODO(ln): Dépose la capture du paiement",
+      "dropzoneHint": "TODO(ln): JPEG, PNG ou WebP",
+      "removeFile": "TODO(ln): Retirer {fileName}",
+      "uploading": "TODO(ln): Envoi en cours…",
+      "uploaded": "TODO(ln): Capture envoyée.",
+      "screenshotRequired": "TODO(ln): Ajoute d'abord une capture du paiement effectué.",
+      "submitError": "TODO(ln): Impossible d'envoyer la preuve — réessaie.",
+      "submitCta": "TODO(ln): Envoyer ma preuve de paiement"
+    },
+    "proofStatus": {
+      "pendingTitle": "TODO(ln): Paiement en cours de validation",
+      "pendingDescription": "TODO(ln): Ta preuve de paiement pour le forfait {plan} ({period}) est en cours de vérification par notre équipe. Tu peux continuer à préparer tes sorties en attendant.",
+      "rejectedTitle": "TODO(ln): Preuve de paiement refusée",
+      "rejectedDescription": "TODO(ln): Motif : {reason}. Tu peux renvoyer une nouvelle preuve ci-dessous."
     },
     "errors": {
       "unauthenticated": "TODO(ln): Session expirée — reconnecte-toi.",

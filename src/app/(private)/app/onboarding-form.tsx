@@ -38,7 +38,9 @@ export function OnboardingForm() {
   async function onSubmit(values: CreateArtistValues) {
     const result = await createArtistProfile(values);
     if (result?.error) {
-      form.setError("name", { message: t("error") });
+      form.setError("name", {
+        message: result.error === "artist_limit_reached" ? t("errorLimitReached") : t("error"),
+      });
       return;
     }
     router.refresh();

@@ -3,6 +3,7 @@ import "server-only";
 import { stripeProvider } from "./stripe-provider";
 import { flutterwaveProvider } from "./flutterwave-provider";
 import { paypalProvider } from "./paypal-provider";
+import { manualProvider } from "./manual-provider";
 import type { PaymentProviderClient, PaymentProviderId } from "./types";
 
 export type {
@@ -19,6 +20,7 @@ const PROVIDERS: Record<PaymentProviderId, PaymentProviderClient> = {
   stripe: stripeProvider,
   flutterwave: flutterwaveProvider,
   paypal: paypalProvider,
+  manual: manualProvider,
 };
 
 /**

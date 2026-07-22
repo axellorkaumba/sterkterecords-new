@@ -4,4 +4,5 @@ allowBuilds:
   "@swc/core": true
   core-js: true
   sharp: true
+  tesseract.js: true
   unrs-resolver: true

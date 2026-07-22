@@ -88,6 +88,11 @@ const serverEnvSchema = z.object({
 
   // --- PostHog (produit/analytics) ---
   POSTHOG_API_KEY: z.string().min(1).optional(),
+
+  // --- Dashboard de validation des paiements (/validations, ADR 0026) ---
+  // Secret de signature des sessions JWT des comptes `admin_users` — auth
+  // séparée de Supabase Auth. Générer avec `openssl rand -base64 32`.
+  ADMIN_SESSION_SECRET: z.string().min(1).optional(),
 });
 
 const clientEnvSchema = z.object({

@@ -219,7 +219,6 @@
       }
     },
     "history": {
-      "tag": "Notre histoire",
       "2021": {
         "title": "Naissance de Sterkte Records",
         "description": "Fondation du label à Lubumbashi par Axel l'or Kaumba. Signature des premiers artistes en distribution : Mr. Freez, Feyme, et démarrage de collaborations externes. Une aventure musicale commence, portée par une vision claire : propulser la musique congolaise sur les scènes mondiales."
@@ -239,7 +238,8 @@
       "2025": {
         "title": "Rayonnement international",
         "description": "Présence établie sur plus de 20 pays. Partenariats avec des labels étrangers dont Lghorfa Music et Arteast Music au Maroc, ainsi que d'autres structures en Europe et en Afrique. Sterkte Records s'impose comme un pont entre l'Afrique et le monde, avec une empreinte digitale toujours plus forte."
-      }
+      },
+      "tag": "Notre histoire"
     },
     "teamLabel": "L'équipe dirigeante",
     "teamSubtitle": "Des professionnels passionnés au service de votre talent.",
@@ -1016,7 +1016,8 @@
     "spotifyLabel": "Spotify",
     "submit": "Créer mon profil",
     "submitting": "Création…",
-    "error": "Une erreur est survenue. Réessaie."
+    "error": "Une erreur est survenue. Réessaie.",
+    "errorLimitReached": "Tu as atteint le nombre maximum d'artistes pour ton forfait actuel."
   },
   "Validation": {
     "status": {
@@ -1388,7 +1389,10 @@
       "addonPaymentRequired": "L'option Artwork Apple Music est sélectionnée : réglez-la avant d'envoyer votre sortie.",
       "addonPaymentButton": "Payer l'option et envoyer",
       "addonPaymentPending": "Redirection vers le paiement…",
-      "addonPaymentError": "Le paiement n'a pas pu être lancé. Réessaie dans un instant."
+      "addonPaymentError": "Le paiement n'a pas pu être lancé. Réessaie dans un instant.",
+      "accountNotValidatedTitle": "Ton compte n'est pas encore validé",
+      "accountNotValidatedDescription": "Valide ton paiement pour pouvoir envoyer cette sortie à notre équipe — tu peux continuer à la préparer en attendant.",
+      "accountNotValidatedCta": "Valider mon paiement"
     },
     "statusLabels": {
       "draft": "Brouillon",
@@ -1439,32 +1443,60 @@
     "subtitle": "Un abonnement, 100 % de tes royalties. Change ou résilie à tout moment.",
     "successBanner": "Paiement confirmé — ton abonnement est actif !",
     "canceledBanner": "Paiement annulé — aucun montant n'a été prélevé.",
-    "alreadyActive": "Tu as déjà un abonnement Solo {period} actif.",
+    "alreadyActive": "Tu as déjà un abonnement {plan} {period} actif.",
     "periodUnavailable": "Cette période de facturation n'est pas disponible dans ta région.",
     "annualOnlyNote": "Facturation annuelle uniquement dans ta région.",
     "couponLabel": "Code promo (optionnel)",
     "couponPlaceholder": "CODE",
     "subscribeCta": "Souscrire",
+    "automatedPaymentTitle": "Paiement immédiat (carte, PayPal)",
     "period": {
       "monthly": "Mensuel",
       "annual": "Annuel"
     },
-    "solo": {
-      "badge": "Recommandé",
-      "name": "Solo",
-      "description": "Distribue ta musique dans le monde entier, sans partage de revenus.",
-      "features": {
-        "unlimitedReleases": "Sorties illimitées, tous formats",
-        "allDsps": "150+ plateformes",
-        "hundredPercentRoyalties": "100 % de tes royalties",
-        "monthlyStats": "Statistiques mensuelles"
+    "plans": {
+      "solo": {
+        "badge": "Pour démarrer",
+        "name": "Solo",
+        "description": "Distribue ta musique dans le monde entier, sans partage de revenus."
+      },
+      "pro": {
+        "badge": "Populaire",
+        "name": "Pro",
+        "description": "Pour l'artiste qui sort régulièrement — mêmes avantages, un cran au-dessus."
+      },
+      "label": {
+        "badge": "Jusqu'à 5 artistes",
+        "name": "Label",
+        "description": "Pour les artistes signés et les petits labels — plusieurs artistes, un seul compte."
       }
     },
-    "label": {
-      "name": "Label",
-      "description": "Pour les artistes signés et les labels — accompagnement complet.",
-      "pricingNote": "Sur devis — parle-nous de ton projet.",
-      "cta": "Nous contacter"
+    "features": {
+      "unlimitedReleases": "Sorties illimitées, tous formats",
+      "allDsps": "150+ plateformes",
+      "hundredPercentRoyalties": "100 % de tes royalties",
+      "monthlyStats": "Statistiques mensuelles",
+      "multiArtist": "Jusqu'à 5 artistes sur un seul compte"
+    },
+    "manualPayment": {
+      "title": "J'ai déjà payé",
+      "description": "Envoie ton paiement par mobile money ou PayPal, puis dépose une capture de la confirmation. Notre équipe valide ton compte manuellement, généralement sous 24 h.",
+      "paypalLabel": "PayPal",
+      "paypalHint": "Paiement manuel",
+      "dropzoneLabel": "Dépose la capture du paiement",
+      "dropzoneHint": "JPEG, PNG ou WebP",
+      "removeFile": "Retirer {fileName}",
+      "uploading": "Envoi en cours…",
+      "uploaded": "Capture envoyée.",
+      "screenshotRequired": "Ajoute d'abord une capture du paiement effectué.",
+      "submitError": "Impossible d'envoyer la preuve — réessaie.",
+      "submitCta": "Envoyer ma preuve de paiement"
+    },
+    "proofStatus": {
+      "pendingTitle": "Paiement en cours de validation",
+      "pendingDescription": "Ta preuve de paiement pour le forfait {plan} ({period}) est en cours de vérification par notre équipe. Tu peux continuer à préparer tes sorties en attendant.",
+      "rejectedTitle": "Preuve de paiement refusée",
+      "rejectedDescription": "Motif : {reason}. Tu peux renvoyer une nouvelle preuve ci-dessous."
     },
     "errors": {
       "unauthenticated": "Session expirée — reconnecte-toi.",

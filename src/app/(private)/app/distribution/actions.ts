@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getLabelGridClient } from "@/lib/labelgrid";
 import { clientEnv } from "@/lib/env";
+import { hasActiveEntitlement } from "@/lib/subscriptions/gate";
 import {
   getPaymentProvider,
   getAddonPrice,
@@ -405,9 +406,20 @@ export async function hasAddonBeenPaid(releaseId: string): Promise<boolean> {
  * approbation, ou `rejectRelease` qui renvoie en brouillon avec motif (voir
  * ADR 0012). Bloque tant que l'add-on Apple Music, si choisi, n'est pas
  * payé (§5.3).
+ *
+ * Bloque aussi tant que le compte n'est pas validé (ADR 0026) : l'accès à
+ * `/app/distribution` est immédiat dès l'inscription (le paywall d'entrée a
+ * été retiré, voir src/proxy.ts), mais l'envoi effectif d'une sortie
+ * nécessite un paiement confirmé (abonnement actif — automatisé ou preuve
+ * manuelle approuvée via `/validations`). L'artiste peut préparer sa sortie
+ * intégralement avant d'en arriver là.
  */
 export async function submitRelease(releaseId: string): Promise<ActionResult> {
   const { supabase, user, artistId } = await requireArtist();
+
+  if (!(await hasActiveEntitlement(supabase, user.id))) {
+    return { error: "account_not_validated" };
+  }
 
   const { data: release } = await supabase
     .from("releases")

@@ -9,6 +9,7 @@ import {
   CompleteMultipartUploadCommand,
   AbortMultipartUploadCommand,
 } from "@aws-sdk/client-s3";
+import type { Readable } from "node:stream";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { requireEnv } from "@/lib/env";
 
@@ -62,6 +63,25 @@ export async function createPresignedDownloadUrl(key: string) {
   const url = await getSignedUrl(client, command, { expiresIn: PRESIGNED_URL_TTL_SECONDS });
 
   return { url, expiresInSeconds: PRESIGNED_URL_TTL_SECONDS };
+}
+
+/**
+ * Télécharge un objet R2 directement en mémoire (pas d'URL présignée) — sert
+ * à l'OCR best-effort des preuves de paiement (§ ADR 0026), exécuté
+ * server-side juste après l'upload, sur un fichier de quelques centaines de
+ * Ko au plus (capture d'écran), jamais sur de l'audio/artwork volumineux.
+ */
+export async function downloadObjectBuffer(key: string): Promise<Buffer> {
+  const client = getR2Client();
+  const bucket = requireEnv("R2_BUCKET_NAME", "le client Cloudflare R2");
+
+  const response = await client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
+  const stream = response.Body as Readable;
+  const chunks: Buffer[] = [];
+  for await (const chunk of stream) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
 }
 
 /** URL publique (artworks livrés aux DSP) — bucket/domaine servi via CDN. */

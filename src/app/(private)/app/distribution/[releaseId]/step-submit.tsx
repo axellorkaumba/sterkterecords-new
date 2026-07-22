@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle2Icon } from "lucide-react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { submitRelease, createAddonCheckoutAction, hasAddonBeenPaid } from "../actions";
@@ -21,6 +22,7 @@ export function StepSubmit({ releaseId, appleArtworkAddon, onBack }: StepSubmitP
   const [submitting, setSubmitting] = useState(false);
   const [payingAddon, setPayingAddon] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [accountNotValidated, setAccountNotValidated] = useState(false);
   const [success, setSuccess] = useState(false);
   const [addonPaid, setAddonPaid] = useState(searchParams.get("addonPaid") === "1");
 
@@ -45,9 +47,14 @@ export function StepSubmit({ releaseId, appleArtworkAddon, onBack }: StepSubmitP
   async function handleSubmit() {
     setSubmitting(true);
     setError(null);
+    setAccountNotValidated(false);
     const result = await submitRelease(releaseId);
     setSubmitting(false);
     if (result.error) {
+      if (result.error === "account_not_validated") {
+        setAccountNotValidated(true);
+        return;
+      }
       setError(result.error === "incomplete" ? t("errorIncomplete") : t("error"));
       return;
     }
@@ -80,6 +87,15 @@ export function StepSubmit({ releaseId, appleArtworkAddon, onBack }: StepSubmitP
       <CardContent className="flex flex-col gap-4">
         {needsAddonPayment ? (
           <p className="text-small text-muted-foreground">{t("addonPaymentRequired")}</p>
+        ) : null}
+        {accountNotValidated ? (
+          <div className="border-warning/40 bg-warning/10 rounded-lg border p-4 text-sm">
+            <p className="font-medium">{t("accountNotValidatedTitle")}</p>
+            <p className="text-muted-foreground mt-1">{t("accountNotValidatedDescription")}</p>
+            <Button className="mt-3" size="sm" render={<Link href="/app/abonnement" />}>
+              {t("accountNotValidatedCta")}
+            </Button>
+          </div>
         ) : null}
         {error ? (
           <p role="alert" className="text-destructive text-small">
