@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getActiveArtist } from "@/lib/artists/active-artist";
 import { getLabelGridClient } from "@/lib/labelgrid";
 import { clientEnv } from "@/lib/env";
 import { hasActiveEntitlement } from "@/lib/subscriptions/gate";
@@ -31,23 +32,36 @@ import {
 type ActionResult = { error: string | null };
 type Track = Database["public"]["Tables"]["tracks"]["Row"];
 
-async function requireArtist() {
+/**
+ * Pour les actions déjà scopées par un `releaseId` existant : la RLS
+ * `owns_artist(artist_id)` (voir supabase/migrations/20260704160000_dashboard_core.sql)
+ * garantit à elle seule qu'on ne touche que les releases dont l'artiste
+ * appartient à l'utilisateur connecté — inutile de re-dériver "l'artiste"
+ * ici, et dangereux de le faire (voir `requireActiveArtist` ci-dessous : sous
+ * un compte Label multi-artistes, ça pointerait vers le mauvais artiste).
+ */
+async function requireUser() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("[distribution] Non authentifié.");
+  return { supabase, user };
+}
 
-  const { data: artist } = await supabase
-    .from("artists")
-    .select("id")
-    .eq("owner_id", user.id)
-    .order("created_at", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-
-  if (!artist) throw new Error("[distribution] Aucun profil artiste.");
-  return { supabase, user, artistId: artist.id };
+/**
+ * Pour les actions qui n'ont pas encore de `releaseId` (créer une sortie,
+ * lister/dédupliquer le catalogue) : cible l'artiste "actif" du compte
+ * (ADR 0026 — multi-artistes Label, cookie posé par `setActiveArtist`,
+ * voir src/lib/artists/active-artist.ts). Un compte Solo/Pro n'a qu'un seul
+ * artiste, donc `activeArtist` est toujours le même que l'ancien
+ * comportement (le plus ancien) pour ces forfaits.
+ */
+async function requireActiveArtist() {
+  const { supabase, user } = await requireUser();
+  const { activeArtist } = await getActiveArtist(supabase, user.id);
+  if (!activeArtist) throw new Error("[distribution] Aucun profil artiste.");
+  return { supabase, user, artistId: activeArtist.id };
 }
 
 /** Langue du destinataire pour les emails transactionnels (§14) — déjà accessible via la session RLS, pas besoin du client admin ici. */
@@ -69,7 +83,7 @@ async function logAudit(actorId: string, action: string, entityId: string) {
 /** Démarre une nouvelle sortie brouillon (§11.4 étape 1) — redirige vers son tunnel. */
 export async function createDraftRelease(type: ReleaseTypeValue): Promise<never> {
   const parsedType = releaseTypeSchema.parse(type);
-  const { supabase, artistId } = await requireArtist();
+  const { supabase, artistId } = await requireActiveArtist();
 
   const { data: release, error } = await supabase
     .from("releases")
@@ -85,7 +99,7 @@ export async function createDraftRelease(type: ReleaseTypeValue): Promise<never>
 }
 
 export async function updateReleaseStep(releaseId: string, step: number): Promise<void> {
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
   await supabase.from("releases").update({ current_step: step }).eq("id", releaseId);
   revalidatePath(`/app/distribution/${releaseId}`);
 }
@@ -96,7 +110,7 @@ export async function updateReleaseMetadata(
 ): Promise<ActionResult> {
   const parsed = releaseMetadataSchema.safeParse(values);
   if (!parsed.success) return { error: "invalid" };
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
 
   const { error } = await supabase
     .from("releases")
@@ -130,7 +144,7 @@ export async function addTrack(
     audioHash: string;
   },
 ): Promise<{ error: string | null; trackId?: string }> {
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
 
   const { data: existingTracks } = await supabase
     .from("tracks")
@@ -165,13 +179,13 @@ export async function addTrack(
 }
 
 export async function removeTrack(releaseId: string, trackId: string): Promise<void> {
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
   await supabase.from("tracks").delete().eq("id", trackId);
   revalidatePath(`/app/distribution/${releaseId}`);
 }
 
 export async function reorderTracks(releaseId: string, orderedTrackIds: string[]): Promise<void> {
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
   await Promise.all(
     orderedTrackIds.map((trackId, index) =>
       supabase
@@ -190,7 +204,7 @@ export async function updateTrackMetadata(
 ): Promise<ActionResult> {
   const parsed = trackMetadataSchema.safeParse(values);
   if (!parsed.success) return { error: "invalid" };
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
 
   const { error } = await supabase
     .from("tracks")
@@ -214,7 +228,7 @@ export async function replaceContributors(
 ): Promise<ActionResult> {
   const parsed = contributorSchema.array().safeParse(contributors);
   if (!parsed.success) return { error: "invalid" };
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
 
   await supabase.from("contributors").delete().eq("track_id", trackId);
 
@@ -239,7 +253,7 @@ export async function updateReleaseArtwork(
   artworkR2Key: string,
   appleArtworkAddon: boolean,
 ): Promise<ActionResult> {
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
   const { error } = await supabase
     .from("releases")
     .update({ artwork_url: artworkR2Key, apple_artwork: appleArtworkAddon })
@@ -251,7 +265,7 @@ export async function updateReleaseArtwork(
 }
 
 export async function replacePlatforms(releaseId: string, dspIds: string[]): Promise<ActionResult> {
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
 
   await supabase.from("release_platforms").delete().eq("release_id", releaseId);
   if (dspIds.length > 0) {
@@ -271,7 +285,7 @@ export async function updateReleaseSchedule(
 ): Promise<ActionResult> {
   const parsed = scheduleSchema.safeParse(values);
   if (!parsed.success) return { error: "invalid" };
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
 
   const { error } = await supabase
     .from("releases")
@@ -294,7 +308,7 @@ export async function getArtistCatalogFingerprint(): Promise<{
   upcs: string[];
   titles: string[];
 }> {
-  const { supabase, artistId } = await requireArtist();
+  const { supabase, artistId } = await requireActiveArtist();
 
   const { data: releases } = await supabase
     .from("releases")
@@ -326,13 +340,12 @@ export async function getArtistCatalogFingerprint(): Promise<{
  * `countries.default_payment_provider` — jamais de valeur en dur.
  */
 export async function createAddonCheckoutAction(releaseId: string): Promise<ActionResult | never> {
-  const { supabase, user, artistId } = await requireArtist();
+  const { supabase, user } = await requireUser();
 
   const { data: release } = await supabase
     .from("releases")
     .select("id, apple_artwork")
     .eq("id", releaseId)
-    .eq("artist_id", artistId)
     .single();
   if (!release?.apple_artwork) return { error: "not_applicable" };
 
@@ -386,7 +399,7 @@ export async function createAddonCheckoutAction(releaseId: string): Promise<Acti
 }
 
 export async function hasAddonBeenPaid(releaseId: string): Promise<boolean> {
-  const { supabase } = await requireArtist();
+  const { supabase } = await requireUser();
   const { data } = await supabase
     .from("payments")
     .select("id")
@@ -415,7 +428,7 @@ export async function hasAddonBeenPaid(releaseId: string): Promise<boolean> {
  * intégralement avant d'en arriver là.
  */
 export async function submitRelease(releaseId: string): Promise<ActionResult> {
-  const { supabase, user, artistId } = await requireArtist();
+  const { supabase, user } = await requireUser();
 
   if (!(await hasActiveEntitlement(supabase, user.id))) {
     return { error: "account_not_validated" };
@@ -425,7 +438,6 @@ export async function submitRelease(releaseId: string): Promise<ActionResult> {
     .from("releases")
     .select("*")
     .eq("id", releaseId)
-    .eq("artist_id", artistId)
     .single();
   const { count: trackCount } = await supabase
     .from("tracks")
@@ -471,7 +483,7 @@ export async function requestModification(
   releaseId: string,
   details: string,
 ): Promise<ActionResult> {
-  const { user } = await requireArtist();
+  const { user } = await requireUser();
   const admin = createAdminClient();
 
   const { error } = await admin.from("audit_log").insert({
@@ -494,7 +506,7 @@ export async function requestModification(
  * encore construit — même limite que le suivi `delivering` → `delivered`).
  */
 export async function requestTakedown(releaseId: string, reason: string): Promise<ActionResult> {
-  const { supabase, user } = await requireArtist();
+  const { supabase, user } = await requireUser();
 
   const [{ data: sync }, { data: release }] = await Promise.all([
     supabase
@@ -537,7 +549,7 @@ export async function requestTakedown(releaseId: string, reason: string): Promis
 
 /** Liste des sorties de l'artiste (§8 — `/app/distribution`). */
 export async function listArtistReleases() {
-  const { supabase, artistId } = await requireArtist();
+  const { supabase, artistId } = await requireActiveArtist();
   const { data } = await supabase
     .from("releases")
     .select("id, title, type, status, release_date, created_at")

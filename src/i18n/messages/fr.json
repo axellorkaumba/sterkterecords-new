@@ -789,6 +789,10 @@
       "title": "Notifications récentes",
       "emptyTitle": "Aucune notification",
       "emptyDescription": "Tu seras notifié ici des mises à jour importantes."
+    },
+    "artistSwitcher": {
+      "switchArtist": "Changer d'artiste",
+      "addArtist": "Ajouter un artiste"
     }
   },
   "Admin": {
@@ -1017,7 +1021,11 @@
     "submit": "Créer mon profil",
     "submitting": "Création…",
     "error": "Une erreur est survenue. Réessaie.",
-    "errorLimitReached": "Tu as atteint le nombre maximum d'artistes pour ton forfait actuel."
+    "errorLimitReached": "Tu as atteint le nombre maximum d'artistes pour ton forfait actuel.",
+    "addTag": "Forfait Label",
+    "addTitle": "Ajoute un nouvel artiste",
+    "addSubtitle": "Ce profil vient s'ajouter aux autres artistes de ton compte — tu pourras basculer entre eux depuis le tableau de bord.",
+    "addSubmit": "Ajouter cet artiste"
   },
   "Validation": {
     "status": {

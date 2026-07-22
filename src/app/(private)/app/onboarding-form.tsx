@@ -17,9 +17,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { createArtistProfile } from "./actions";
+import { setActiveArtist } from "./artist-actions";
 import { createArtistSchema, type CreateArtistValues } from "./schemas";
 
-export function OnboardingForm() {
+/**
+ * `variant="add"` (ADR 0026 — multi-artistes Label) : réutilisé sur
+ * `/app/artistes/nouveau` pour créer un 2e-5e artiste sous un compte déjà
+ * onboardé. Le nouvel artiste devient l'artiste actif (`setActiveArtist`) et
+ * on redirige vers le dashboard, au lieu du simple `router.refresh()` du
+ * premier onboarding (qui reste sur place, `page.tsx` bascule seul vers le
+ * dashboard une fois `artists` non vide).
+ */
+export function OnboardingForm({ variant = "onboarding" }: { variant?: "onboarding" | "add" }) {
   const t = useTranslations("Onboarding");
   const router = useRouter();
 
@@ -43,6 +52,11 @@ export function OnboardingForm() {
       });
       return;
     }
+    if (variant === "add" && result.artistId) {
+      await setActiveArtist(result.artistId);
+      router.push("/app");
+      return;
+    }
     router.refresh();
   }
 
@@ -51,10 +65,12 @@ export function OnboardingForm() {
       <Card>
         <CardHeader>
           <p className="text-caption text-primary font-medium tracking-wide uppercase">
-            {t("tag")}
+            {variant === "add" ? t("addTag") : t("tag")}
           </p>
-          <CardTitle className="text-h3 font-display">{t("title")}</CardTitle>
-          <CardDescription>{t("subtitle")}</CardDescription>
+          <CardTitle className="text-h3 font-display">
+            {variant === "add" ? t("addTitle") : t("title")}
+          </CardTitle>
+          <CardDescription>{variant === "add" ? t("addSubtitle") : t("subtitle")}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -148,7 +164,7 @@ export function OnboardingForm() {
                 loading={form.formState.isSubmitting}
                 loadingText={t("submitting")}
               >
-                {t("submit")}
+                {variant === "add" ? t("addSubmit") : t("submit")}
               </Button>
             </form>
           </Form>

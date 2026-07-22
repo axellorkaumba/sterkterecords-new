@@ -789,6 +789,10 @@
       "title": "Recent notifications",
       "emptyTitle": "No notifications",
       "emptyDescription": "You'll be notified here of important updates."
+    },
+    "artistSwitcher": {
+      "switchArtist": "Switch artist",
+      "addArtist": "Add an artist"
     }
   },
   "Admin": {
@@ -1017,7 +1021,11 @@
     "submit": "Create my profile",
     "submitting": "Creating…",
     "error": "Something went wrong. Please try again.",
-    "errorLimitReached": "You've reached the maximum number of artists for your current plan."
+    "errorLimitReached": "You've reached the maximum number of artists for your current plan.",
+    "addTag": "Label plan",
+    "addTitle": "Add a new artist",
+    "addSubtitle": "This profile joins the other artists on your account — you'll be able to switch between them from the dashboard.",
+    "addSubmit": "Add this artist"
   },
   "Validation": {
     "status": {

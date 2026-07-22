@@ -790,6 +790,10 @@
       "title": "TODO(ln): Notifications récentes",
       "emptyTitle": "TODO(ln): Aucune notification",
       "emptyDescription": "TODO(ln): Tu seras notifié ici des mises à jour importantes."
+    },
+    "artistSwitcher": {
+      "switchArtist": "TODO(ln): Changer d'artiste",
+      "addArtist": "TODO(ln): Ajouter un artiste"
     }
   },
   "Admin": {
@@ -1018,7 +1022,11 @@
     "submit": "TODO(ln): Créer mon profil",
     "submitting": "TODO(ln): Création…",
     "error": "TODO(ln): Une erreur est survenue. Réessaie.",
-    "errorLimitReached": "TODO(ln): Tu as atteint le nombre maximum d'artistes pour ton forfait actuel."
+    "errorLimitReached": "TODO(ln): Tu as atteint le nombre maximum d'artistes pour ton forfait actuel.",
+    "addTag": "TODO(ln): Forfait Label",
+    "addTitle": "TODO(ln): Ajoute un nouvel artiste",
+    "addSubtitle": "TODO(ln): Ce profil vient s'ajouter aux autres artistes de ton compte — tu pourras basculer entre eux depuis le tableau de bord.",
+    "addSubmit": "TODO(ln): Ajouter cet artiste"
   },
   "Validation": {
     "status": {

@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+import { getActiveArtist } from "@/lib/artists/active-artist";
+import { getArtistLimit } from "@/lib/artists/limit";
 import { OnboardingForm } from "./onboarding-form";
 import { OverviewHeader } from "./overview-header";
 import { ReleasesBanner } from "./releases-banner";
@@ -13,6 +15,10 @@ import { NotificationsCard } from "./notifications-card";
  * profil artiste voit l'onboarding (§10.1) à la place — voir
  * docs/adr/0008-dashboard-artiste.md pour l'adaptation de cet ordre
  * (paiement/forfait pas encore construits).
+ *
+ * Un compte peut posséder plusieurs artistes (forfait Label, jusqu'à 5,
+ * ADR 0027) : tout ce qui suit est scopé sur l'artiste "actif"
+ * (`getActiveArtist`), pas systématiquement le premier créé.
  */
 export default async function ArtistDashboardPage() {
   const supabase = await createClient();
@@ -25,17 +31,16 @@ export default async function ArtistDashboardPage() {
     return null;
   }
 
-  const { data: artist } = await supabase
-    .from("artists")
-    .select("*")
-    .eq("owner_id", user.id)
-    .order("created_at", { ascending: true })
-    .limit(1)
-    .maybeSingle();
+  const [{ artists, activeArtist: artist }, artistLimit] = await Promise.all([
+    getActiveArtist(supabase, user.id),
+    getArtistLimit(supabase, user.id),
+  ]);
 
   if (!artist) {
     return <OnboardingForm />;
   }
+
+  const canAddMoreArtists = artists.length < artistLimit;
 
   const [{ data: releases }, { data: statsRows }, { data: wallet }, { data: notifications }] =
     await Promise.all([
@@ -99,7 +104,12 @@ export default async function ArtistDashboardPage() {
 
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-8">
-      <OverviewHeader artist={artist} latestPeriod={latestPeriod} />
+      <OverviewHeader
+        artist={artist}
+        artists={artists}
+        canAddMore={canAddMoreArtists}
+        latestPeriod={latestPeriod}
+      />
 
       <ReleasesBanner releases={releases ?? []} />
 
