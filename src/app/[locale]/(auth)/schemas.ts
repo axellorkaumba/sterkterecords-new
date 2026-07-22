@@ -16,11 +16,21 @@ export const signInSchema = z.object({
 });
 export type SignInValues = z.infer<typeof signInSchema>;
 
+/**
+ * `accountType` (ADR 0029 — comptes Label, Phase 1) détermine
+ * `profiles.role` à l'inscription (`artist` par défaut, `manager` si
+ * `"label"` — voir le trigger `handle_new_user`, migration
+ * 20260722120000_label_accounts.sql) et donc l'onboarding affiché ensuite.
+ */
+export const accountTypeEnum = z.enum(["artist", "label"]);
+export type AccountType = z.infer<typeof accountTypeEnum>;
+
 export const signUpSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
   email: z.string().trim().email(),
   password: z.string().min(8),
   locale: localeEnum,
+  accountType: accountTypeEnum,
   // `boolean` (pas `z.literal(true)`) pour que le formulaire puisse
   // initialiser le champ à `false` — la contrainte "doit être coché" est
   // portée par `.refine`, le message est géré manuellement côté formulaire

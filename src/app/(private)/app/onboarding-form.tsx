@@ -20,15 +20,20 @@ import { createArtistProfile } from "./actions";
 import { setActiveArtist } from "./artist-actions";
 import { createArtistSchema, type CreateArtistValues } from "./schemas";
 
+type OnboardingVariant = "onboarding" | "add" | "labelFirst";
+
 /**
  * `variant="add"` (ADR 0026 — multi-artistes Label) : réutilisé sur
  * `/app/artistes/nouveau` pour créer un 2e-5e artiste sous un compte déjà
- * onboardé. Le nouvel artiste devient l'artiste actif (`setActiveArtist`) et
- * on redirige vers le dashboard, au lieu du simple `router.refresh()` du
- * premier onboarding (qui reste sur place, `page.tsx` bascule seul vers le
- * dashboard une fois `artists` non vide).
+ * onboardé. `variant="labelFirst"` (ADR 0029, Phase 1) : premier artiste
+ * d'un compte Label qui vient de créer son espace (`LabelOnboardingForm`) —
+ * même comportement post-soumission que `"add"`, copy différente. Les deux
+ * variantes rendent le nouvel artiste actif (`setActiveArtist`) et
+ * redirigent vers le dashboard, au lieu du simple `router.refresh()` du
+ * premier onboarding solo (qui reste sur place, `page.tsx` bascule seul vers
+ * le dashboard une fois `artists` non vide).
  */
-export function OnboardingForm({ variant = "onboarding" }: { variant?: "onboarding" | "add" }) {
+export function OnboardingForm({ variant = "onboarding" }: { variant?: OnboardingVariant }) {
   const t = useTranslations("Onboarding");
   const router = useRouter();
 
@@ -52,7 +57,7 @@ export function OnboardingForm({ variant = "onboarding" }: { variant?: "onboardi
       });
       return;
     }
-    if (variant === "add" && result.artistId) {
+    if (variant !== "onboarding" && result.artistId) {
       await setActiveArtist(result.artistId);
       router.push("/app");
       return;
@@ -60,17 +65,25 @@ export function OnboardingForm({ variant = "onboarding" }: { variant?: "onboardi
     router.refresh();
   }
 
+  const tagKey = variant === "add" ? "addTag" : variant === "labelFirst" ? "labelFirstTag" : "tag";
+  const titleKey =
+    variant === "add" ? "addTitle" : variant === "labelFirst" ? "labelFirstTitle" : "title";
+  const subtitleKey =
+    variant === "add"
+      ? "addSubtitle"
+      : variant === "labelFirst"
+        ? "labelFirstSubtitle"
+        : "subtitle";
+
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-6 p-4 sm:p-8">
       <Card>
         <CardHeader>
           <p className="text-caption text-primary font-medium tracking-wide uppercase">
-            {variant === "add" ? t("addTag") : t("tag")}
+            {t(tagKey)}
           </p>
-          <CardTitle className="text-h3 font-display">
-            {variant === "add" ? t("addTitle") : t("title")}
-          </CardTitle>
-          <CardDescription>{variant === "add" ? t("addSubtitle") : t("subtitle")}</CardDescription>
+          <CardTitle className="text-h3 font-display">{t(titleKey)}</CardTitle>
+          <CardDescription>{t(subtitleKey)}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -164,7 +177,9 @@ export function OnboardingForm({ variant = "onboarding" }: { variant?: "onboardi
                 loading={form.formState.isSubmitting}
                 loadingText={t("submitting")}
               >
-                {variant === "add" ? t("addSubmit") : t("submit")}
+                {variant === "onboarding"
+                  ? t("submit")
+                  : t(variant === "add" ? "addSubmit" : "labelFirstSubmit")}
               </Button>
             </form>
           </Form>

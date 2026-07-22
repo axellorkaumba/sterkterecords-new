@@ -4,18 +4,33 @@ import { ArtistSwitcher } from "./artist-switcher";
 import type { Database } from "@/types/database.types";
 
 type Artist = Database["public"]["Tables"]["artists"]["Row"];
+type Label = Database["public"]["Tables"]["labels"]["Row"];
+
+function initialsOf(name: string): string {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
 
 /**
  * En-tête du dashboard (§11.3) : nom + avatar de l'artiste actif. Le
  * sélecteur (`ArtistSwitcher`) ne s'affiche que si le compte a plus d'un
  * artiste ou peut encore en ajouter (forfait Label, ADR 0026) — sinon on
  * garde l'affichage statique du MVP self-service.
+ *
+ * `label` (ADR 0029, Phase 1) : présent uniquement pour un compte
+ * `profiles.role = 'manager'` — ajoute une bande "Espace Label" au-dessus,
+ * le reste (artiste actif + switcher) est inchangé en dessous.
  */
 export async function OverviewHeader({
   artist,
   artists,
   canAddMore,
   latestPeriod,
+  label,
 }: {
   artist: Artist;
   /** Tous les artistes du compte — utilisé par le switcher. */
@@ -23,33 +38,47 @@ export async function OverviewHeader({
   canAddMore: boolean;
   /** Date du dernier reporting LabelGrid disponible (§13.1) — `null` tant qu'aucun n'existe. */
   latestPeriod: string | null;
+  label: Label | null;
 }) {
   const t = await getTranslations("Dashboard");
-  const initials = artist.name
-    .split(" ")
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
 
   return (
-    <div className="flex items-center gap-3">
-      <Avatar size="lg">
-        {artist.avatar_url ? <AvatarImage src={artist.avatar_url} alt="" /> : null}
-        <AvatarFallback>{initials}</AvatarFallback>
-      </Avatar>
-      <div>
-        <div className="flex items-center gap-1">
-          <h1 className="text-h2 font-display">{artist.name}</h1>
-          {artists.length > 1 || canAddMore ? (
-            <ArtistSwitcher artists={artists} activeArtistId={artist.id} canAddMore={canAddMore} />
-          ) : null}
+    <div className="flex flex-col gap-3">
+      {label ? (
+        <div className="flex items-center gap-2">
+          <Avatar size="sm">
+            {label.avatar_url ? <AvatarImage src={label.avatar_url} alt="" /> : null}
+            <AvatarFallback>{initialsOf(label.name)}</AvatarFallback>
+          </Avatar>
+          <span className="text-caption text-muted-foreground font-medium tracking-wide uppercase">
+            {t("labelSpace")}
+          </span>
+          <span className="text-small font-medium">{label.name}</span>
         </div>
-        <p className="text-small text-muted-foreground">
-          {latestPeriod
-            ? t("reportingNote", { date: new Date(latestPeriod).toLocaleDateString() })
-            : t("noReportYet")}
-        </p>
+      ) : null}
+
+      <div className="flex items-center gap-3">
+        <Avatar size="lg">
+          {artist.avatar_url ? <AvatarImage src={artist.avatar_url} alt="" /> : null}
+          <AvatarFallback>{initialsOf(artist.name)}</AvatarFallback>
+        </Avatar>
+        <div>
+          <div className="flex items-center gap-1">
+            <h1 className="text-h2 font-display">{artist.name}</h1>
+            {artists.length > 1 || canAddMore ? (
+              <ArtistSwitcher
+                artists={artists}
+                activeArtistId={artist.id}
+                canAddMore={canAddMore}
+              />
+            ) : null}
+          </div>
+          <p className="text-small text-muted-foreground">
+            {latestPeriod
+              ? t("reportingNote", { date: new Date(latestPeriod).toLocaleDateString() })
+              : t("noReportYet")}
+          </p>
+        </div>
       </div>
     </div>
   );

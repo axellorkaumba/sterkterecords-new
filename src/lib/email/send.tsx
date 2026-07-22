@@ -14,6 +14,7 @@ import { ReleaseSubmittedEmail } from "./templates/release-submitted";
 import { ReleaseStatusUpdateEmail } from "./templates/release-status-update";
 import { ReleaseCorrectionNeededEmail } from "./templates/release-correction-needed";
 import { TakedownConfirmedEmail } from "./templates/takedown-confirmed";
+import { CollaboratorInviteEmail } from "./templates/collaborator-invite";
 import type { EmailTranslator } from "./templates/types";
 
 /**
@@ -224,6 +225,30 @@ export async function sendReleaseCorrectionNeededEmail(params: {
         releaseTitle={params.releaseTitle}
         issues={params.issues}
         dashboardUrl={params.dashboardUrl}
+      />
+    ),
+  });
+}
+
+/** Invitation à collaborer sur un artiste (ADR 0030, Phase 2) — voir `inviteCollaborator`. */
+export async function sendCollaboratorInviteEmail(params: {
+  to: string;
+  locale: AppLocale;
+  artistName: string;
+  inviterName: string;
+  acceptUrl: string;
+}): Promise<void> {
+  const t = await createEmailTranslator(params.locale);
+  await send({
+    to: params.to,
+    subject: t("collaboratorInvite.preview", { artist: params.artistName }),
+    react: (
+      <CollaboratorInviteEmail
+        locale={params.locale}
+        t={t}
+        artistName={params.artistName}
+        inviterName={params.inviterName}
+        acceptUrl={params.acceptUrl}
       />
     ),
   });

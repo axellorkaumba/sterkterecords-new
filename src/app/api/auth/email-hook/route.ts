@@ -51,7 +51,12 @@ function buildVerifyUrl(tokenHash: string, actionType: string, redirectTo: strin
     );
   }
   const url = new URL(`${supabaseUrl}/auth/v1/verify`);
-  url.searchParams.set("token_hash", tokenHash);
+  // GoTrue attend le paramètre `token` sur le endpoint GET /verify (celui
+  // cliqué depuis l'email) — `token_hash` est le nom du champ côté payload
+  // du webhook et côté `supabase.auth.verifyOtp()`, mais PAS celui attendu
+  // ici. Avec le mauvais nom, GoTrue ne reçoit aucun token exploitable : le
+  // lien ne confirme jamais le compte (repéré en prod, retour Axel).
+  url.searchParams.set("token", tokenHash);
   url.searchParams.set("type", actionType);
   url.searchParams.set("redirect_to", redirectTo);
   return url.toString();

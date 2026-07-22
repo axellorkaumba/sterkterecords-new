@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import {
   LayoutDashboardIcon,
+  Building2Icon,
   UploadIcon,
   BarChart3Icon,
   WalletIcon,
@@ -29,6 +30,13 @@ import { cn } from "@/lib/utils";
  */
 const NAV_ITEMS = [
   { href: "/app", icon: LayoutDashboardIcon, key: "overview", available: true },
+  {
+    href: "/app/label",
+    icon: Building2Icon,
+    key: "label",
+    available: true,
+    managerOnly: true,
+  },
   { href: "/app/distribution", icon: UploadIcon, key: "distribution", available: true },
   { href: "/app/statistiques", icon: BarChart3Icon, key: "stats", available: false },
   { href: "/app/revenus", icon: WalletIcon, key: "revenue", available: false },
@@ -37,18 +45,27 @@ const NAV_ITEMS = [
   { href: "/app/featuring", icon: UsersIcon, key: "featuring", available: false },
   { href: "/app/consulting", icon: BriefcaseIcon, key: "consulting", available: false },
   { href: "/app/contrats", icon: FileTextIcon, key: "contracts", available: false },
-  { href: "/app/equipe", icon: UserPlusIcon, key: "team", available: false },
+  { href: "/app/collaborateurs", icon: UserPlusIcon, key: "team", available: true },
   { href: "/app/notifications", icon: BellIcon, key: "notifications", available: false },
   { href: "/app/parametres", icon: SettingsIcon, key: "settings", available: true },
 ] as const;
 
-export function AppSidebarNav({ onNavigate }: { onNavigate?: () => void }) {
+export function AppSidebarNav({
+  onNavigate,
+  isLabelAccount = false,
+}: {
+  onNavigate?: () => void;
+  /** Compte `profiles.role = 'manager'` (ADR 0029) — affiche "Vue Label". */
+  isLabelAccount?: boolean;
+}) {
   const t = useTranslations("AppNav");
   const pathname = usePathname();
 
   return (
     <nav className="flex flex-col gap-1">
-      {NAV_ITEMS.map((item) => {
+      {NAV_ITEMS.filter(
+        (item) => !("managerOnly" in item && item.managerOnly) || isLabelAccount,
+      ).map((item) => {
         const isActive =
           item.href === "/app" ? pathname === item.href : pathname.startsWith(item.href);
 

@@ -45,22 +45,24 @@ export async function signIn(values: SignInValues, next?: string): Promise<Actio
 }
 
 /**
- * Inscription self-service (§10.1) — toujours rôle `artist` par défaut (voir
- * le trigger `handle_new_user`, migration 20260704140000). Ne redirige pas :
+ * Inscription self-service (§10.1) — rôle `artist` par défaut, ou `manager`
+ * si `accountType === "label"` (ADR 0029, comptes Label Phase 1) : voir le
+ * trigger `handle_new_user`, migration 20260722120000_label_accounts.sql,
+ * qui lit `account_type` dans les métadonnées posées ici. Ne redirige pas :
  * la page affiche un état "vérifie ta boîte mail" sur place (§11.2 —
  * vérification email obligatoire avant paiement).
  */
 export async function signUp(values: SignUpFormValues): Promise<ActionResult> {
   const parsed = signUpSchema.safeParse(values);
   if (!parsed.success) return { error: "unknown" };
-  const { fullName, email, password, locale } = parsed.data;
+  const { fullName, email, password, locale, accountType } = parsed.data;
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: { full_name: fullName, locale },
+      data: { full_name: fullName, locale, account_type: accountType },
       emailRedirectTo: authCallbackUrl({ type: "signup", locale }),
     },
   });

@@ -3,22 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getArtistLimit } from "@/lib/artists/limit";
+import { slugify, randomSuffix } from "@/lib/slug";
 import { createArtistSchema, type CreateArtistValues } from "./schemas";
 
 type ActionResult = { error: string | null; artistId?: string };
-
-function slugify(name: string): string {
-  return name
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-+|-+$)/g, "");
-}
-
-function randomSuffix(): string {
-  return Math.random().toString(36).slice(2, 6);
-}
 
 /**
  * Onboarding profil artiste (§10.1) — adapté à l'ordre des sprints : le CDC

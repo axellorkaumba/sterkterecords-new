@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { AppSidebarNav } from "./app-sidebar-nav";
 
-export function AppMobileNav() {
+export function AppMobileNav({ isLabelAccount = false }: { isLabelAccount?: boolean }) {
   const t = useTranslations("AppNav");
   const [open, setOpen] = useState(false);
 
@@ -23,7 +23,7 @@ export function AppMobileNav() {
       <SheetContent side="left">
         <SheetTitle className="sr-only">{t("openMenu")}</SheetTitle>
         <div className="mt-8 px-2">
-          <AppSidebarNav onNavigate={() => setOpen(false)} />
+          <AppSidebarNav onNavigate={() => setOpen(false)} isLabelAccount={isLabelAccount} />
         </div>
       </SheetContent>
     </Sheet>

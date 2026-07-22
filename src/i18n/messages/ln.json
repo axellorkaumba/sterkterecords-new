@@ -688,6 +688,13 @@
       "tag": "TODO(ln): Inscription",
       "title": "TODO(ln): Distribue ta musique",
       "subtitle": "TODO(ln): Crée ton compte — c'est gratuit et ça prend une minute.",
+      "accountType": {
+        "label": "TODO(ln): Tu t'inscris comme…",
+        "artistTitle": "TODO(ln): Artiste indépendant",
+        "artistDescription": "TODO(ln): Tu distribues ta propre musique.",
+        "labelTitle": "TODO(ln): Label ou manager",
+        "labelDescription": "TODO(ln): Tu gères plusieurs artistes (jusqu'à 5)."
+      },
       "fullNameLabel": "TODO(ln): Nom complet",
       "fullNamePlaceholder": "TODO(ln): Ton nom d'artiste ou nom complet",
       "emailLabel": "TODO(ln): Adresse email",
@@ -803,6 +810,15 @@
     "artistSwitcher": {
       "switchArtist": "TODO(ln): Changer d'artiste",
       "addArtist": "TODO(ln): Ajouter un artiste"
+    },
+    "labelSpace": "TODO(ln): Espace Label",
+    "labelView": {
+      "title": "TODO(ln): Vue Label",
+      "subtitle": "TODO(ln): {count, plural, one {# artiste} other {# artistes}} sous ce label",
+      "artistsTitle": "TODO(ln): Tes artistes",
+      "artistsSubtitle": "TODO(ln): Streams du dernier mois rapporté, par artiste.",
+      "artistStats": "TODO(ln): {releases, plural, one {# sortie} other {# sorties}} · {streams} streams",
+      "viewArtist": "TODO(ln): Voir"
     }
   },
   "Admin": {
@@ -1002,6 +1018,7 @@
   },
   "AppNav": {
     "overview": "TODO(ln): Vue d'ensemble",
+    "label": "TODO(ln): Vue Label",
     "distribution": "TODO(ln): Distribution",
     "stats": "TODO(ln): Statistiques",
     "revenue": "TODO(ln): Revenus",
@@ -1035,7 +1052,56 @@
     "addTag": "TODO(ln): Forfait Label",
     "addTitle": "TODO(ln): Ajoute un nouvel artiste",
     "addSubtitle": "TODO(ln): Ce profil vient s'ajouter aux autres artistes de ton compte — tu pourras basculer entre eux depuis le tableau de bord.",
-    "addSubmit": "TODO(ln): Ajouter cet artiste"
+    "addSubmit": "TODO(ln): Ajouter cet artiste",
+    "labelFirstTag": "TODO(ln): Espace Label",
+    "labelFirstTitle": "TODO(ln): Ajoute ton premier artiste",
+    "labelFirstSubtitle": "TODO(ln): Tu pourras en ajouter jusqu'à 5 sous cet espace Label, et basculer entre eux depuis le tableau de bord.",
+    "labelFirstSubmit": "TODO(ln): Ajouter cet artiste"
+  },
+  "LabelOnboarding": {
+    "tag": "TODO(ln): Bienvenue",
+    "title": "TODO(ln): Crée ton espace Label",
+    "subtitle": "TODO(ln): Le nom et le profil de ton label ou de ta structure — tu ajouteras tes artistes juste après.",
+    "nameLabel": "TODO(ln): Nom du label",
+    "namePlaceholder": "TODO(ln): Le nom de ta structure",
+    "bioLabel": "TODO(ln): Description",
+    "bioPlaceholder": "TODO(ln): Quelques mots sur ton label…",
+    "avatarUrlLabel": "TODO(ln): Logo (URL)",
+    "submit": "TODO(ln): Créer mon espace Label",
+    "submitting": "TODO(ln): Création…",
+    "error": "TODO(ln): Une erreur est survenue. Réessaie."
+  },
+  "Collaborators": {
+    "title": "TODO(ln): Collaborateurs",
+    "subtitle": "TODO(ln): Gère qui peut voir le tableau de bord de {artist}.",
+    "notOwner": "TODO(ln): Tu collabores sur {artist} — seul le propriétaire de l'artiste peut gérer les collaborateurs.",
+    "inviteTitle": "TODO(ln): Inviter quelqu'un",
+    "emailLabel": "TODO(ln): Adresse email",
+    "emailPlaceholder": "TODO(ln): collaborateur@exemple.com",
+    "permissionLabel": "TODO(ln): Accès",
+    "permissionView": "TODO(ln): Lecture seule",
+    "permissionManage": "TODO(ln): Peut gérer (bientôt)",
+    "submit": "TODO(ln): Inviter",
+    "submitting": "TODO(ln): Envoi…",
+    "error": "TODO(ln): Impossible d'envoyer l'invitation — réessaie.",
+    "listTitle": "TODO(ln): Collaborateurs invités",
+    "listSubtitle": "TODO(ln): Statut des invitations envoyées pour cet artiste.",
+    "empty": "TODO(ln): Aucun collaborateur invité pour l'instant.",
+    "revoke": "TODO(ln): Révoquer",
+    "status": {
+      "pending": "TODO(ln): En attente",
+      "accepted": "TODO(ln): Actif",
+      "revoked": "TODO(ln): Révoqué"
+    },
+    "accept": {
+      "title": "TODO(ln): Invitation — {artist}",
+      "descriptionView": "TODO(ln): Tu pourras consulter le tableau de bord, le catalogue et les statistiques de cet artiste.",
+      "descriptionManage": "TODO(ln): Tu pourras consulter le tableau de bord, le catalogue et les statistiques de cet artiste.",
+      "acceptCta": "TODO(ln): Accepter l'invitation",
+      "error": "TODO(ln): Impossible d'accepter cette invitation — réessaie ou demande un nouveau lien.",
+      "invalidTitle": "TODO(ln): Invitation invalide",
+      "invalidDescription": "TODO(ln): Ce lien n'est plus valide — il a peut-être déjà été utilisé ou révoqué. Demande une nouvelle invitation à la personne qui te l'a envoyée."
+    }
   },
   "Validation": {
     "status": {
@@ -1634,6 +1700,12 @@
       "heading": "TODO(ln): Retrait de « {title} » confirmé",
       "body": "TODO(ln): Ta demande de retrait a été transmise à nos plateformes partenaires. Le retrait effectif peut prendre jusqu'à 30 jours ouvrés selon les plateformes concernées.",
       "cta": "TODO(ln): Voir ma sortie"
+    },
+    "collaboratorInvite": {
+      "preview": "TODO(ln): Invitation à collaborer sur {artist}",
+      "heading": "TODO(ln): Tu es invité·e sur {artist}",
+      "body": "TODO(ln): {inviter} t'invite à collaborer sur l'artiste {artist} sur Sterkte Records. Accepte l'invitation pour accéder à son tableau de bord.",
+      "cta": "TODO(ln): Accepter l'invitation"
     }
   },
   "AdminNav": {

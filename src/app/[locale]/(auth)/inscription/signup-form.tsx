@@ -17,8 +17,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { UserIcon, Building2Icon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { signUp } from "../actions";
-import { signUpSchema, type SignUpFormValues } from "../schemas";
+import { signUpSchema, type SignUpFormValues, type AccountType } from "../schemas";
 import type { AppLocale } from "@/i18n/routing";
 
 export function SignupForm({
@@ -33,7 +35,14 @@ export function SignupForm({
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: { fullName: "", email: "", password: "", locale, acceptTerms: false },
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      locale,
+      accountType: "artist",
+      acceptTerms: false,
+    },
   });
 
   async function onSubmit(values: SignUpFormValues) {
@@ -59,6 +68,46 @@ export function SignupForm({
             {serverError}
           </p>
         ) : null}
+
+        <FormField
+          control={form.control}
+          name="accountType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("signup.accountType.label")}</FormLabel>
+              <FormControl>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  {(["artist", "label"] as const satisfies readonly AccountType[]).map((option) => {
+                    const Icon = option === "artist" ? UserIcon : Building2Icon;
+                    const selected = field.value === option;
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        onClick={() => field.onChange(option)}
+                        aria-pressed={selected}
+                        className={cn(
+                          "flex flex-col items-start gap-1 rounded-lg border p-3 text-left transition-colors",
+                          selected
+                            ? "border-primary ring-primary bg-primary/5 ring-1"
+                            : "border-input hover:bg-accent",
+                        )}
+                      >
+                        <Icon className="text-primary size-5" aria-hidden="true" />
+                        <span className="text-small font-medium">
+                          {t(`signup.accountType.${option}Title`)}
+                        </span>
+                        <span className="text-caption text-muted-foreground">
+                          {t(`signup.accountType.${option}Description`)}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

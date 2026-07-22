@@ -687,6 +687,13 @@
       "tag": "Inscription",
       "title": "Distribue ta musique",
       "subtitle": "Crée ton compte — c'est gratuit et ça prend une minute.",
+      "accountType": {
+        "label": "Tu t'inscris comme…",
+        "artistTitle": "Artiste indépendant",
+        "artistDescription": "Tu distribues ta propre musique.",
+        "labelTitle": "Label ou manager",
+        "labelDescription": "Tu gères plusieurs artistes (jusqu'à 5)."
+      },
       "fullNameLabel": "Nom complet",
       "fullNamePlaceholder": "Ton nom d'artiste ou nom complet",
       "emailLabel": "Adresse email",
@@ -802,6 +809,15 @@
     "artistSwitcher": {
       "switchArtist": "Changer d'artiste",
       "addArtist": "Ajouter un artiste"
+    },
+    "labelSpace": "Espace Label",
+    "labelView": {
+      "title": "Vue Label",
+      "subtitle": "{count, plural, one {# artiste} other {# artistes}} sous ce label",
+      "artistsTitle": "Tes artistes",
+      "artistsSubtitle": "Streams du dernier mois rapporté, par artiste.",
+      "artistStats": "{releases, plural, one {# sortie} other {# sorties}} · {streams} streams",
+      "viewArtist": "Voir"
     }
   },
   "Admin": {
@@ -1001,6 +1017,7 @@
   },
   "AppNav": {
     "overview": "Vue d'ensemble",
+    "label": "Vue Label",
     "distribution": "Distribution",
     "stats": "Statistiques",
     "revenue": "Revenus",
@@ -1034,7 +1051,56 @@
     "addTag": "Forfait Label",
     "addTitle": "Ajoute un nouvel artiste",
     "addSubtitle": "Ce profil vient s'ajouter aux autres artistes de ton compte — tu pourras basculer entre eux depuis le tableau de bord.",
-    "addSubmit": "Ajouter cet artiste"
+    "addSubmit": "Ajouter cet artiste",
+    "labelFirstTag": "Espace Label",
+    "labelFirstTitle": "Ajoute ton premier artiste",
+    "labelFirstSubtitle": "Tu pourras en ajouter jusqu'à 5 sous cet espace Label, et basculer entre eux depuis le tableau de bord.",
+    "labelFirstSubmit": "Ajouter cet artiste"
+  },
+  "LabelOnboarding": {
+    "tag": "Bienvenue",
+    "title": "Crée ton espace Label",
+    "subtitle": "Le nom et le profil de ton label ou de ta structure — tu ajouteras tes artistes juste après.",
+    "nameLabel": "Nom du label",
+    "namePlaceholder": "Le nom de ta structure",
+    "bioLabel": "Description",
+    "bioPlaceholder": "Quelques mots sur ton label…",
+    "avatarUrlLabel": "Logo (URL)",
+    "submit": "Créer mon espace Label",
+    "submitting": "Création…",
+    "error": "Une erreur est survenue. Réessaie."
+  },
+  "Collaborators": {
+    "title": "Collaborateurs",
+    "subtitle": "Gère qui peut voir le tableau de bord de {artist}.",
+    "notOwner": "Tu collabores sur {artist} — seul le propriétaire de l'artiste peut gérer les collaborateurs.",
+    "inviteTitle": "Inviter quelqu'un",
+    "emailLabel": "Adresse email",
+    "emailPlaceholder": "collaborateur@exemple.com",
+    "permissionLabel": "Accès",
+    "permissionView": "Lecture seule",
+    "permissionManage": "Peut gérer (bientôt)",
+    "submit": "Inviter",
+    "submitting": "Envoi…",
+    "error": "Impossible d'envoyer l'invitation — réessaie.",
+    "listTitle": "Collaborateurs invités",
+    "listSubtitle": "Statut des invitations envoyées pour cet artiste.",
+    "empty": "Aucun collaborateur invité pour l'instant.",
+    "revoke": "Révoquer",
+    "status": {
+      "pending": "En attente",
+      "accepted": "Actif",
+      "revoked": "Révoqué"
+    },
+    "accept": {
+      "title": "Invitation — {artist}",
+      "descriptionView": "Tu pourras consulter le tableau de bord, le catalogue et les statistiques de cet artiste.",
+      "descriptionManage": "Tu pourras consulter le tableau de bord, le catalogue et les statistiques de cet artiste.",
+      "acceptCta": "Accepter l'invitation",
+      "error": "Impossible d'accepter cette invitation — réessaie ou demande un nouveau lien.",
+      "invalidTitle": "Invitation invalide",
+      "invalidDescription": "Ce lien n'est plus valide — il a peut-être déjà été utilisé ou révoqué. Demande une nouvelle invitation à la personne qui te l'a envoyée."
+    }
   },
   "Validation": {
     "status": {
@@ -1633,6 +1699,12 @@
       "heading": "Retrait de « {title} » confirmé",
       "body": "Ta demande de retrait a été transmise à nos plateformes partenaires. Le retrait effectif peut prendre jusqu'à 30 jours ouvrés selon les plateformes concernées.",
       "cta": "Voir ma sortie"
+    },
+    "collaboratorInvite": {
+      "preview": "Invitation à collaborer sur {artist}",
+      "heading": "Tu es invité·e sur {artist}",
+      "body": "{inviter} t'invite à collaborer sur l'artiste {artist} sur Sterkte Records. Accepte l'invitation pour accéder à son tableau de bord.",
+      "cta": "Accepter l'invitation"
     }
   },
   "AdminNav": {

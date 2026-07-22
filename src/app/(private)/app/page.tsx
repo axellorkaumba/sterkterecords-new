@@ -1,14 +1,17 @@
 import { createClient } from "@/lib/supabase/server";
+import { fetchUserRole } from "@/lib/supabase/profile";
 import { getActiveArtist } from "@/lib/artists/active-artist";
 import { getArtistLimit } from "@/lib/artists/limit";
 import { OnboardingForm } from "./onboarding-form";
+import { LabelOnboardingForm } from "./label-onboarding-form";
 import { OverviewHeader } from "./overview-header";
 import { ReleasesBanner } from "./releases-banner";
 import { StreamsCard, RevenueCard, ReleasesCard } from "./stat-cards";
-import { TopTracksCard, type TopTrack } from "./top-tracks-card";
-import { StreamsChartCard, type MonthlyStreams } from "./streams-chart-card";
+import { TopTracksCard } from "./top-tracks-card";
+import { StreamsChartCard } from "./streams-chart-card";
 import { QuickActionsCard } from "./quick-actions-card";
 import { NotificationsCard } from "./notifications-card";
+import { aggregateDashboardStats } from "./dashboard-stats";
 
 /**
  * Vue d'ensemble artiste (§11.3 du CDC). Un utilisateur `artist` sans
@@ -19,6 +22,11 @@ import { NotificationsCard } from "./notifications-card";
  * Un compte peut posséder plusieurs artistes (forfait Label, jusqu'à 5,
  * ADR 0027) : tout ce qui suit est scopé sur l'artiste "actif"
  * (`getActiveArtist`), pas systématiquement le premier créé.
+ *
+ * Compte Label (`profiles.role = 'manager'`, ADR 0029 Phase 1) : crée
+ * d'abord son espace Label (`LabelOnboardingForm`) avant de pouvoir créer un
+ * artiste — `OnboardingForm` bascule alors en variante `"labelFirst"`
+ * (même formulaire, copy différente) plutôt que la variante par défaut.
  */
 export default async function ArtistDashboardPage() {
   const supabase = await createClient();
@@ -31,16 +39,30 @@ export default async function ArtistDashboardPage() {
     return null;
   }
 
-  const [{ artists, activeArtist: artist }, artistLimit] = await Promise.all([
+  const role = await fetchUserRole(supabase, user.id);
+  const isLabelAccount = role === "manager";
+
+  const { data: label } = isLabelAccount
+    ? await supabase.from("labels").select("*").eq("owner_id", user.id).maybeSingle()
+    : { data: null };
+
+  if (isLabelAccount && !label) {
+    return <LabelOnboardingForm />;
+  }
+
+  const [{ artists, activeArtist: artist, ownedCount }, artistLimit] = await Promise.all([
     getActiveArtist(supabase, user.id),
     getArtistLimit(supabase, user.id),
   ]);
 
   if (!artist) {
-    return <OnboardingForm />;
+    return <OnboardingForm variant={isLabelAccount ? "labelFirst" : "onboarding"} />;
   }
 
-  const canAddMoreArtists = artists.length < artistLimit;
+  // Le plafond (plans.max_artists) porte sur les artistes possédés — les
+  // artistes collaborés (ADR 0030) ne comptent jamais dedans, sans quoi un
+  // collaborateur ferait baisser le quota du compte propriétaire.
+  const canAddMoreArtists = ownedCount < artistLimit;
 
   const [{ data: releases }, { data: statsRows }, { data: wallet }, { data: notifications }] =
     await Promise.all([
@@ -64,43 +86,17 @@ export default async function ArtistDashboardPage() {
         .limit(5),
     ]);
 
-  const delivered = (releases ?? []).filter((r) => r.status === "delivered").length;
-  const drafts = (releases ?? []).filter((r) => r.status === "draft").length;
-  const inProgress = (releases ?? []).length - delivered - drafts;
-
-  const periodTotals = new Map<string, number>();
-  for (const row of statsRows ?? []) {
-    periodTotals.set(row.period, (periodTotals.get(row.period) ?? 0) + row.streams);
-  }
-  const sortedPeriods = [...periodTotals.keys()].sort((a, b) => b.localeCompare(a));
-  const latestPeriod = sortedPeriods[0] ?? null;
-  const currentStreams = latestPeriod ? (periodTotals.get(latestPeriod) ?? 0) : null;
-  const previousStreams = sortedPeriods[1] ? (periodTotals.get(sortedPeriods[1]) ?? 0) : null;
-
-  const monthlyChartData: MonthlyStreams[] = [...sortedPeriods]
-    .slice(0, 6)
-    .reverse()
-    .map((period) => ({
-      month: new Date(period).toLocaleDateString(undefined, { month: "short" }),
-      streams: periodTotals.get(period) ?? 0,
-    }));
-
-  const trackTotals = new Map<string, { title: string; streams: number }>();
-  for (const row of statsRows ?? []) {
-    if (row.period !== latestPeriod || !row.track_id) continue;
-    const title = row.tracks?.title ?? "—";
-    const current = trackTotals.get(row.track_id) ?? { title, streams: 0 };
-    current.streams += row.streams;
-    trackTotals.set(row.track_id, current);
-  }
-  const topTracks: TopTrack[] = [...trackTotals.entries()]
-    .map(([id, value]) => ({ id, ...value }))
-    .sort((a, b) => b.streams - a.streams)
-    .slice(0, 5);
-
-  const totalRevenue = [...periodTotals.keys()].length > 0;
-  const hasAnyRevenue =
-    totalRevenue || (wallet?.balance_available ?? 0) > 0 || (wallet?.balance_pending ?? 0) > 0;
+  const {
+    delivered,
+    drafts,
+    inProgress,
+    latestPeriod,
+    currentStreams,
+    previousStreams,
+    monthlyChartData,
+    topTracks,
+    hasAnyRevenue,
+  } = aggregateDashboardStats(releases ?? [], statsRows ?? [], wallet ?? null);
 
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-8">
@@ -109,6 +105,7 @@ export default async function ArtistDashboardPage() {
         artists={artists}
         canAddMore={canAddMoreArtists}
         latestPeriod={latestPeriod}
+        label={label}
       />
 
       <ReleasesBanner releases={releases ?? []} />

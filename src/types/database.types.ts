@@ -139,6 +139,73 @@ export type Database = {
         }
         Relationships: []
       }
+      artist_collaborators: {
+        Row: {
+          accepted_at: string | null
+          artist_id: string
+          created_at: string
+          id: string
+          invited_at: string
+          invited_by: string
+          invited_email: string
+          permission: Database["public"]["Enums"]["collaborator_permission"]
+          status: Database["public"]["Enums"]["collaborator_status"]
+          token: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          artist_id: string
+          created_at?: string
+          id?: string
+          invited_at?: string
+          invited_by: string
+          invited_email: string
+          permission?: Database["public"]["Enums"]["collaborator_permission"]
+          status?: Database["public"]["Enums"]["collaborator_status"]
+          token?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          artist_id?: string
+          created_at?: string
+          id?: string
+          invited_at?: string
+          invited_by?: string
+          invited_email?: string
+          permission?: Database["public"]["Enums"]["collaborator_permission"]
+          status?: Database["public"]["Enums"]["collaborator_status"]
+          token?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "artist_collaborators_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "artist_collaborators_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "artist_collaborators_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       artists: {
         Row: {
           avatar_url: string | null
@@ -392,6 +459,47 @@ export type Database = {
             columns: ["release_id"]
             isOneToOne: false
             referencedRelation: "releases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      labels: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          id: string
+          name: string
+          owner_id: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          owner_id: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "labels_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1287,10 +1395,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_artist_collaborator_invite: {
+        Args: { p_token: string }
+        Returns: string
+      }
       increment_coupon_redemption: {
         Args: { coupon_code: string }
         Returns: undefined
       }
+      is_artist_collaborator: { Args: { target_artist_id: string }; Returns: boolean }
+      is_release_collaborator: { Args: { target_release_id: string }; Returns: boolean }
       is_staff: { Args: never; Returns: boolean }
       is_super_admin: { Args: never; Returns: boolean }
       owns_artist: { Args: { target_artist_id: string }; Returns: boolean }
@@ -1311,6 +1425,8 @@ export type Database = {
     Enums: {
       artist_plan: "solo" | "label" | "pro"
       billing_period: "monthly" | "annual"
+      collaborator_permission: "view" | "manage"
+      collaborator_status: "pending" | "accepted" | "revoked"
       contributor_role:
         | "main_artist"
         | "featuring"
@@ -1479,6 +1595,8 @@ export const Constants = {
     Enums: {
       artist_plan: ["solo", "label", "pro"],
       billing_period: ["monthly", "annual"],
+      collaborator_permission: ["view", "manage"],
+      collaborator_status: ["pending", "accepted", "revoked"],
       contributor_role: [
         "main_artist",
         "featuring",

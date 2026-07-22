@@ -687,6 +687,13 @@
       "tag": "Sign up",
       "title": "Distribute your music",
       "subtitle": "Create your account — it's free and takes a minute.",
+      "accountType": {
+        "label": "You're signing up as…",
+        "artistTitle": "Independent artist",
+        "artistDescription": "You distribute your own music.",
+        "labelTitle": "Label or manager",
+        "labelDescription": "You manage several artists (up to 5)."
+      },
       "fullNameLabel": "Full name",
       "fullNamePlaceholder": "Your artist name or full name",
       "emailLabel": "Email address",
@@ -802,6 +809,15 @@
     "artistSwitcher": {
       "switchArtist": "Switch artist",
       "addArtist": "Add an artist"
+    },
+    "labelSpace": "Label space",
+    "labelView": {
+      "title": "Label view",
+      "subtitle": "{count, plural, one {# artist} other {# artists}} under this label",
+      "artistsTitle": "Your artists",
+      "artistsSubtitle": "Streams for the latest reported month, per artist.",
+      "artistStats": "{releases, plural, one {# release} other {# releases}} · {streams} streams",
+      "viewArtist": "View"
     }
   },
   "Admin": {
@@ -1001,6 +1017,7 @@
   },
   "AppNav": {
     "overview": "Overview",
+    "label": "Label view",
     "distribution": "Distribution",
     "stats": "Statistics",
     "revenue": "Revenue",
@@ -1034,7 +1051,56 @@
     "addTag": "Label plan",
     "addTitle": "Add a new artist",
     "addSubtitle": "This profile joins the other artists on your account — you'll be able to switch between them from the dashboard.",
-    "addSubmit": "Add this artist"
+    "addSubmit": "Add this artist",
+    "labelFirstTag": "Label space",
+    "labelFirstTitle": "Add your first artist",
+    "labelFirstSubtitle": "You'll be able to add up to 5 under this Label space, and switch between them from the dashboard.",
+    "labelFirstSubmit": "Add this artist"
+  },
+  "LabelOnboarding": {
+    "tag": "Welcome",
+    "title": "Create your Label space",
+    "subtitle": "Your label or company's name and profile — you'll add your artists right after.",
+    "nameLabel": "Label name",
+    "namePlaceholder": "Your company's name",
+    "bioLabel": "Description",
+    "bioPlaceholder": "A few words about your label…",
+    "avatarUrlLabel": "Logo (URL)",
+    "submit": "Create my Label space",
+    "submitting": "Creating…",
+    "error": "Something went wrong. Please try again."
+  },
+  "Collaborators": {
+    "title": "Collaborators",
+    "subtitle": "Manage who can view {artist}'s dashboard.",
+    "notOwner": "You collaborate on {artist} — only the artist's owner can manage collaborators.",
+    "inviteTitle": "Invite someone",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "collaborator@example.com",
+    "permissionLabel": "Access",
+    "permissionView": "View only",
+    "permissionManage": "Can manage (soon)",
+    "submit": "Invite",
+    "submitting": "Sending…",
+    "error": "Couldn't send the invitation — try again.",
+    "listTitle": "Invited collaborators",
+    "listSubtitle": "Status of invitations sent for this artist.",
+    "empty": "No collaborators invited yet.",
+    "revoke": "Revoke",
+    "status": {
+      "pending": "Pending",
+      "accepted": "Active",
+      "revoked": "Revoked"
+    },
+    "accept": {
+      "title": "Invitation — {artist}",
+      "descriptionView": "You'll be able to view this artist's dashboard, catalog, and stats.",
+      "descriptionManage": "You'll be able to view this artist's dashboard, catalog, and stats.",
+      "acceptCta": "Accept invitation",
+      "error": "Couldn't accept this invitation — try again or ask for a new link.",
+      "invalidTitle": "Invalid invitation",
+      "invalidDescription": "This link is no longer valid — it may have already been used or revoked. Ask the person who sent it for a new invitation."
+    }
   },
   "Validation": {
     "status": {
@@ -1633,6 +1699,12 @@
       "heading": "Takedown of “{title}” confirmed",
       "body": "Your takedown request has been sent to our partner platforms. Full takedown can take up to 30 business days depending on the platform.",
       "cta": "View my release"
+    },
+    "collaboratorInvite": {
+      "preview": "Invitation to collaborate on {artist}",
+      "heading": "You're invited on {artist}",
+      "body": "{inviter} invites you to collaborate on the artist {artist} on Sterkte Records. Accept the invitation to access their dashboard.",
+      "cta": "Accept invitation"
     }
   },
   "AdminNav": {
