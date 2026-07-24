@@ -98,7 +98,9 @@ export function LanguageTab({
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue>
-                          {(value: string) => `${currencyNames.of(value) ?? value} (${value})`}
+                          {(value: string) =>
+                            value ? `${currencyNames.of(value) ?? value} (${value})` : ""
+                          }
                         </SelectValue>
                       </SelectTrigger>
                     </FormControl>

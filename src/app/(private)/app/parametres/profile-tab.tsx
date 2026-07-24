@@ -86,7 +86,7 @@ export function ProfileTab({
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder={t("countryPlaceholder")}>
-                          {(value: string) => regionNames.of(value) ?? value}
+                          {(value: string) => (value ? (regionNames.of(value) ?? value) : "")}
                         </SelectValue>
                       </SelectTrigger>
                     </FormControl>
