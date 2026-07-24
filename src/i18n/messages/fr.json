@@ -820,6 +820,36 @@
       "viewArtist": "Voir"
     }
   },
+  "Revenue": {
+    "title": "Revenus",
+    "subtitle": "Ton solde et tes demandes de retrait.",
+    "availableLabel": "Solde retirable",
+    "pendingLabel": "En attente",
+    "requestTitle": "Demander un retrait",
+    "noPayoutMethod": "Renseigne d'abord un moyen de retrait dans tes paramètres.",
+    "setPayoutMethodCta": "Choisir un moyen de retrait",
+    "amountLabel": "Montant ({currency})",
+    "errors": {
+      "no_payout_method": "Renseigne d'abord un moyen de retrait dans tes paramètres.",
+      "insufficient_balance": "Ce montant dépasse ton solde disponible.",
+      "invalid": "Indique un montant valide.",
+      "unknown": "Une erreur est survenue. Réessaie."
+    },
+    "requestSuccess": "Demande envoyée — notre équipe la traite sous peu.",
+    "submitRequest": "Demander le retrait",
+    "historyTitle": "Historique",
+    "historyEmpty": "Aucune demande de retrait pour l'instant.",
+    "columns": {
+      "date": "Date",
+      "amount": "Montant",
+      "status": "Statut"
+    },
+    "status": {
+      "pending": "En attente",
+      "paid": "Payé",
+      "rejected": "Refusé"
+    }
+  },
   "Admin": {
     "placeholder": "Back-office — arrive avec les modules métier.",
     "overview": {
@@ -888,6 +918,40 @@
       "rejectDialogCancel": "Annuler",
       "rejectDialogConfirm": "Renvoyer avec ce motif",
       "actionError": "L'action a échoué. Réessaie dans un instant."
+    },
+    "finances": {
+      "title": "Finances",
+      "subtitle": "Retraits en attente et saisie des relevés DSP.",
+      "statementForm": {
+        "title": "Saisir un relevé de royalties",
+        "subtitle": "En attendant l'ingestion automatisée LabelGrid — les montants saisis ici alimentent immédiatement le solde de l'artiste.",
+        "artistLabel": "Artiste",
+        "dspLabel": "Plateforme",
+        "periodLabel": "Période",
+        "countryLabel": "Pays (optionnel)",
+        "streamsLabel": "Streams",
+        "revenueLabel": "Revenu",
+        "error": "Impossible d'enregistrer — vérifie les champs et réessaie.",
+        "success": "Relevé enregistré, solde mis à jour.",
+        "submit": "Enregistrer le relevé"
+      },
+      "withdrawalsTitle": "Retraits en attente",
+      "empty": {
+        "title": "Aucun retrait en attente",
+        "description": "Toutes les demandes ont été traitées."
+      },
+      "unknownAccount": "Compte inconnu",
+      "columns": {
+        "amount": "Montant",
+        "method": "Moyen"
+      },
+      "actionError": "L'action a échoué. Réessaie dans un instant.",
+      "reasonRequired": "Indique un motif de refus.",
+      "reasonPlaceholder": "Motif du refus (visible par l'artiste)",
+      "cancel": "Annuler",
+      "confirmReject": "Confirmer le refus",
+      "rejectButton": "Refuser",
+      "payButton": "Marquer payé"
     }
   },
   "Account": {
@@ -899,6 +963,7 @@
       "language": "Langue & devise",
       "notifications": "Notifications",
       "subscription": "Abonnement",
+      "payout": "Moyen de retrait",
       "danger": "Suppression du compte"
     },
     "profile": {
@@ -997,6 +1062,26 @@
       "cancelError": "La résiliation a échoué. Réessaie dans un instant.",
       "cancelDialogDismiss": "Annuler",
       "cancelDialogConfirm": "Confirmer la résiliation"
+    },
+    "payout": {
+      "title": "Moyen de retrait",
+      "subtitle": "Choisis comment tu veux recevoir tes royalties.",
+      "methodLabel": "Moyen",
+      "methods": {
+        "airtel_money": "Airtel Money",
+        "orange_money": "Orange Money",
+        "paypal": "PayPal",
+        "bank_transfer": "Virement bancaire"
+      },
+      "phoneLabel": "Numéro de téléphone",
+      "holderNameLabel": "Nom du titulaire",
+      "emailLabel": "Adresse email PayPal",
+      "accountHolderLabel": "Titulaire du compte",
+      "ibanLabel": "IBAN / numéro de compte",
+      "bankNameLabel": "Nom de la banque",
+      "error": "Impossible d'enregistrer — vérifie les champs et réessaie.",
+      "saved": "Moyen de retrait enregistré.",
+      "submit": "Enregistrer"
     },
     "danger": {
       "title": "Supprimer mon compte",

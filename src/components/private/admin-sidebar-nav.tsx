@@ -29,7 +29,7 @@ const NAV_ITEMS = [
   { href: "/admin", icon: LayoutDashboardIcon, key: "overview", available: true },
   { href: "/admin/artistes", icon: UsersIcon, key: "artists", available: true },
   { href: "/admin/sorties", icon: UploadIcon, key: "releases", available: true },
-  { href: "/admin/finances", icon: WalletIcon, key: "finances", available: false },
+  { href: "/admin/finances", icon: WalletIcon, key: "finances", available: true },
   { href: "/admin/studio", icon: MicIcon, key: "studio", available: false },
   { href: "/admin/booking", icon: CalendarIcon, key: "booking", available: false },
   { href: "/admin/featuring", icon: UserPlusIcon, key: "featuring", available: false },

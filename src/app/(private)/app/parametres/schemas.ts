@@ -42,3 +42,34 @@ export const deleteAccountSchema = z.object({
   password: z.string().min(1),
 });
 export type DeleteAccountValues = z.infer<typeof deleteAccountSchema>;
+
+/**
+ * Moyen de retrait (§11.5, module Royalties) — mêmes catégories que
+ * `payment_proofs.payment_method` (paiement entrant), plus `bank_transfer`.
+ * Union discriminée : la forme des coordonnées dépend du moyen choisi.
+ */
+export const payoutMethodEnum = z.enum(["airtel_money", "orange_money", "paypal", "bank_transfer"]);
+
+export const payoutMethodSchema = z.discriminatedUnion("method", [
+  z.object({
+    method: z.literal("airtel_money"),
+    phone: z.string().trim().min(6).max(20),
+    holderName: z.string().trim().min(2).max(120),
+  }),
+  z.object({
+    method: z.literal("orange_money"),
+    phone: z.string().trim().min(6).max(20),
+    holderName: z.string().trim().min(2).max(120),
+  }),
+  z.object({
+    method: z.literal("paypal"),
+    email: z.string().trim().email(),
+  }),
+  z.object({
+    method: z.literal("bank_transfer"),
+    accountHolder: z.string().trim().min(2).max(120),
+    iban: z.string().trim().min(4).max(50),
+    bankName: z.string().trim().min(2).max(120),
+  }),
+]);
+export type PayoutMethodValues = z.infer<typeof payoutMethodSchema>;

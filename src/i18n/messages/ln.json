@@ -821,6 +821,36 @@
       "viewArtist": "TODO(ln): Voir"
     }
   },
+  "Revenue": {
+    "title": "TODO(ln): Revenus",
+    "subtitle": "TODO(ln): Ton solde et tes demandes de retrait.",
+    "availableLabel": "TODO(ln): Solde retirable",
+    "pendingLabel": "TODO(ln): En attente",
+    "requestTitle": "TODO(ln): Demander un retrait",
+    "noPayoutMethod": "TODO(ln): Renseigne d'abord un moyen de retrait dans tes paramètres.",
+    "setPayoutMethodCta": "TODO(ln): Choisir un moyen de retrait",
+    "amountLabel": "TODO(ln): Montant ({currency})",
+    "errors": {
+      "no_payout_method": "TODO(ln): Renseigne d'abord un moyen de retrait dans tes paramètres.",
+      "insufficient_balance": "TODO(ln): Ce montant dépasse ton solde disponible.",
+      "invalid": "TODO(ln): Indique un montant valide.",
+      "unknown": "TODO(ln): Une erreur est survenue. Réessaie."
+    },
+    "requestSuccess": "TODO(ln): Demande envoyée — notre équipe la traite sous peu.",
+    "submitRequest": "TODO(ln): Demander le retrait",
+    "historyTitle": "TODO(ln): Historique",
+    "historyEmpty": "TODO(ln): Aucune demande de retrait pour l'instant.",
+    "columns": {
+      "date": "TODO(ln): Date",
+      "amount": "TODO(ln): Montant",
+      "status": "TODO(ln): Statut"
+    },
+    "status": {
+      "pending": "TODO(ln): En attente",
+      "paid": "TODO(ln): Payé",
+      "rejected": "TODO(ln): Refusé"
+    }
+  },
   "Admin": {
     "placeholder": "TODO(ln): Back-office — arrive avec les modules métier.",
     "overview": {
@@ -889,6 +919,40 @@
       "rejectDialogCancel": "TODO(ln): Annuler",
       "rejectDialogConfirm": "TODO(ln): Renvoyer avec ce motif",
       "actionError": "TODO(ln): L'action a échoué. Réessaie dans un instant."
+    },
+    "finances": {
+      "title": "TODO(ln): Finances",
+      "subtitle": "TODO(ln): Retraits en attente et saisie des relevés DSP.",
+      "statementForm": {
+        "title": "TODO(ln): Saisir un relevé de royalties",
+        "subtitle": "TODO(ln): En attendant l'ingestion automatisée LabelGrid — les montants saisis ici alimentent immédiatement le solde de l'artiste.",
+        "artistLabel": "TODO(ln): Artiste",
+        "dspLabel": "TODO(ln): Plateforme",
+        "periodLabel": "TODO(ln): Période",
+        "countryLabel": "TODO(ln): Pays (optionnel)",
+        "streamsLabel": "TODO(ln): Streams",
+        "revenueLabel": "TODO(ln): Revenu",
+        "error": "TODO(ln): Impossible d'enregistrer — vérifie les champs et réessaie.",
+        "success": "TODO(ln): Relevé enregistré, solde mis à jour.",
+        "submit": "TODO(ln): Enregistrer le relevé"
+      },
+      "withdrawalsTitle": "TODO(ln): Retraits en attente",
+      "empty": {
+        "title": "TODO(ln): Aucun retrait en attente",
+        "description": "TODO(ln): Toutes les demandes ont été traitées."
+      },
+      "unknownAccount": "TODO(ln): Compte inconnu",
+      "columns": {
+        "amount": "TODO(ln): Montant",
+        "method": "TODO(ln): Moyen"
+      },
+      "actionError": "TODO(ln): L'action a échoué. Réessaie dans un instant.",
+      "reasonRequired": "TODO(ln): Indique un motif de refus.",
+      "reasonPlaceholder": "TODO(ln): Motif du refus (visible par l'artiste)",
+      "cancel": "TODO(ln): Annuler",
+      "confirmReject": "TODO(ln): Confirmer le refus",
+      "rejectButton": "TODO(ln): Refuser",
+      "payButton": "TODO(ln): Marquer payé"
     }
   },
   "Account": {
@@ -900,6 +964,7 @@
       "language": "TODO(ln): Langue & devise",
       "notifications": "TODO(ln): Notifications",
       "subscription": "TODO(ln): Abonnement",
+      "payout": "TODO(ln): Moyen de retrait",
       "danger": "TODO(ln): Suppression du compte"
     },
     "profile": {
@@ -998,6 +1063,26 @@
       "cancelError": "TODO(ln): La résiliation a échoué. Réessaie dans un instant.",
       "cancelDialogDismiss": "TODO(ln): Annuler",
       "cancelDialogConfirm": "TODO(ln): Confirmer la résiliation"
+    },
+    "payout": {
+      "title": "TODO(ln): Moyen de retrait",
+      "subtitle": "TODO(ln): Choisis comment tu veux recevoir tes royalties.",
+      "methodLabel": "TODO(ln): Moyen",
+      "methods": {
+        "airtel_money": "Airtel Money",
+        "orange_money": "Orange Money",
+        "paypal": "PayPal",
+        "bank_transfer": "TODO(ln): Virement bancaire"
+      },
+      "phoneLabel": "TODO(ln): Numéro de téléphone",
+      "holderNameLabel": "TODO(ln): Nom du titulaire",
+      "emailLabel": "TODO(ln): Adresse email PayPal",
+      "accountHolderLabel": "TODO(ln): Titulaire du compte",
+      "ibanLabel": "TODO(ln): IBAN / numéro de compte",
+      "bankNameLabel": "TODO(ln): Nom de la banque",
+      "error": "TODO(ln): Impossible d'enregistrer — vérifie les champs et réessaie.",
+      "saved": "TODO(ln): Moyen de retrait enregistré.",
+      "submit": "TODO(ln): Enregistrer"
     },
     "danger": {
       "title": "TODO(ln): Supprimer mon compte",

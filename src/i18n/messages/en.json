@@ -820,6 +820,36 @@
       "viewArtist": "View"
     }
   },
+  "Revenue": {
+    "title": "Revenue",
+    "subtitle": "Your balance and payout requests.",
+    "availableLabel": "Available balance",
+    "pendingLabel": "Pending",
+    "requestTitle": "Request a payout",
+    "noPayoutMethod": "Set up a payout method in your settings first.",
+    "setPayoutMethodCta": "Choose a payout method",
+    "amountLabel": "Amount ({currency})",
+    "errors": {
+      "no_payout_method": "Set up a payout method in your settings first.",
+      "insufficient_balance": "This amount exceeds your available balance.",
+      "invalid": "Enter a valid amount.",
+      "unknown": "Something went wrong. Please try again."
+    },
+    "requestSuccess": "Request sent — our team will process it shortly.",
+    "submitRequest": "Request payout",
+    "historyTitle": "History",
+    "historyEmpty": "No payout requests yet.",
+    "columns": {
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status"
+    },
+    "status": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "rejected": "Rejected"
+    }
+  },
   "Admin": {
     "placeholder": "Back office — coming with the business modules.",
     "overview": {
@@ -888,6 +918,40 @@
       "rejectDialogCancel": "Cancel",
       "rejectDialogConfirm": "Send back with this reason",
       "actionError": "The action failed. Please try again in a moment."
+    },
+    "finances": {
+      "title": "Finances",
+      "subtitle": "Pending payouts and DSP statement entry.",
+      "statementForm": {
+        "title": "Record a royalty statement",
+        "subtitle": "Until automated LabelGrid ingestion is live — amounts entered here immediately feed the artist's balance.",
+        "artistLabel": "Artist",
+        "dspLabel": "Platform",
+        "periodLabel": "Period",
+        "countryLabel": "Country (optional)",
+        "streamsLabel": "Streams",
+        "revenueLabel": "Revenue",
+        "error": "Couldn't save — check the fields and try again.",
+        "success": "Statement recorded, balance updated.",
+        "submit": "Record statement"
+      },
+      "withdrawalsTitle": "Pending payouts",
+      "empty": {
+        "title": "No pending payouts",
+        "description": "All requests have been processed."
+      },
+      "unknownAccount": "Unknown account",
+      "columns": {
+        "amount": "Amount",
+        "method": "Method"
+      },
+      "actionError": "The action failed. Please try again in a moment.",
+      "reasonRequired": "Enter a rejection reason.",
+      "reasonPlaceholder": "Rejection reason (visible to the artist)",
+      "cancel": "Cancel",
+      "confirmReject": "Confirm rejection",
+      "rejectButton": "Reject",
+      "payButton": "Mark as paid"
     }
   },
   "Account": {
@@ -899,6 +963,7 @@
       "language": "Language & currency",
       "notifications": "Notifications",
       "subscription": "Subscription",
+      "payout": "Payout method",
       "danger": "Delete account"
     },
     "profile": {
@@ -997,6 +1062,26 @@
       "cancelError": "Cancellation failed. Please try again in a moment.",
       "cancelDialogDismiss": "Dismiss",
       "cancelDialogConfirm": "Confirm cancellation"
+    },
+    "payout": {
+      "title": "Payout method",
+      "subtitle": "Choose how you want to receive your royalties.",
+      "methodLabel": "Method",
+      "methods": {
+        "airtel_money": "Airtel Money",
+        "orange_money": "Orange Money",
+        "paypal": "PayPal",
+        "bank_transfer": "Bank transfer"
+      },
+      "phoneLabel": "Phone number",
+      "holderNameLabel": "Account holder name",
+      "emailLabel": "PayPal email address",
+      "accountHolderLabel": "Account holder",
+      "ibanLabel": "IBAN / account number",
+      "bankNameLabel": "Bank name",
+      "error": "Couldn't save — check the fields and try again.",
+      "saved": "Payout method saved.",
+      "submit": "Save"
     },
     "danger": {
       "title": "Delete my account",

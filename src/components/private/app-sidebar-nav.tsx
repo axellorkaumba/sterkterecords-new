@@ -39,7 +39,7 @@ const NAV_ITEMS = [
   },
   { href: "/app/distribution", icon: UploadIcon, key: "distribution", available: true },
   { href: "/app/statistiques", icon: BarChart3Icon, key: "stats", available: false },
-  { href: "/app/revenus", icon: WalletIcon, key: "revenue", available: false },
+  { href: "/app/revenus", icon: WalletIcon, key: "revenue", available: true },
   { href: "/app/studio", icon: MicIcon, key: "studio", available: false },
   { href: "/app/booking", icon: CalendarIcon, key: "booking", available: false },
   { href: "/app/featuring", icon: UsersIcon, key: "featuring", available: false },

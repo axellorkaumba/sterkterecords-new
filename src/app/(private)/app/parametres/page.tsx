@@ -8,6 +8,7 @@ import { SecurityTab } from "./security-tab";
 import { LanguageTab } from "./language-tab";
 import { NotificationsTab } from "./notifications-tab";
 import { SubscriptionTab } from "./subscription-tab";
+import { PayoutTab } from "./payout-tab";
 import { DangerTab } from "./danger-tab";
 
 export async function generateMetadata() {
@@ -42,6 +43,7 @@ export default async function SettingsPage() {
     { data: identitiesData },
     { data: countries },
     { data: currencies },
+    { data: payoutMethod },
   ] = await Promise.all([
     supabase
       .from("profiles")
@@ -52,6 +54,7 @@ export default async function SettingsPage() {
     supabase.auth.getUserIdentities(),
     supabase.from("countries").select("code").eq("active", true).order("sort_order"),
     supabase.from("currencies").select("code").eq("active", true).order("sort_order"),
+    supabase.from("payout_methods").select("method, details").eq("user_id", user.id).maybeSingle(),
   ]);
 
   const mfaEnabled = (mfaFactors?.totp.length ?? 0) > 0;
@@ -71,6 +74,7 @@ export default async function SettingsPage() {
           <TabsTrigger value="language">{t("tabs.language")}</TabsTrigger>
           <TabsTrigger value="notifications">{t("tabs.notifications")}</TabsTrigger>
           <TabsTrigger value="subscription">{t("tabs.subscription")}</TabsTrigger>
+          <TabsTrigger value="payout">{t("tabs.payout")}</TabsTrigger>
           <TabsTrigger value="danger">{t("tabs.danger")}</TabsTrigger>
         </TabsList>
 
@@ -104,6 +108,19 @@ export default async function SettingsPage() {
         </TabsContent>
         <TabsContent value="subscription">
           <SubscriptionTab />
+        </TabsContent>
+        <TabsContent value="payout">
+          <PayoutTab
+            existing={
+              payoutMethod
+                ? {
+                    method: payoutMethod.method as
+                      "airtel_money" | "orange_money" | "paypal" | "bank_transfer",
+                    details: payoutMethod.details as Record<string, string>,
+                  }
+                : null
+            }
+          />
         </TabsContent>
         <TabsContent value="danger">
           <DangerTab />

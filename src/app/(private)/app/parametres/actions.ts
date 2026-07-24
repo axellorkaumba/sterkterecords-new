@@ -23,12 +23,14 @@ import {
   updateLocaleCurrencySchema,
   updateNotificationsSchema,
   deleteAccountSchema,
+  payoutMethodSchema,
   type UpdateProfileValues,
   type ChangePasswordValues,
   type VerifyMfaValues,
   type UpdateLocaleCurrencyValues,
   type UpdateNotificationsValues,
   type DeleteAccountValues,
+  type PayoutMethodValues,
 } from "./schemas";
 
 type ActionResult = { error: AuthErrorCode | null };
@@ -272,6 +274,29 @@ export async function unlinkOAuthIdentity(identity: UserIdentity): Promise<Actio
   await logAudit(user.id, "oauth_identity_unlinked", "profile", user.id);
   await sendSecurityAlert(supabase, user.id, user.email, "identity_unlinked");
   revalidatePath("/app/parametres");
+  return { error: null };
+}
+
+/**
+ * Moyen de retrait (§11.5, module Royalties) — `upsert` sur `user_id`
+ * (contrainte unique, un seul moyen actif par compte). `details` stocke
+ * tout ce qui n'est pas `method` (téléphone, email, coordonnées bancaires
+ * selon le cas), validé par l'union discriminée `payoutMethodSchema`.
+ */
+export async function savePayoutMethod(values: PayoutMethodValues): Promise<ActionResult> {
+  const parsed = payoutMethodSchema.safeParse(values);
+  if (!parsed.success) return { error: "unknown" };
+  const { supabase, user } = await requireUser();
+
+  const { method, ...details } = parsed.data;
+
+  const { error } = await supabase
+    .from("payout_methods")
+    .upsert({ user_id: user.id, method, details }, { onConflict: "user_id" });
+
+  if (error) return { error: "unknown" };
+  revalidatePath("/app/parametres");
+  revalidatePath("/app/revenus");
   return { error: null };
 }
 

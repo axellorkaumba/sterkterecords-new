@@ -9,6 +9,7 @@ import { clientEnv } from "@/lib/env";
 import { sendReleaseCorrectionNeededEmail } from "@/lib/email/send";
 import { STAFF_ROLES } from "@/lib/supabase/profile";
 import type { Database } from "@/types/database.types";
+import { recordRoyaltyStatementSchema, type RecordRoyaltyStatementValues } from "./schemas";
 
 type ActionResult = { error: string | null };
 type ArtistPlan = Database["public"]["Enums"]["artist_plan"];
@@ -224,5 +225,147 @@ export async function toggleArtistPlan(artistId: string, plan: ArtistPlan): Prom
 
   await logAudit(user.id, `artist_plan_set_${plan}`, "artist", artistId);
   revalidatePath("/admin/artistes");
+  return { error: null };
+}
+
+export interface PendingWithdrawal {
+  id: string;
+  userEmail: string | null;
+  userFullName: string | null;
+  amount: number;
+  currency: string;
+  payoutMethod: string;
+  payoutDetails: Record<string, string>;
+  requestedAt: string;
+}
+
+/**
+ * File de retraits en attente (§11.5, module Royalties). La RLS
+ * (`withdrawals_select_own_or_staff`, migration 20260722160000) laisse déjà
+ * le staff tout voir via sa propre session — le client admin ne sert ici
+ * qu'à lire `auth.users.email` (pas exposé via PostgREST, même motif que
+ * `getOwnerContact` ci-dessus).
+ */
+export async function listPendingWithdrawals(): Promise<PendingWithdrawal[]> {
+  const { supabase } = await requireStaff();
+  const admin = createAdminClient();
+
+  const { data: withdrawals } = await supabase
+    .from("withdrawals")
+    .select("id, user_id, amount, currency, payout_method, payout_details, requested_at")
+    .eq("status", "pending")
+    .order("requested_at", { ascending: true });
+
+  if (!withdrawals || withdrawals.length === 0) return [];
+
+  const { data: profiles } = await supabase
+    .from("profiles")
+    .select("id, full_name")
+    .in(
+      "id",
+      withdrawals.map((withdrawal) => withdrawal.user_id),
+    );
+  const fullNameByUserId = new Map(
+    profiles?.map((profile) => [profile.id, profile.full_name]) ?? [],
+  );
+
+  return Promise.all(
+    withdrawals.map(async (withdrawal) => {
+      const { data: userData } = await admin.auth.admin.getUserById(withdrawal.user_id);
+      return {
+        id: withdrawal.id,
+        userEmail: userData.user?.email ?? null,
+        userFullName: fullNameByUserId.get(withdrawal.user_id) ?? null,
+        amount: withdrawal.amount,
+        currency: withdrawal.currency,
+        payoutMethod: withdrawal.payout_method,
+        payoutDetails: withdrawal.payout_details as Record<string, string>,
+        requestedAt: withdrawal.requested_at,
+      };
+    }),
+  );
+}
+
+/**
+ * Marque un retrait payé — le virement/mobile money est exécuté hors
+ * système par l'équipe (même modèle opérationnel que la validation des
+ * paiements entrants, ADR 0026), ce bouton n'en est que la confirmation.
+ * Garde atomique (`eq("status", "pending")` sur l'UPDATE lui-même) — même
+ * schéma que `approvePaymentProof`, voir ADR 0031 §2-4.
+ */
+export async function markWithdrawalPaid(withdrawalId: string): Promise<ActionResult> {
+  const { supabase, user } = await requireStaff();
+
+  const { data: claimed } = await supabase
+    .from("withdrawals")
+    .update({ status: "paid", processed_by: user.id, processed_at: new Date().toISOString() })
+    .eq("id", withdrawalId)
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
+  if (!claimed) return { error: "already_processed" };
+
+  await logAudit(user.id, "withdrawal_paid", "withdrawal", withdrawalId);
+  revalidatePath("/admin/finances");
+  return { error: null };
+}
+
+export async function rejectWithdrawal(
+  withdrawalId: string,
+  reason: string,
+): Promise<ActionResult> {
+  if (!reason.trim()) return { error: "reason_required" };
+  const { supabase, user } = await requireStaff();
+
+  const { data: claimed } = await supabase
+    .from("withdrawals")
+    .update({
+      status: "rejected",
+      rejection_reason: reason.trim(),
+      processed_by: user.id,
+      processed_at: new Date().toISOString(),
+    })
+    .eq("id", withdrawalId)
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
+  if (!claimed) return { error: "already_processed" };
+
+  await logAudit(user.id, "withdrawal_rejected", "withdrawal", withdrawalId);
+  revalidatePath("/admin/finances");
+  return { error: null };
+}
+
+/**
+ * Saisie manuelle d'un relevé DSP (§11.5) — en attendant une vraie
+ * ingestion automatisée LabelGrid (hors périmètre, voir
+ * docs/adr/0032-module-royalties.md). Écrit dans `stats_monthly` via le
+ * client admin : cette table n'a aucune policy INSERT pour `authenticated`
+ * (lecture seule côté client, voir migration 20260704160000) — le
+ * déclencheur `recompute_wallet` (migration 20260722160000) répercute
+ * immédiatement ce revenu sur le solde de l'artiste.
+ */
+export async function recordRoyaltyStatement(
+  values: RecordRoyaltyStatementValues,
+): Promise<ActionResult> {
+  const parsed = recordRoyaltyStatementSchema.safeParse(values);
+  if (!parsed.success) return { error: "invalid" };
+  const { user } = await requireStaff();
+  const admin = createAdminClient();
+
+  const { error } = await admin.from("stats_monthly").insert({
+    artist_id: parsed.data.artistId,
+    period: parsed.data.period,
+    dsp: parsed.data.dsp,
+    country: parsed.data.country || null,
+    streams: parsed.data.streams,
+    revenue: parsed.data.revenue,
+  });
+
+  if (error) return { error: "unknown" };
+
+  await logAudit(user.id, "royalty_statement_recorded", "artist", parsed.data.artistId);
+  revalidatePath("/admin/finances");
+  revalidatePath("/app");
   return { error: null };
 }
