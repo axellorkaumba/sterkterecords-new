@@ -70,6 +70,16 @@ export async function listPendingPaymentProofs(): Promise<PendingPaymentProof[]>
  * fixe — 30 jours pour un mensuel, 365 pour un annuel, comptés à partir de
  * MAINTENANT, pas de la date d'upload) et la ligne `payments` correspondante,
  * exactement comme le ferait un webhook PSP pour un paiement automatisé.
+ *
+ * Corrigé en audit : lire le statut puis écrire `status = 'approved'` dans
+ * deux requêtes séparées laissait une fenêtre où un double-clic (le bouton
+ * n'empêche pas un second clic avant que le premier n'ait fini son
+ * aller-retour réseau) ou deux membres de l'équipe agissant en même temps
+ * pouvaient tous les deux passer la lecture avant qu'aucun n'écrive —
+ * créant deux abonnements et deux paiements pour une seule preuve. La
+ * transition de statut est maintenant la garde atomique elle-même
+ * (`UPDATE ... WHERE status = 'pending'`), faite AVANT toute création — seul
+ * l'appel qui affecte réellement une ligne poursuit.
  */
 export async function approvePaymentProof(proofId: string): Promise<ActionResult> {
   const session = await requireAdminSession();
@@ -84,6 +94,16 @@ export async function approvePaymentProof(proofId: string): Promise<ActionResult
   if (!proof) return { error: "not_found" };
 
   const now = new Date();
+
+  const { data: claimed } = await admin
+    .from("payment_proofs")
+    .update({ status: "approved", reviewed_by: session.sub, reviewed_at: now.toISOString() })
+    .eq("id", proofId)
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
+  if (!claimed) return { error: "already_processed" };
+
   const currentPeriodEnd = new Date(now);
   currentPeriodEnd.setDate(currentPeriodEnd.getDate() + PERIOD_TO_DAYS[proof.period]);
 
@@ -106,11 +126,6 @@ export async function approvePaymentProof(proofId: string): Promise<ActionResult
     status: "succeeded",
     metadata: { planId: proof.plan_id, period: proof.period, paymentProofId: proof.id },
   });
-
-  await admin
-    .from("payment_proofs")
-    .update({ status: "approved", reviewed_by: session.sub, reviewed_at: now.toISOString() })
-    .eq("id", proofId);
 
   await admin.from("notifications").insert({
     user_id: proof.user_id,
@@ -136,7 +151,8 @@ export async function rejectPaymentProof(proofId: string, reason: string): Promi
     .single();
   if (!proof) return { error: "not_found" };
 
-  await admin
+  // Même garde atomique qu'`approvePaymentProof` (voir son commentaire).
+  const { data: claimed } = await admin
     .from("payment_proofs")
     .update({
       status: "rejected",
@@ -144,7 +160,11 @@ export async function rejectPaymentProof(proofId: string, reason: string): Promi
       reviewed_by: session.sub,
       reviewed_at: new Date().toISOString(),
     })
-    .eq("id", proofId);
+    .eq("id", proofId)
+    .eq("status", "pending")
+    .select("id")
+    .maybeSingle();
+  if (!claimed) return { error: "already_processed" };
 
   await admin.from("notifications").insert({
     user_id: proof.user_id,

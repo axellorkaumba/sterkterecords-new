@@ -7,6 +7,7 @@ import { fetchUserRole, homeForRole } from "@/lib/supabase/profile";
 import { getPathname } from "@/i18n/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
 import { authCallbackUrl } from "@/lib/supabase/callback-url";
+import { isSafeRedirectPath } from "@/lib/supabase/safe-redirect";
 import {
   signInSchema,
   signUpSchema,
@@ -41,7 +42,7 @@ export async function signIn(values: SignInValues, next?: string): Promise<Actio
   }
 
   const role = await fetchUserRole(supabase, data.user.id);
-  redirect(next && next.startsWith("/") ? next : homeForRole(role));
+  redirect(isSafeRedirectPath(next) ? next : homeForRole(role));
 }
 
 /**

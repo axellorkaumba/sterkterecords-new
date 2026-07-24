@@ -71,6 +71,20 @@ export async function listReleasesForReview() {
  * cohérent avec le commentaire de la migration Sprint 5 : "Écrit par le
  * serveur").
  */
+/**
+ * Corrigé en audit : `approveRelease` lisait le statut (`= 'in_review'`)
+ * puis écrivait `status = 'delivering'` dans deux requêtes séparées, sans
+ * lien entre elles — deux appels concurrents (double-clic, deux membres de
+ * l'équipe, requête relancée après un délai réseau) passaient tous les deux
+ * la lecture avant qu'aucun n'écrive, soumettant la même sortie deux fois à
+ * LabelGrid. La transition de statut est maintenant la garde atomique
+ * elle-même (`UPDATE ... WHERE status = 'in_review'`) et se fait AVANT
+ * l'appel externe : seul l'appel qui affecte réellement une ligne
+ * poursuit — tout appel concurrent/relancé s'arrête à `already_processed`.
+ * Si l'envoi à LabelGrid échoue après coup, le statut repasse à `error`
+ * (déjà dans l'enum `release_status`) plutôt que de rester bloqué sur
+ * `delivering` sans qu'aucune synchronisation n'existe.
+ */
 export async function approveRelease(releaseId: string): Promise<ActionResult> {
   const { supabase, user } = await requireStaff();
   const admin = createAdminClient();
@@ -87,43 +101,52 @@ export async function approveRelease(releaseId: string): Promise<ActionResult> {
 
   if (!release || !tracks) return { error: "not_found" };
 
-  const labelgrid = getLabelGridClient();
-  const { externalId } = await labelgrid.submitRelease({
-    releaseId: release.id,
-    type: release.type,
-    title: release.title,
-    upc: release.upc ?? undefined,
-    genre: release.genre ?? "",
-    language: release.language ?? "",
-    explicit: release.explicit,
-    artworkUrl: release.artwork_url ? getPublicUrl(release.artwork_url) : "",
-    releaseDate: release.release_date ?? new Date().toISOString(),
-    selectedDsps: (platforms ?? []).map((p) => p.dsp),
-    tracks: tracks.map((track) => ({
-      position: track.position,
-      title: track.title,
-      isrc: track.isrc ?? undefined,
-      audioFileUrl: track.audio_url ?? "",
-      explicit: track.explicit,
-      contributors: (track.contributors ?? []).map((c) => ({
-        name: c.name,
-        role: c.role,
-        splitPct: c.split_pct,
-      })),
-    })),
-  });
-
-  const { error } = await supabase
+  const { data: claimed } = await supabase
     .from("releases")
     .update({ status: "delivering" })
-    .eq("id", releaseId);
-  if (error) return { error: "unknown" };
+    .eq("id", releaseId)
+    .eq("status", "in_review")
+    .select("id")
+    .maybeSingle();
+  if (!claimed) return { error: "already_processed" };
 
-  await admin.from("labelgrid_sync").insert({
-    release_id: releaseId,
-    external_id: externalId,
-    status: "in_delivery",
-  });
+  try {
+    const labelgrid = getLabelGridClient();
+    const { externalId } = await labelgrid.submitRelease({
+      releaseId: release.id,
+      type: release.type,
+      title: release.title,
+      upc: release.upc ?? undefined,
+      genre: release.genre ?? "",
+      language: release.language ?? "",
+      explicit: release.explicit,
+      artworkUrl: release.artwork_url ? getPublicUrl(release.artwork_url) : "",
+      releaseDate: release.release_date ?? new Date().toISOString(),
+      selectedDsps: (platforms ?? []).map((p) => p.dsp),
+      tracks: tracks.map((track) => ({
+        position: track.position,
+        title: track.title,
+        isrc: track.isrc ?? undefined,
+        audioFileUrl: track.audio_url ?? "",
+        explicit: track.explicit,
+        contributors: (track.contributors ?? []).map((c) => ({
+          name: c.name,
+          role: c.role,
+          splitPct: c.split_pct,
+        })),
+      })),
+    });
+
+    await admin.from("labelgrid_sync").insert({
+      release_id: releaseId,
+      external_id: externalId,
+      status: "in_delivery",
+    });
+  } catch (labelgridError) {
+    await supabase.from("releases").update({ status: "error" }).eq("id", releaseId);
+    console.error(`[admin] Échec de l'envoi LabelGrid pour ${releaseId} :`, labelgridError);
+    return { error: "labelgrid_failed" };
+  }
 
   await logAudit(user.id, "release_approved", "release", releaseId);
 
@@ -150,8 +173,16 @@ export async function rejectRelease(releaseId: string, reason: string): Promise<
     .single();
   if (!release) return { error: "not_found" };
 
-  const { error } = await supabase.from("releases").update({ status: "draft" }).eq("id", releaseId);
-  if (error) return { error: "unknown" };
+  // Même garde atomique qu'`approveRelease` (voir son commentaire) — évite
+  // un double envoi de l'email de correction sur double-clic/relance.
+  const { data: claimed } = await supabase
+    .from("releases")
+    .update({ status: "draft" })
+    .eq("id", releaseId)
+    .eq("status", "in_review")
+    .select("id")
+    .maybeSingle();
+  if (!claimed) return { error: "already_processed" };
 
   await logAudit(user.id, "release_rejected", "release", releaseId);
 

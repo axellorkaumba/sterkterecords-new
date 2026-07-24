@@ -47,9 +47,22 @@ export async function updateSupabaseSession(request: NextRequest) {
     },
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  return { supabaseResponse, user, supabase };
+    return { supabaseResponse, user, supabase };
+  } catch (error) {
+    // `getUser()` tente un rafraîchissement en coulisses et peut *lever*
+    // (plutôt que renvoyer `{ error }`) quand le refresh token du cookie
+    // est déjà périmé/tourné — un onglet resté ouvert après qu'un autre a
+    // déjà consommé ce token, par exemple (constaté en prod, "Invalid
+    // Refresh Token: Refresh Token Not Found"). Sans ce filet, ça faisait
+    // planter le middleware sur *toute* requête suivante. Traité comme "non
+    // connecté", exactement le même chemin que ci-dessus quand Supabase
+    // n'est pas configuré — la prochaine connexion pose un cookie propre.
+    console.error("[middleware] Session Supabase invalide, traitée comme déconnectée :", error);
+    return { supabaseResponse, user: null, supabase: null };
+  }
 }

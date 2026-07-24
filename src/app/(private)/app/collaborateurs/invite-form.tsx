@@ -36,7 +36,9 @@ export function InviteForm({ artistId }: { artistId: string }) {
   async function onSubmit(values: InviteCollaboratorValues) {
     const result = await inviteCollaborator(artistId, values);
     if (result?.error) {
-      form.setError("email", { message: t("error") });
+      form.setError("email", {
+        message: result.error === "already_accepted" ? t("errorAlreadyAccepted") : t("error"),
+      });
       return;
     }
     form.reset({ email: "", permission: "view" });

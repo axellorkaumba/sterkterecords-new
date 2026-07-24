@@ -1083,6 +1083,7 @@
     "submit": "Inviter",
     "submitting": "Envoi…",
     "error": "Impossible d'envoyer l'invitation — réessaie.",
+    "errorAlreadyAccepted": "Cette personne a déjà accepté — la réinviter couperait son accès. Révoque-la d'abord si tu veux vraiment recommencer.",
     "listTitle": "Collaborateurs invités",
     "listSubtitle": "Statut des invitations envoyées pour cet artiste.",
     "empty": "Aucun collaborateur invité pour l'instant.",
@@ -1331,7 +1332,8 @@
         "title": "Album",
         "description": "7 titres ou plus"
       },
-      "continue": "Continuer"
+      "continue": "Continuer",
+      "errorReadOnly": "Tu n'as qu'un accès en lecture sur cet artiste (collaborateur) — seul le propriétaire peut créer une nouvelle sortie."
     },
     "audioStep": {
       "title": "Ajoute tes fichiers audio",

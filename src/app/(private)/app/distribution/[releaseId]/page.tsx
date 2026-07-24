@@ -66,7 +66,7 @@ export default async function ReleaseTunnelPage({ params }: PageProps) {
     .eq("release_id", releaseId);
 
   const [catalogFingerprint, availableDsps] = await Promise.all([
-    getArtistCatalogFingerprint(),
+    getArtistCatalogFingerprint(release.artist_id),
     getLabelGridClient().listAvailableDsps(),
   ]);
 

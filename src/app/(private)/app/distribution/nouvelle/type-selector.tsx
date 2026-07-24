@@ -18,12 +18,15 @@ const TYPE_OPTIONS: Array<{ value: ReleaseTypeValue; icon: typeof MusicIcon }> =
 export function TypeSelector() {
   const t = useTranslations("DistributionApp.typeStep");
   const [selected, setSelected] = useState<ReleaseTypeValue | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function handleContinue() {
     if (!selected) return;
-    startTransition(() => {
-      createDraftRelease(selected);
+    setError(null);
+    startTransition(async () => {
+      const result = await createDraftRelease(selected);
+      if (result?.error) setError(t("errorReadOnly"));
     });
   }
 
@@ -61,6 +64,12 @@ export function TypeSelector() {
           </Card>
         ))}
       </div>
+
+      {error ? (
+        <p role="alert" className="text-destructive text-small">
+          {error}
+        </p>
+      ) : null}
 
       <Button className="w-fit" disabled={!selected} loading={isPending} onClick={handleContinue}>
         {t("continue")}

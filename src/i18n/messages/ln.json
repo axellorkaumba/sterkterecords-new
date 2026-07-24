@@ -1084,6 +1084,7 @@
     "submit": "TODO(ln): Inviter",
     "submitting": "TODO(ln): Envoi…",
     "error": "TODO(ln): Impossible d'envoyer l'invitation — réessaie.",
+    "errorAlreadyAccepted": "TODO(ln): Cette personne a déjà accepté — la réinviter couperait son accès. Révoque-la d'abord si tu veux vraiment recommencer.",
     "listTitle": "TODO(ln): Collaborateurs invités",
     "listSubtitle": "TODO(ln): Statut des invitations envoyées pour cet artiste.",
     "empty": "TODO(ln): Aucun collaborateur invité pour l'instant.",
@@ -1332,7 +1333,8 @@
         "title": "TODO(ln): Album",
         "description": "TODO(ln): 7 titres ou plus"
       },
-      "continue": "TODO(ln): Continuer"
+      "continue": "TODO(ln): Continuer",
+      "errorReadOnly": "TODO(ln): Tu n'as qu'un accès en lecture sur cet artiste (collaborateur) — seul le propriétaire peut créer une nouvelle sortie."
     },
     "audioStep": {
       "title": "TODO(ln): Ajoute tes fichiers audio",

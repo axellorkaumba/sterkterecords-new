@@ -80,10 +80,28 @@ async function logAudit(actorId: string, action: string, entityId: string) {
     .insert({ actor_id: actorId, action, entity: "release", entity_id: entityId });
 }
 
-/** Démarre une nouvelle sortie brouillon (§11.4 étape 1) — redirige vers son tunnel. */
-export async function createDraftRelease(type: ReleaseTypeValue): Promise<never> {
+/**
+ * Démarre une nouvelle sortie brouillon (§11.4 étape 1) — redirige vers son
+ * tunnel. Corrigé en audit : `requireActiveArtist()` peut résolre vers un
+ * artiste collaboré (lecture seule, ADR 0030), pas seulement possédé — sans
+ * ce contrôle explicite, l'insert échouait silencieusement contre la RLS
+ * (`releases_insert_own`, propriétaire uniquement) et remontait comme un
+ * throw générique non catché côté client (`type-selector.tsx`). Retourne
+ * maintenant une erreur lisible dans ce cas plutôt que de planter.
+ */
+export async function createDraftRelease(
+  type: ReleaseTypeValue,
+): Promise<{ error: string | null } | never> {
   const parsedType = releaseTypeSchema.parse(type);
-  const { supabase, artistId } = await requireActiveArtist();
+  const { supabase, user, artistId } = await requireActiveArtist();
+
+  const { data: ownedArtist } = await supabase
+    .from("artists")
+    .select("id")
+    .eq("id", artistId)
+    .eq("owner_id", user.id)
+    .maybeSingle();
+  if (!ownedArtist) return { error: "read_only_access" };
 
   const { data: release, error } = await supabase
     .from("releases")
@@ -131,6 +149,15 @@ export async function updateReleaseMetadata(
   return { error: null };
 }
 
+/**
+ * Corrigé en audit : la détection de doublon audio (hash déjà présent dans
+ * le catalogue de l'artiste) n'était vérifiée que côté navigateur
+ * (`buildAudioValidationContext`, appelé avant l'upload) — un client qui
+ * saute cet appel (bug, ou requête modifiée) pouvait insérer un hash déjà
+ * utilisé sans aucun garde-fou serveur. Revérifié ici avant l'insertion,
+ * même portée que `getArtistCatalogFingerprint` (tout le catalogue de
+ * l'artiste, pas seulement cette sortie).
+ */
 export async function addTrack(
   releaseId: string,
   input: {
@@ -145,6 +172,28 @@ export async function addTrack(
   },
 ): Promise<{ error: string | null; trackId?: string }> {
   const { supabase } = await requireUser();
+
+  const { data: release } = await supabase
+    .from("releases")
+    .select("artist_id")
+    .eq("id", releaseId)
+    .maybeSingle();
+  if (!release) return { error: "unknown" };
+
+  const { data: artistReleases } = await supabase
+    .from("releases")
+    .select("id")
+    .eq("artist_id", release.artist_id);
+  const { data: duplicateTrack } = await supabase
+    .from("tracks")
+    .select("id")
+    .eq("audio_hash", input.audioHash)
+    .in(
+      "release_id",
+      (artistReleases ?? []).map((r) => r.id),
+    )
+    .maybeSingle();
+  if (duplicateTrack) return { error: "duplicate_audio" };
 
   const { data: existingTracks } = await supabase
     .from("tracks")
@@ -178,9 +227,33 @@ export async function addTrack(
   return { error: null, trackId: track.id };
 }
 
+/**
+ * Corrigé en audit : la suppression laissait des trous dans `position`
+ * (ex. 1, 3 après suppression de la piste 2) — ces valeurs partent telles
+ * quelles jusqu'à l'affichage (`step-audio.tsx`, `release-detail.tsx`) et la
+ * livraison DSP via LabelGrid (`src/app/(private)/admin/actions.ts`).
+ * Renumérote les pistes restantes 1..n après coup, même logique que
+ * `reorderTracks`.
+ */
 export async function removeTrack(releaseId: string, trackId: string): Promise<void> {
   const { supabase } = await requireUser();
   await supabase.from("tracks").delete().eq("id", trackId);
+
+  const { data: remainingTracks } = await supabase
+    .from("tracks")
+    .select("id")
+    .eq("release_id", releaseId)
+    .order("position", { ascending: true });
+
+  await Promise.all(
+    (remainingTracks ?? []).map((track, index) =>
+      supabase
+        .from("tracks")
+        .update({ position: index + 1 })
+        .eq("id", track.id),
+    ),
+  );
+
   revalidatePath(`/app/distribution/${releaseId}`);
 }
 
@@ -301,14 +374,26 @@ export async function updateReleaseSchedule(
   return { error: null };
 }
 
-/** Catalogue existant de l'artiste — alimente les règles de doublons (§11.4). */
-export async function getArtistCatalogFingerprint(): Promise<{
+/**
+ * Catalogue existant de l'artiste — alimente les règles de doublons (§11.4).
+ * Prend `artistId` en paramètre (l'artiste réel de la sortie éditée, via
+ * `release.artist_id`) plutôt que de le résoudre via `requireActiveArtist()`
+ * — corrigé en audit : pour un compte Label multi-artistes, le cookie
+ * "artiste actif" peut pointer vers un autre artiste que celui de la sortie
+ * ouverte (ex. onglet resté sur l'artiste B en éditant une sortie de
+ * l'artiste A), donnant de faux doublons ou en laissant passer de vrais. La
+ * RLS (`releases_select_own_or_staff`/`tracks_select_own_or_staff`, qui
+ * couvrent aussi les collaborateurs depuis l'ADR 0030) reste l'autorité
+ * réelle : si l'appelant n'a pas accès à `artistId`, ces requêtes ne
+ * renvoient simplement rien.
+ */
+export async function getArtistCatalogFingerprint(artistId: string): Promise<{
   audioHashes: string[];
   isrcs: string[];
   upcs: string[];
   titles: string[];
 }> {
-  const { supabase, artistId } = await requireActiveArtist();
+  const { supabase } = await requireUser();
 
   const { data: releases } = await supabase
     .from("releases")

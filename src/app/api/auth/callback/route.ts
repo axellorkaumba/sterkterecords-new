@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getPathname } from "@/i18n/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
+import { fetchUserRole, homeForRole } from "@/lib/supabase/profile";
+import { isSafeRedirectPath } from "@/lib/supabase/safe-redirect";
 
 /**
  * Point d'échange PKCE unique pour TOUS les flux Supabase Auth qui renvoient
@@ -37,13 +39,21 @@ export async function GET(request: Request) {
         const resetPath = getPathname({ href: "/reinitialiser-mot-de-passe", locale });
         return NextResponse.redirect(`${origin}${resetPath}`);
       }
-      if (next && next.startsWith("/")) {
+      if (isSafeRedirectPath(next)) {
         return NextResponse.redirect(`${origin}${next}`);
       }
       // Connexion Google ou confirmation d'inscription réussie : direction le
-      // tableau de bord — src/proxy.ts renverra vers /admin si le rôle est
-      // interne (§7.1).
-      return NextResponse.redirect(`${origin}/app`);
+      // tableau de bord adapté au rôle — corrigé en audit, ce chemin
+      // renvoyait tout le monde vers /app, y compris le personnel interne
+      // (super_admin, support...), qui devait ensuite naviguer manuellement
+      // vers /admin. `signIn` (Server Action email/mot de passe) fait déjà
+      // ce calcul ; ce endpoint ne l'avait jamais repris pour Google/l'email
+      // de confirmation.
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const role = user ? await fetchUserRole(supabase, user.id) : null;
+      return NextResponse.redirect(`${origin}${homeForRole(role)}`);
     }
   }
 

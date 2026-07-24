@@ -1083,6 +1083,7 @@
     "submit": "Invite",
     "submitting": "Sending…",
     "error": "Couldn't send the invitation — try again.",
+    "errorAlreadyAccepted": "This person already accepted — inviting them again would cut off their access. Revoke them first if you really want to start over.",
     "listTitle": "Invited collaborators",
     "listSubtitle": "Status of invitations sent for this artist.",
     "empty": "No collaborators invited yet.",
@@ -1331,7 +1332,8 @@
         "title": "Album",
         "description": "7 or more tracks"
       },
-      "continue": "Continue"
+      "continue": "Continue",
+      "errorReadOnly": "You only have read access to this artist (collaborator) — only the owner can create a new release."
     },
     "audioStep": {
       "title": "Add your audio files",

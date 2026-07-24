@@ -94,10 +94,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true });
   }
 
-  await admin
+  // Corrigé en audit : PayPal documente explicitement que le même événement
+  // webhook peut être livré plus d'une fois — la lecture ci-dessus et
+  // l'écriture qui suivait étaient deux requêtes séparées, sans lien entre
+  // elles. Deux livraisons quasi simultanées passaient toutes les deux le
+  // `payment.status === "succeeded"` avant qu'aucune n'écrive, créant deux
+  // abonnements, deux emails de reçu, et un coupon compté deux fois pour un
+  // seul paiement réel. L'UPDATE porte maintenant sa propre garde
+  // (`status != 'succeeded'`) : seule la livraison qui affecte réellement la
+  // ligne poursuit vers les effets de bord.
+  const { data: claimed } = await admin
     .from("payments")
     .update({ status: "succeeded", external_id: capture.id })
-    .eq("id", paymentId);
+    .eq("id", paymentId)
+    .neq("status", "succeeded")
+    .select("id")
+    .maybeSingle();
+  if (!claimed) {
+    return NextResponse.json({ received: true });
+  }
 
   if (payment.type === "subscription") {
     const metadata = payment.metadata as PaymentMetadata;

@@ -17,6 +17,13 @@ type ActionResult = { error: string | null };
  * migration 20260722130000) garantit déjà que seul le propriétaire de
  * l'artiste peut écrire ici — la vérification ci-dessous n'est là que pour
  * renvoyer une erreur lisible plutôt qu'un échec RLS silencieux.
+ *
+ * Corrigé en audit : l'upsert forçait toujours `status: "pending"`, y
+ * compris sur une ligne déjà `"accepted"` — ré-inviter par erreur (ou pour
+ * changer `permission`) coupait instantanément l'accès du collaborateur,
+ * sans qu'il soit prévenu, jusqu'à ce qu'il reclique sur son (vieux) lien
+ * d'acceptation. On bloque maintenant ce cas explicitement plutôt que de
+ * l'écraser silencieusement.
  */
 export async function inviteCollaborator(
   artistId: string,
@@ -40,6 +47,14 @@ export async function inviteCollaborator(
   if (!artist) return { error: "not_found" };
 
   const email = parsed.data.email.toLowerCase();
+
+  const { data: existing } = await supabase
+    .from("artist_collaborators")
+    .select("status")
+    .eq("artist_id", artistId)
+    .eq("invited_email", email)
+    .maybeSingle();
+  if (existing?.status === "accepted") return { error: "already_accepted" };
 
   const { data: invite, error } = await supabase
     .from("artist_collaborators")
