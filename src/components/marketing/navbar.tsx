@@ -53,7 +53,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center">
-          <LogoWordmark height={28} />
+          <LogoWordmark height={24} />
         </Link>
 
         <ul className="hidden items-center gap-8 xl:flex">
@@ -62,7 +62,7 @@ export function Navbar() {
               <Link
                 href={link.href}
                 className={cn(
-                  "text-small hover:text-foreground tracking-wide whitespace-nowrap uppercase transition-colors",
+                  "text-caption hover:text-foreground tracking-wide whitespace-nowrap uppercase transition-colors",
                   pathname === link.href ? "text-foreground font-medium" : "text-muted-foreground",
                 )}
               >
