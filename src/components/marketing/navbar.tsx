@@ -51,8 +51,8 @@ export function Navbar() {
         scrolled ? "bg-background/90 shadow-card" : "bg-background/60 shadow-none",
       )}
     >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
+        <Link href="/" className="flex shrink-0 items-center">
           <LogoWordmark height={28} />
         </Link>
 
