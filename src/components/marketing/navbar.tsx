@@ -56,13 +56,13 @@ export function Navbar() {
           <LogoWordmark height={28} />
         </Link>
 
-        <ul className="hidden items-center gap-6 lg:flex">
+        <ul className="hidden items-center gap-8 xl:flex">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
                 className={cn(
-                  "text-small hover:text-foreground transition-colors",
+                  "text-small hover:text-foreground tracking-wide whitespace-nowrap uppercase transition-colors",
                   pathname === link.href ? "text-foreground font-medium" : "text-muted-foreground",
                 )}
               >
@@ -72,7 +72,7 @@ export function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-2 xl:flex">
           <LocaleSwitcher />
           <ThemeToggle />
           <Button
@@ -88,7 +88,7 @@ export function Navbar() {
           />
         </div>
 
-        <div className="flex items-center gap-1 lg:hidden">
+        <div className="flex items-center gap-1 xl:hidden">
           <ThemeToggle />
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger
@@ -107,7 +107,7 @@ export function Navbar() {
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "text-body rounded-md px-3 py-2.5",
+                      "text-body rounded-md px-3 py-2.5 tracking-wide uppercase",
                       pathname === link.href
                         ? "bg-muted text-foreground font-medium"
                         : "text-muted-foreground hover:bg-muted",
