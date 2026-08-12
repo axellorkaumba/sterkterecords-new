@@ -1,23 +1,19 @@
 #!/usr/bin/env node
 /**
- * `IMAGES/logo.header.svg` est le vrai lockup horizontal une ligne
- * "Sterkte Records" (avec le médaillon porte-note intégré dans le "S").
- * Contrairement aux autres logos de `IMAGES/` (un seul raster embarqué),
- * ce fichier en embarque DEUX, tous deux 1568x643, fond noir plein cadre :
- *   - raster 0 : version blanche (texte blanc sur fond noir) — sert de
- *     pochoir : sa luminance (blanc=encre, noir=fond) devient le canal
- *     alpha.
- *   - raster 1 : version couleur réelle (rouge/jaune/noir) — mais son
- *     encre noire (le texte) est littéralement la même couleur que son
- *     propre fond noir, donc impossible à isoler par la seule couleur.
- * En combinant le RGB du raster 1 avec l'alpha dérivé du raster 0 (exactement
- * la technique de masquage par luminance déjà utilisée dans le SVG source),
- * on obtient un logo couleur à fond réellement transparent.
+ * Source (mise à jour par Axel, 2026-08-13) : deux fichiers séparés dans
+ * `IMAGES/` au lieu de l'ancien `logo.header.svg` (un seul fichier à deux
+ * rasters embarqués, voir git history si besoin de comparer) —
+ * `STERKTE RECORDS HEADER BLACK.svg` (lockup complet couleur, avec slogan
+ * "Distribute. Discover. Connect.") et `STERKTE RECORDS HEADER WHITE.svg`.
  *
- * Deux exports : un blanc (thème sombre, par défaut du site) et un couleur
- * (thème clair) — même logique qu'`extract-covers.mjs`/le médaillon de
- * ADR 0023, la marque n'ayant pas un unique jeu de couleurs qui fonctionne
- * sur les deux fonds.
+ * Le fichier WHITE fourni est cassé (vérifié au rendu réel dans Chrome, pas
+ * seulement via sharp/librsvg) : il ne contient qu'une fraction du lockup
+ * ("STERKTE" + le rond jaune, sans "RECORDS" ni le slogan) et pas en blanc.
+ * Faute de export correct, la version blanche (thème sombre) est donc
+ * dérivée ici du fichier BLACK (qui, lui, est correct) : on garde son alpha
+ * (donc la silhouette exacte du logo) et on force le RGB à blanc pur. Si un
+ * export WHITE.svg correct arrive un jour, retirer `deriveWhite()` et
+ * rasteriser directement ce fichier comme pour BLACK.
  */
 import { readFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -26,63 +22,43 @@ import sharp from "sharp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
-const SOURCE = path.join(ROOT, "IMAGES", "logo.header.svg");
+const SOURCE = path.join(ROOT, "IMAGES", "STERKTE RECORDS HEADER BLACK.svg");
 const OUTPUT_DIR = path.join(ROOT, "public", "brand");
 const MAX_WIDTH = 1200;
+const RENDER_DENSITY = 300;
 
-function extractEmbeddedRasters(svgContent) {
-  const matches = [
-    ...svgContent.matchAll(/(?:xlink:href|href)="data:(image\/[a-z]+);base64,([^"]+)"/g),
-  ];
-  return matches.map((m) => Buffer.from(m[2], "base64"));
+async function deriveWhite(colorPngPath, outFile) {
+  const { data, info } = await sharp(colorPngPath).raw().toBuffer({ resolveWithObject: true });
+  const { width, height, channels } = info;
+  for (let i = 0; i < width * height; i += 1) {
+    data[i * channels] = 255;
+    data[i * channels + 1] = 255;
+    data[i * channels + 2] = 255;
+    // canal alpha (data[i * channels + 3]) inchangé — on garde la silhouette.
+  }
+  await sharp(data, { raw: { width, height, channels } }).png().toFile(outFile);
 }
 
 async function run() {
   mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  const svgContent = readFileSync(SOURCE, "utf8");
-  const [whiteRaster, colorRaster] = extractEmbeddedRasters(svgContent);
-  if (!whiteRaster || !colorRaster) {
-    console.error("✗ Attendu 2 rasters embarqués dans logo.header.svg, trouvé moins.");
-    process.exitCode = 1;
-    return;
-  }
+  const svgBuffer = readFileSync(SOURCE);
+  const lightPath = path.join(OUTPUT_DIR, "logo-header-light.png");
+  const darkPath = path.join(OUTPUT_DIR, "logo-header-dark.png");
 
-  const { data: alpha, info } = await sharp(whiteRaster)
-    .greyscale()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
-  const pixelCount = info.width * info.height;
+  await sharp(svgBuffer, { density: RENDER_DENSITY })
+    .trim()
+    .resize({ width: MAX_WIDTH, withoutEnlargement: true })
+    .png()
+    .toFile(lightPath);
 
-  // Composition manuelle des canaux (plutôt que `.joinChannel()`/`.composite()`) :
-  // testé peu fiable pour attacher un canal alpha brut à une base RGB à 3
-  // canaux avec sharp (fonctionnait pour la base 1-canal, pas pour la base
-  // RGB — comportement non documenté). Construire le buffer RGBA à la main
-  // élimine toute ambiguïté.
-  async function buildTransparent(rgbBuffer, outFile) {
-    const { data: rgb } = await sharp(rgbBuffer)
-      .removeAlpha()
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-    const rgba = Buffer.alloc(pixelCount * 4);
-    for (let i = 0; i < pixelCount; i += 1) {
-      rgba[i * 4] = rgb[i * 3];
-      rgba[i * 4 + 1] = rgb[i * 3 + 1];
-      rgba[i * 4 + 2] = rgb[i * 3 + 2];
-      rgba[i * 4 + 3] = alpha[i];
-    }
+  await deriveWhite(lightPath, darkPath);
 
-    await sharp(rgba, { raw: { width: info.width, height: info.height, channels: 4 } })
-      .trim()
-      .resize({ width: MAX_WIDTH, withoutEnlargement: true })
-      .png()
-      .toFile(outFile);
-  }
-
-  await buildTransparent(whiteRaster, path.join(OUTPUT_DIR, "logo-header-dark.png"));
-  await buildTransparent(colorRaster, path.join(OUTPUT_DIR, "logo-header-light.png"));
-
-  console.log("✓ logo.header.svg → public/brand/logo-header-dark.png, logo-header-light.png");
+  console.log("✓ STERKTE RECORDS HEADER BLACK.svg → public/brand/logo-header-light.png");
+  console.log("✓ (blanc dérivé)                  → public/brand/logo-header-dark.png");
+  console.log(
+    "  Penser à mettre à jour NATURAL_WIDTH/NATURAL_HEIGHT dans logo-wordmark.tsx si l'aspect ratio a changé.",
+  );
 }
 
 run();
