@@ -1,6 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MailCheckIcon } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/navigation";
 import { createSeoMetadata } from "@/lib/seo";
@@ -15,21 +14,19 @@ export default async function VerifyEmailPage({ params }: { params: Promise<{ lo
   const t = await getTranslations("Auth");
 
   return (
-    <Card>
-      <CardHeader className="items-center text-center">
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col items-center gap-3 text-center">
         <MailCheckIcon className="text-primary size-10" aria-hidden="true" />
-        <CardTitle className="text-h3 font-display">{t("verifyEmail.title")}</CardTitle>
-        <CardDescription>{t("verifyEmail.description")}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <Separator />
-        <ResendForm locale={locale as AppLocale} />
-        <p className="text-small text-muted-foreground text-center">
-          <Link href="/connexion" className="text-primary font-medium hover:underline">
-            {t("verifyEmail.backToLogin")}
-          </Link>
-        </p>
-      </CardContent>
-    </Card>
+        <h1 className="text-h2 font-display">{t("verifyEmail.title")}</h1>
+        <p className="text-muted-foreground">{t("verifyEmail.description")}</p>
+      </div>
+      <Separator />
+      <ResendForm locale={locale as AppLocale} />
+      <p className="text-small text-muted-foreground text-center">
+        <Link href="/connexion" className="text-primary font-medium hover:underline">
+          {t("verifyEmail.backToLogin")}
+        </Link>
+      </p>
+    </div>
   );
 }

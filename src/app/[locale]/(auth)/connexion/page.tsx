@@ -1,8 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/navigation";
 import { createSeoMetadata } from "@/lib/seo";
+import { AuthPanel } from "../auth-panel";
 import { OAuthButtons } from "../oauth-button";
 import { getEnabledOAuthProviders } from "../oauth-providers";
 import { LoginForm } from "./login-form";
@@ -26,45 +26,36 @@ export default async function LoginPage({
   const errorMessage = error && ERROR_KEYS.has(error) ? t(`errors.${error}`) : null;
 
   return (
-    <Card>
-      <CardHeader>
-        <p className="text-caption text-primary font-medium tracking-wide uppercase">
-          {t("login.tag")}
+    <AuthPanel tag={t("login.tag")} title={t("login.title")} subtitle={t("login.subtitle")}>
+      {errorMessage ? (
+        <p role="alert" className="text-destructive text-small">
+          {errorMessage}
         </p>
-        <CardTitle className="text-h3 font-display">{t("login.title")}</CardTitle>
-        <CardDescription>{t("login.subtitle")}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        {errorMessage ? (
-          <p role="alert" className="text-destructive text-small">
-            {errorMessage}
-          </p>
-        ) : null}
+      ) : null}
 
-        <OAuthButtons
-          providers={getEnabledOAuthProviders()}
-          locale={locale}
-          next={next}
-          labels={{ google: t("login.google"), apple: t("login.apple") }}
-        />
+      <OAuthButtons
+        providers={getEnabledOAuthProviders()}
+        locale={locale}
+        next={next}
+        labels={{ google: t("login.google"), apple: t("login.apple") }}
+      />
 
-        <div className="flex items-center gap-3">
-          <Separator className="flex-1" />
-          <span className="text-caption text-muted-foreground uppercase">
-            {t("login.orContinueWith")}
-          </span>
-          <Separator className="flex-1" />
-        </div>
+      <div className="flex items-center gap-3">
+        <Separator className="flex-1" />
+        <span className="text-caption text-muted-foreground uppercase">
+          {t("login.orContinueWith")}
+        </span>
+        <Separator className="flex-1" />
+      </div>
 
-        <LoginForm next={next} />
+      <LoginForm next={next} />
 
-        <p className="text-small text-muted-foreground text-center">
-          {t("login.noAccount")}{" "}
-          <Link href="/inscription" className="text-primary font-medium hover:underline">
-            {t("login.signupLink")}
-          </Link>
-        </p>
-      </CardContent>
-    </Card>
+      <p className="text-small text-muted-foreground text-center">
+        {t("login.noAccount")}{" "}
+        <Link href="/inscription" className="text-primary font-medium hover:underline">
+          {t("login.signupLink")}
+        </Link>
+      </p>
+    </AuthPanel>
   );
 }

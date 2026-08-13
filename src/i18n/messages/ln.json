@@ -75,6 +75,10 @@
       "description": "TODO(ln): Confirme ton adresse email pour activer ton compte Sterkte Records."
     }
   },
+  "Common": {
+    "showPassword": "TODO(ln): Afficher le mot de passe",
+    "hidePassword": "TODO(ln): Masquer le mot de passe"
+  },
   "Nav": {
     "home": "TODO(ln): Accueil",
     "distribution": "TODO(ln): Distribution",
@@ -644,6 +648,10 @@
     }
   },
   "Auth": {
+    "visualPanel": {
+      "title": "TODO(ln): Distribué dans plus de 15 pays.",
+      "subtitle": "TODO(ln): Rejoins les artistes qui font déjà confiance à Sterkte Records pour porter leur musique au monde."
+    },
     "errors": {
       "invalid_credentials": "TODO(ln): Email ou mot de passe incorrect.",
       "email_not_confirmed": "TODO(ln): Confirme ton adresse email avant de te connecter — vérifie ta boîte de réception.",

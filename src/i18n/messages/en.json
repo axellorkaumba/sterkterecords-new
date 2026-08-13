@@ -74,6 +74,10 @@
       "description": "Confirm your email address to activate your Sterkte Records account."
     }
   },
+  "Common": {
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
+  },
   "Nav": {
     "home": "Home",
     "distribution": "Distribution",
@@ -643,6 +647,10 @@
     }
   },
   "Auth": {
+    "visualPanel": {
+      "title": "Distributed to more than 15 countries.",
+      "subtitle": "Join the artists who already trust Sterkte Records to bring their music to the world."
+    },
     "errors": {
       "invalid_credentials": "Incorrect email or password.",
       "email_not_confirmed": "Confirm your email address before signing in — check your inbox.",

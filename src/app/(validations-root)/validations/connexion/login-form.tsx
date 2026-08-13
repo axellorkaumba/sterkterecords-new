@@ -2,6 +2,7 @@
 
 import { useState, useTransition, type FormEvent } from "react";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { loginAdmin } from "./actions";
@@ -50,9 +51,8 @@ export function AdminLoginForm() {
 
       <div className="flex flex-col gap-2">
         <Label htmlFor="password">Mot de passe</Label>
-        <Input
+        <PasswordInput
           id="password"
-          type="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           autoComplete="current-password"

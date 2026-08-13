@@ -1,9 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createSeoMetadata } from "@/lib/seo";
+import { AuthPanel } from "../auth-panel";
 import { ResetPasswordForm } from "./reset-password-form";
 
 export const generateMetadata = createSeoMetadata("Seo.resetPassword", { noindex: true });
@@ -33,32 +33,23 @@ export default async function ResetPasswordPage({
 
   if (!user) {
     return (
-      <Card>
-        <CardContent className="flex flex-col items-center gap-4 py-8 text-center">
-          <CardTitle className="text-h3 font-display">
-            {t("resetPassword.invalidLinkTitle")}
-          </CardTitle>
-          <CardDescription>{t("resetPassword.invalidLinkDescription")}</CardDescription>
-          <Button render={<Link href="/mot-de-passe-oublie" />} nativeButton={false}>
-            {t("resetPassword.requestNewLink")}
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="flex flex-col items-center gap-4 py-8 text-center">
+        <h1 className="text-h2 font-display">{t("resetPassword.invalidLinkTitle")}</h1>
+        <p className="text-muted-foreground">{t("resetPassword.invalidLinkDescription")}</p>
+        <Button render={<Link href="/mot-de-passe-oublie" />} nativeButton={false}>
+          {t("resetPassword.requestNewLink")}
+        </Button>
+      </div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <p className="text-caption text-primary font-medium tracking-wide uppercase">
-          {t("resetPassword.tag")}
-        </p>
-        <CardTitle className="text-h3 font-display">{t("resetPassword.title")}</CardTitle>
-        <CardDescription>{t("resetPassword.subtitle")}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ResetPasswordForm />
-      </CardContent>
-    </Card>
+    <AuthPanel
+      tag={t("resetPassword.tag")}
+      title={t("resetPassword.title")}
+      subtitle={t("resetPassword.subtitle")}
+    >
+      <ResetPasswordForm />
+    </AuthPanel>
   );
 }

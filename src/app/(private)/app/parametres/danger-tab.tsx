@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,6 +30,7 @@ import { deleteAccountSchema, type DeleteAccountValues } from "./schemas";
 export function DangerTab() {
   const t = useTranslations("Account.danger");
   const tAuth = useTranslations("Auth");
+  const tCommon = useTranslations("Common");
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -76,7 +77,11 @@ export function DangerTab() {
                     <FormItem>
                       <FormLabel>{t("passwordLabel")}</FormLabel>
                       <FormControl>
-                        <Input type="password" {...field} />
+                        <PasswordInput
+                          showLabel={tCommon("showPassword")}
+                          hideLabel={tCommon("hidePassword")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

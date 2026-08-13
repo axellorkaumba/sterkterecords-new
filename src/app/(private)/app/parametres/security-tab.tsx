@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -35,6 +36,7 @@ import type { UserIdentity } from "@supabase/supabase-js";
 function ChangePasswordForm() {
   const t = useTranslations("Account.security");
   const tAuth = useTranslations("Auth");
+  const tCommon = useTranslations("Common");
 
   const form = useForm<ChangePasswordValues>({
     resolver: zodResolver(changePasswordSchema),
@@ -61,7 +63,11 @@ function ChangePasswordForm() {
             <FormItem>
               <FormLabel>{t("newPasswordLabel")}</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <PasswordInput
+                  showLabel={tCommon("showPassword")}
+                  hideLabel={tCommon("hidePassword")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage>
                 {form.formState.errors.password ? tAuth("validation.passwordMin") : undefined}
@@ -76,7 +82,11 @@ function ChangePasswordForm() {
             <FormItem>
               <FormLabel>{t("confirmPasswordLabel")}</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <PasswordInput
+                  showLabel={tCommon("showPassword")}
+                  hideLabel={tCommon("hidePassword")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage>
                 {form.formState.errors.confirmPassword

@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { unstable_rethrow } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,6 +22,7 @@ import { signInSchema, type SignInValues } from "../schemas";
 
 export function LoginForm({ next }: { next?: string }) {
   const t = useTranslations("Auth");
+  const tCommon = useTranslations("Common");
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<SignInValues>({
@@ -81,7 +83,12 @@ export function LoginForm({ next }: { next?: string }) {
                 </Link>
               </div>
               <FormControl>
-                <Input type="password" placeholder={t("login.passwordPlaceholder")} {...field} />
+                <PasswordInput
+                  placeholder={t("login.passwordPlaceholder")}
+                  showLabel={tCommon("showPassword")}
+                  hideLabel={tCommon("hidePassword")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage>
                 {form.formState.errors.password ? t("validation.requiredField") : undefined}

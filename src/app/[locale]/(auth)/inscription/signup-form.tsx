@@ -7,11 +7,13 @@ import { useTranslations } from "next-intl";
 import { unstable_rethrow } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,6 +33,7 @@ export function SignupForm({
   onSuccess: (email: string) => void;
 }) {
   const t = useTranslations("Auth");
+  const tCommon = useTranslations("Common");
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<SignUpFormValues>({
@@ -148,13 +151,18 @@ export function SignupForm({
             <FormItem>
               <FormLabel>{t("signup.passwordLabel")}</FormLabel>
               <FormControl>
-                <Input type="password" placeholder={t("signup.passwordPlaceholder")} {...field} />
+                <PasswordInput
+                  placeholder={t("signup.passwordPlaceholder")}
+                  showLabel={tCommon("showPassword")}
+                  hideLabel={tCommon("hidePassword")}
+                  {...field}
+                />
               </FormControl>
-              <FormMessage>
-                {form.formState.errors.password
-                  ? t("validation.passwordMin")
-                  : t("signup.passwordHint")}
-              </FormMessage>
+              {form.formState.errors.password ? (
+                <FormMessage>{t("validation.passwordMin")}</FormMessage>
+              ) : (
+                <FormDescription>{t("signup.passwordHint")}</FormDescription>
+              )}
             </FormItem>
           )}
         />

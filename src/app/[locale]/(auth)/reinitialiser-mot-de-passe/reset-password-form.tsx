@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { unstable_rethrow } from "next/navigation";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,6 +20,7 @@ import { updatePasswordSchema, type UpdatePasswordValues } from "../schemas";
 
 export function ResetPasswordForm() {
   const t = useTranslations("Auth");
+  const tCommon = useTranslations("Common");
   const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<UpdatePasswordValues>({
@@ -56,9 +57,10 @@ export function ResetPasswordForm() {
             <FormItem>
               <FormLabel>{t("resetPassword.passwordLabel")}</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
+                <PasswordInput
                   placeholder={t("resetPassword.passwordPlaceholder")}
+                  showLabel={tCommon("showPassword")}
+                  hideLabel={tCommon("hidePassword")}
                   {...field}
                 />
               </FormControl>
@@ -76,9 +78,10 @@ export function ResetPasswordForm() {
             <FormItem>
               <FormLabel>{t("resetPassword.confirmPasswordLabel")}</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
+                <PasswordInput
                   placeholder={t("resetPassword.confirmPasswordPlaceholder")}
+                  showLabel={tCommon("showPassword")}
+                  hideLabel={tCommon("hidePassword")}
                   {...field}
                 />
               </FormControl>
