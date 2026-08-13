@@ -47,6 +47,8 @@ export function SignupForm({
       acceptTerms: false,
     },
   });
+  const accountType = form.watch("accountType");
+  const isLabel = accountType === "label";
 
   async function onSubmit(values: SignUpFormValues) {
     setServerError(null);
@@ -117,9 +119,16 @@ export function SignupForm({
           name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("signup.fullNameLabel")}</FormLabel>
+              <FormLabel>
+                {isLabel ? t("signup.labelNameLabel") : t("signup.fullNameLabel")}
+              </FormLabel>
               <FormControl>
-                <Input placeholder={t("signup.fullNamePlaceholder")} {...field} />
+                <Input
+                  placeholder={
+                    isLabel ? t("signup.labelNamePlaceholder") : t("signup.fullNamePlaceholder")
+                  }
+                  {...field}
+                />
               </FormControl>
               <FormMessage>
                 {form.formState.errors.fullName ? t("validation.fullNameMin") : undefined}
@@ -180,7 +189,7 @@ export function SignupForm({
                     className="mt-0.5"
                   />
                 </FormControl>
-                <FormLabel className="text-small text-muted-foreground font-normal">
+                <FormLabel className="text-caption text-muted-foreground font-normal">
                   {t.rich("signup.termsLabel", {
                     cgu: (chunks) => (
                       <Link
