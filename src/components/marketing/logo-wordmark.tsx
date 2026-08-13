@@ -25,6 +25,15 @@ const NATURAL_HEIGHT = 135;
  * selon le thème résolu (`next-themes`). Avant hydratation, on suppose le
  * thème sombre (thème par défaut du site, §9).
  */
+/**
+ * `height` fixe la taille par défaut (et le ratio largeur/hauteur envoyé à
+ * `next/image`). Pour une taille différente selon la largeur d'écran (ex.
+ * plus petit sur mobile), passer une classe Tailwind qui redéfinit la
+ * variable CSS `--logo-h` à un breakpoint donné (ex.
+ * `className="[--logo-h:18px] sm:[--logo-h:24px]"`) plutôt qu'un second
+ * `height` — un style inline l'emporterait toujours sur les classes
+ * responsives et empêcherait toute variation par breakpoint.
+ */
 export function LogoWordmark({ height = 28, className }: { height?: number; className?: string }) {
   const { resolvedTheme } = useTheme();
   const mounted = useHasMounted();
@@ -38,8 +47,8 @@ export function LogoWordmark({ height = 28, className }: { height?: number; clas
       width={width}
       height={height}
       priority
-      className={cn("w-auto", className)}
-      style={{ height }}
+      className={cn("h-[var(--logo-h)] w-auto", className)}
+      style={{ "--logo-h": `${height}px` } as React.CSSProperties}
     />
   );
 }

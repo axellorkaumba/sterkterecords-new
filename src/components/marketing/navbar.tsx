@@ -53,7 +53,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center">
-          <LogoWordmark height={24} />
+          <LogoWordmark height={24} className="[--logo-h:18px]! sm:[--logo-h:24px]!" />
         </Link>
 
         <ul className="hidden items-center gap-8 xl:flex">
