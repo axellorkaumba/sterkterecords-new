@@ -55,10 +55,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <AmbientBackground />
         <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
           <div className="flex max-w-3xl flex-col items-start gap-6">
-            <span className="border-border text-caption text-muted-foreground inline-flex items-center gap-2 rounded-full border px-3 py-1">
-              <span className="bg-or-400 size-1.5 animate-pulse rounded-full" />
-              {t("badge")}
-            </span>
             <h1 className="text-display font-display">{t.rich("heroTitle", richTags)}</h1>
             <p className="text-body-lg text-muted-foreground">{t("heroSubtitle")}</p>
             <div className="flex flex-wrap gap-3">
