@@ -86,17 +86,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
   return (
     <>
-      <AboutHero />
-
-      <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
-        <ScrollReveal className="flex flex-col gap-5">
-          {introParagraphs.map((paragraph, index) => (
-            <p key={index} className="text-body text-muted-foreground">
-              {paragraph}
-            </p>
-          ))}
-        </ScrollReveal>
-      </section>
+      <AboutHero paragraphs={introParagraphs} />
 
       <StatStrip items={stats} />
 
